@@ -1,22 +1,42 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import Home from '@/pages/Home'
-import Projects from '@/pages/Projects'
-import Project from '@/pages/Project'
-import EditorExample from '@/pages/EditorExample'
+import MainPage from '@/pages/MainPage'
+import MainHome from '@/components/main-page/MainHome'
+import Project from '@/components/main-page/Project'
+import EditorExample from '@/components/main-page/EditorExample'
 
-// router hook guide: https://adeuran.tistory.com/14
 const routes = [
-  { path: '/', component: Home },
-  { path: '/projects', component: Projects },
-  { path: '/projects/:id', component: Project },
-  { path: '/editor', component: EditorExample },
+  {
+    path: '/',
+    component: MainPage,
+    children: [
+    {
+      path: '/',
+      component: MainHome,
+      meta: {title: '전국학원자랑-메인'}
+    },
+    {
+      path: '/editor',
+      component: EditorExample,
+      meta: {title: '에디터 샘플'}
+    },
+    {
+      path: '/project',
+      component: Project,
+      meta: {title: '프로젝트'}
+    }
+  ]},
 ]
 
 const router = createRouter({
-  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
   history: createWebHistory(),
-  routes, // short for `routes: routes`
+  routes,
 })
+
+router.afterEach((to, from) => {
+  from
+  const title = to.meta.title === undefined ? '전국학원자랑' : to.meta.title;
+  document.title = title;
+});
 
 export default router;
