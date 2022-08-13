@@ -13,6 +13,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 // global style (main, body)
 import '@/assets/main.scss'
+import '@fortawesome/fontawesome-free/js/all.js'
 
 import router from './router'
 import store from './store'

@@ -1,10 +1,10 @@
 <template>
-  <v-footer class="bg-teal-darken-3 text-white text-center d-flex flex-column">
+  <v-footer class="bg-grey-lighten-4 text-white text-center d-flex flex-column">
     <div>
-      <v-btn v-for="icon in icons" :key="icon" class="mx-4 text-white" :icon="icon" variant="text"></v-btn>
+      <v-btn v-for="icon in icons" :key="icon" class="mx-4" :icon="icon" variant="text"></v-btn>
     </div>
 
-    <div class="text-white pt-0">
+    <div class="pt-0">
       Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut
       risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui.
       Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices,
@@ -14,7 +14,7 @@
 
     <v-divider></v-divider>
 
-    <div class="text-white">
+    <div class="">
       {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
     </div>
   </v-footer>

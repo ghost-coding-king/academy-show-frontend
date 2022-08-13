@@ -5,6 +5,9 @@ module.exports = defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:8081'
+      },
+      '/auth': {
+        target: 'http://localhost:8081'
       }
     }
   },
@@ -12,7 +15,6 @@ module.exports = defineConfig({
 
   pluginOptions: {
     vuetify: {
-			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
 		}
   }
 })

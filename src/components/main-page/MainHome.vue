@@ -1,7 +1,7 @@
 <template>
   <v-carousel cycle hide-delimiter-background hide-delimiters show-arrows="hover" progress="black" height="auto"
     style="min-width: 1000px">
-    <v-carousel-item v-for="i in 5" :key="i" :src="require('../../assets/test.png')">
+    <v-carousel-item v-for="i in 5" :key="i" :src="require('../../assets/images/test.png')">
     </v-carousel-item>
   </v-carousel>
   <v-container fluid>

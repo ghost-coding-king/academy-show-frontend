@@ -1,11 +1,12 @@
 <template>
-  <v-app-bar app height="72" color="teal-darken-3" style="min-width: 1000px;" class="my-app-bar"
+  <v-app-bar app height="72" style="min-width: 1000px;" class="my-app-bar"
     :class="{ 'my-app-bar-hide': myAppbarHide }">
     <v-col cols="2"></v-col>
-    <v-col cols="1">
-      <v-app-bar-title><img :src="require('../../assets/logo.png')" style="width: 55px" /></v-app-bar-title>
+    <v-col cols="2">
+      <v-app-bar-title><img :src="require('../../assets/images/logo.png')" style="width: 150px;" /></v-app-bar-title>
     </v-col>
-    <v-tabs style="margin-top: 20px" background-color="teal-darken-3" next-icon="mdi-arrow-right-bold-box-outline"
+    
+    <v-tabs style="margin-top: 20px;" next-icon="mdi-arrow-right-bold-box-outline"
       prev-icon="mdi-arrow-left-bold-box-outline" show-arrows>
       <v-tab @click="this.$router.push(pageLink)" hide-slider v-for="(pageLink, i) in pageList" :key="i">
         Link: {{ pageLink }}
@@ -13,17 +14,16 @@
     </v-tabs>
     <v-spacer></v-spacer>
 
-    <v-btn icon>
-      <v-icon>mdi-magnify</v-icon>
+    <v-btn elevation="3" style="margin-right: 10px" 
+    @click="loginModalClicked">
+      로그인
     </v-btn>
 
-    <v-btn icon>
-      <v-icon>mdi-heart</v-icon>
+    <v-btn elevation="3" style="background-color: #FF7043; color: white;">
+      회원가입
     </v-btn>
 
-    <v-btn icon>
-      <v-icon>mdi-dots-vertical</v-icon>
-    </v-btn>
+
     <v-col cols="2"></v-col>
   </v-app-bar>
 </template>
@@ -56,6 +56,9 @@ export default {
       }
 
       this.lastScrollPosition = currentScrollPosition
+    },
+    loginModalClicked() {
+      this.$emit('loginModalClicked', true)
     }
   },
   name: 'BasicHeader'
@@ -63,6 +66,7 @@ export default {
 </script>
 
 <style>
+
 .my-app-bar {
   transition: all ease 0.2s 0s;
 }
