@@ -36,7 +36,6 @@
             <v-btn style="width: 400px; height: 50px; background-color: #03C75A; color: white; margin-top: 10px;
             "> <img :src="require('../../assets/images/naver.png')" style="width: 40px;" /> 네이버 로그인</v-btn>
         </div>
-        <v-btn @click="test">하항하아ㅣ</v-btn>
     </CommonModal>
 </template>
 
