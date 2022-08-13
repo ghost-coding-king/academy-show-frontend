@@ -19,7 +19,7 @@
       로그인
     </v-btn>
 
-    <v-btn elevation="3" style="background-color: #FF7043; color: white;">
+    <v-btn elevation="3" style="background-color: #FF7043; color: white;" @click="this.$router.push('/sign-up')">
       회원가입
     </v-btn>
 
