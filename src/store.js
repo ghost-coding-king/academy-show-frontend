@@ -4,16 +4,15 @@ export default createStore({
   state () {
     return {
       count: 0,
-      token: "default"
+      accessToken: ''
     }
   },
   mutations: {
     increment (state) {
       state.count++
     },
-    token (state, new_token) {
-      state.token = new_token;
-      console.log(state.token);
+    accessToken (state, newAccessToken) {
+      state.accessToken = newAccessToken;
     }
   },
   actions: {
@@ -25,3 +24,15 @@ export default createStore({
     }
   }
 });
+
+const STORE_COMMENDS = {
+  MUTATIONS: {
+    INCLEMENT: "increment",
+    ACCESS_TOKEN: "accessToken"
+  },
+  ACTIONS: {
+
+  },
+}
+
+export { STORE_COMMENDS };
