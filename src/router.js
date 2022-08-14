@@ -4,6 +4,8 @@ import MainPage from '@/pages/MainPage'
 import MainHome from '@/components/main-page/MainHome'
 import Project from '@/components/main-page/Project'
 import EditorExample from '@/components/main-page/EditorExample'
+
+import SigninPage from '@/pages/SigninPage'
 import SignUpEntry from '@/pages/SignUpEntry'
 import SignUpUser from '@/pages/SignUpUser'
 import SignUpAcademy from '@/pages/SignUpAcademy'
@@ -14,22 +16,25 @@ const routes = [
     path: '/',
     component: MainPage,
     children: [
-      {
-        path: '/',
-        component: MainHome,
-        meta: {title: '전국학원자랑-메인'}
-      },
-      {
-        path: '/editor',
-        component: EditorExample,
-        meta: {title: '에디터 샘플'}
-      },
-      {
-        path: '/project',
-        component: Project,
-        meta: {title: '프로젝트'}
+    {
+      path: '/',
+      component: MainHome,
+      meta: {title: '전국학원자랑-메인'}
+    },
+    {
+      path: '/editor',
+      component: EditorExample,
+      meta: {title: '에디터 샘플'}
+    },
+    {
+      path: '/project',
+      component: Project,
+      meta: {title: '프로젝트'}
     }
-    ]
+  ]},
+  {
+    path: '/sign-in',
+    component: SigninPage
   },
   {
     path: '/sign-up',
