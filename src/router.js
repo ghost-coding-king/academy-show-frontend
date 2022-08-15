@@ -5,7 +5,6 @@ import MainHome from '@/components/main-page/MainHome'
 import Project from '@/components/main-page/Project'
 import EditorExample from '@/components/main-page/EditorExample'
 
-import SigninPage from '@/pages/SigninPage'
 import SignUpEntry from '@/pages/SignUpEntry'
 import SignUpUser from '@/pages/SignUpUser'
 import SignUpAcademy from '@/pages/SignUpAcademy'
@@ -32,10 +31,6 @@ const routes = [
       meta: {title: '프로젝트'}
     }
   ]},
-  {
-    path: '/sign-in',
-    component: SigninPage
-  },
   {
     path: '/sign-up',
     component: SignUpEntry

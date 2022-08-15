@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import CommonModal from "./CommonModal"
+import CommonModal from "../common/CommonModal"
 import axios from "axios";
 
 

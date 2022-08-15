@@ -43,13 +43,13 @@ export default {
       {
         icon: 'fa-solid fa-chalkboard-user',
         title: '학원',
-        description: '학원 원장님을 위한 회원입니다.',
+        description: '학원 원장님 가입입니다.',
         url: '/sign-up/academy',
       },
       {
         icon: 'fa-solid fa-book',
         title: '과외',
-        description: '과외를 위한 회원입니다.',
+        description: '과외 등록을 위한 회원입니다.',
         url: '/sign-up/tutor',
       }
     ]
