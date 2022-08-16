@@ -43,12 +43,20 @@ const ApiRequester = (() => {
 })();
 
 /**
- * Extract access token from login response
+ * jwt token handling utils
  */
-const AuthUtil = {
+ const AuthUtil = {
   setAccessToken: (response) => {
     store.commit(STORE_COMMENDS.MUTATIONS.ACCESS_TOKEN, response.headers.authorization);
+  },
+  getAccessToken: () => {
+    return store.state.accessToken;
+  },
+  hasAccessToken: () => {
+    const token = AuthUtil.getAccessToken();
+    return !(!token || /^\s*$/.test(token));
   }
 }
+
 
 export { BaseApiRequester, ApiRequester, AuthUtil };
