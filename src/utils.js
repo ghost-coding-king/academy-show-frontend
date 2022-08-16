@@ -10,21 +10,35 @@ import CONFIG from "./config";
 /**
  * External API Requesters
  */
-const MainApiRequester = (() => {
+const BaseApiRequester = (() => {
   const AxiosInstance = axios.create({
-    timeout: 5000,
+    timeout: CONFIG.API_TIMEOUT,
   });
 
-  const makeHeader = () => {
-    return { 
-      headers: { 
-        Authorization: `${CONFIG.MAIN_API_TOKEN_PREFIX} ${store.state.accessToken}` } };
+  return {
+    'get': (url, config) => AxiosInstance.get(url, config),
+    'post': (url, data, config) => AxiosInstance.post(url, data, config),
+    'delete': (url, config) => AxiosInstance.delete(url, config)
+  }
+})();
+ 
+const ApiRequester = (() => {
+  const makeConfig = () => {
+    const config = {};
+
+    if(AuthUtil.hasAccessToken()) {
+      config.headers = {
+        Authorization: `${CONFIG.MAIN_API_TOKEN_PREFIX} ${store.state.accessToken}` 
+      };
+    }
+
+    return config;
   }
 
   return {
-    'get': (url) => AxiosInstance.get(url, makeHeader()),
-    'post': (url, data) => AxiosInstance.post(url, data, makeHeader()),
-    'delete': (url) => AxiosInstance.delete(url, makeHeader())
+    'get': (url) => BaseApiRequester.get(url, makeConfig()),
+    'post': (url, data) => BaseApiRequester.post(url, data, makeConfig()),
+    'delete': (url) => BaseApiRequester.delete(url, makeConfig())
   }
 })();
 
@@ -37,4 +51,4 @@ const AuthUtil = {
   }
 }
 
-export { MainApiRequester, AuthUtil };
+export { BaseApiRequester, ApiRequester, AuthUtil };
