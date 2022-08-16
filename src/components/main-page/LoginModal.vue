@@ -41,8 +41,9 @@
 
 <script>
 import CommonModal from "../common/CommonModal"
-import axios from "axios";
 
+import Urls from "@/consts/urls"
+import { ApiRequester, AuthUtil } from "@/utils"
 
 export default {
     components: {
@@ -63,18 +64,17 @@ export default {
         sendLoginRequest() {
             console.log(this.username);
             console.log(this.password);
-            axios.post("/api/login", { "username": this.username, "password": this.password })
+            ApiRequester.post(Urls.MAIN_API.AUTH.SIGNIN, { "username": this.username, "password": this.password })
                 .then(res => {
-                    this.token = res.headers.authorization
+                    AuthUtil.setAccessToken(res);
+                    //this.token = res.headers.authorization
                 })
                 .catch(() => {
                     this.loginFailed=true
                 })
         },
         test() {
-            axios.get("/api/test", 
-                {headers: {'Authorization': `Bearer ${this.token}`}}
-            )
+            ApiRequester.get("/api/test")
                 .then(res => {
                     console.log(res.data);
                 })
