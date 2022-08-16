@@ -2,17 +2,18 @@
  * This file contains configurations
  */
 
-const CONFIG = {
+ const CONFIG = {
   /**
-   * API addresses
+   * API handling
    */
+  API_TIMEOUT: 5000,
   MAIN_API_ROOT: process.env.VUE_APP_MAIN_API_ROOT,
 
 
   /**
    * Auth token prefix
    */
-  MAIN_API_TOKEN_PREFIX: process.env.VUE_APP_MAIN_API_TOKEN_PREFIX
+  MAIN_API_TOKEN_PREFIX: "Bearer"
 }
 
 export default CONFIG;
