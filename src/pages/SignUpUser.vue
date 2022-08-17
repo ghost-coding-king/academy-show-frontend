@@ -114,7 +114,7 @@
 
                   <v-row no-gutters>
                   <v-col cols="2"></v-col>
-                  <input type="text"
+                  <input type="text" v-model="detailAddress"
                       style="border: 1px solid #ababab; border-radius: 5px; width:200px; height: 56px; padding: 15px; margin-top:2px" placeholder="상세주소"/>
 
                   <v-col cols="6"></v-col>
@@ -164,10 +164,10 @@ export default {
   data: () => ({
     isBirthVaild: true,
     birth: "",
+    detailAddress: undefined,
     name: undefined,
     postcode: undefined,
     address: undefined,
-    extraAddress: undefined,
     agreement: false,
     dialog: false,
     id: undefined,
