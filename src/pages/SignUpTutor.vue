@@ -234,9 +234,17 @@
 <script>
 import BasicFooter from '@/components/main-page/BasicFooter.vue';
 import Age from '@/assets/age.js';
+import { ApiRequester } from '@/utils';
 
 export default {
   components: { BasicFooter },
+  mounted () {
+    ApiRequester.get('/api/subjects')
+    .then(res => {
+        this.subjects = res.data.data.map(v => v.name)
+        console.log(this.subjects);
+    })
+  },
   data: () => ({
     stepComplete: false,
     isBirthVaild: true,
@@ -271,6 +279,7 @@ export default {
     },
     items: Object.keys(Age),
     totorAges: [],
+    subjects: [],
   }),
   methods: {
     validate() {
