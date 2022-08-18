@@ -24,7 +24,7 @@
                   </v-row>
                   <v-row no-gutters>
                     <v-col cols="2"></v-col>
-                    <v-text-field v-model="id" :rules="[rules.Id]" variant="outlined" placeholder="ID"></v-text-field>
+                    <v-text-field v-model="id" :rules="[rules.requiredId, rules.Id]" variant="outlined" placeholder="ID"></v-text-field>
                     <v-col cols="2"></v-col>
                   </v-row>
                   <v-row no-gutters style="margin-bottom: 3px">
@@ -158,6 +158,8 @@
 
 <script>
 import BasicFooter from '@/components/main-page/BasicFooter.vue';
+import { ApiRequester } from '@/utils';
+import Urls from "@/consts/urls"
 
 export default {
   components: { BasicFooter },
@@ -176,8 +178,10 @@ export default {
     password: undefined,
     phone: undefined,
     passwordCheck: undefined,
+    userSignUpForm: '',
     rules: {
-      Id: v => !!(v || '').match(/^[a-zA-Z0-9]+$/) || '아이디를 입력해주세요.',
+      requiredId: v => !!v || '아이디를 입력해주세요.',
+      Id: v => !!(v || '').match(/^[a-zA-Z0-9]+$/) || '영어와 숫자만 입력 가능합니다.',
       password: v => !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
         '대문자/특수문자 1자를 포함한 비밀번호를 입력해주세요.',
       required: v => !!v || '동의하셔야 합니다.',
@@ -190,7 +194,24 @@ export default {
   methods: {
     validate () {
       this.isBirthVaild = this.birth != '';
-      this.$refs.form.validate()
+      this.$refs.form.validate().then(
+        result => {
+          if (result.valid) {
+            this.userSignUpForm = {
+              username: this.id,
+              password: this.password,
+              name: this.name,
+              phone: this.phone,
+              birth: this.birth,
+              address: this.address + ' ' + this.detailAddress 
+            }
+            ApiRequester.post(Urls.MAIN_API.AUTH.SIGNUP + '/user', this.userSignUpForm)
+            .then(res => {
+              console.log(res)
+            })
+          }
+        }
+      )
       },
     execDaumPostcode() {
       new window.daum.Postcode({

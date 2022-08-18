@@ -28,7 +28,7 @@
                   </v-row>
                   <v-row no-gutters>
                     <v-col cols="2"></v-col>
-                    <v-text-field v-model="id" :rules="[rules.Id]" variant="outlined" placeholder="ID"></v-text-field>
+                    <v-text-field v-model="id" :rules="[rules.requiredId, rules.Id]" variant="outlined" placeholder="ID"></v-text-field>
                     <v-col cols="2"></v-col>
                   </v-row>
                   <v-row no-gutters style="margin-bottom: 3px">
@@ -156,7 +156,7 @@
             </v-row>
           </v-row>
 
-          <v-row style="width:1000px; margin:0 auto" v-if="!stepComplete">
+          <v-row style="width:1000px; margin:0 auto" v-if="stepComplete">
             <v-row justify="center" no-gutters>
               <v-card class="mx-auto" style="max-width: 500px; margin: 50px 0;" elevation="6" width="600">
                 <v-timeline direction="horizontal" line-inset="12">
@@ -176,7 +176,7 @@
                   </v-row>
                   <v-row no-gutters>
                     <v-col cols="2"></v-col>
-                    <v-text-field v-model="id" :rules="[rules.requiredUniversity]" variant="outlined" placeholder="**대학교"></v-text-field>
+                    <v-text-field v-model="university" :rules="[rules.requiredUniversity]" variant="outlined" placeholder="**대학교"></v-text-field>
                     <v-col cols="2"></v-col>
                   </v-row>
 
@@ -186,8 +186,21 @@
                   </v-row>
                   <v-row no-gutters style="position: relative;">
                     <v-col cols="2"></v-col>
-                    <v-select v-model="totorAges" :items="items" chips multiple variant="outlined"
+                    <v-select v-model="totorAges" :items="totorAgesItems" chips multiple variant="outlined"
                     :rules="[rules.requiredAges]"
+                      style="max-width: 378px;"></v-select>
+                    <v-col cols="2"></v-col>
+                  </v-row>
+
+
+                  <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
+                    <v-col cols="2"></v-col>
+                    <h3>과목 선택</h3>
+                  </v-row>
+                  <v-row no-gutters style="position: relative;">
+                    <v-col cols="2"></v-col>
+                    <v-select v-model="subjects" :items="subjectsItems" chips multiple variant="outlined"
+                    :rules="[rules.requiredSubjects]"
                       style="max-width: 378px;"></v-select>
                     <v-col cols="2"></v-col>
                   </v-row>
@@ -241,8 +254,7 @@ export default {
   mounted () {
     ApiRequester.get('/api/subjects')
     .then(res => {
-        this.subjects = res.data.data.map(v => v.name)
-        console.log(this.subjects);
+        this.subjectsItems = res.data.data.map(v => v.name)
     })
   },
   data: () => ({
@@ -263,22 +275,25 @@ export default {
     phone: undefined,
     passwordCheck: undefined,
     tutorRegistration: undefined,
+    university: undefined,
     rules: {
-      Id: v => !!(v || '').match(/^[a-zA-Z0-9]+$/) || '아이디를 입력해주세요.',
+      requiredId: v => !!v || '아이디를 입력해주세요.',
+      Id: v => !!(v || '').match(/^[a-zA-Z0-9]+$/) || '영어와 숫자만 입력 가능합니다.',
       password: v => !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
         '대문자/특수문자 1자를 포함한 비밀번호를 입력해주세요.',
-      requiredId: v => !!v || '아이디를 입력해주세요.',
       required: v => !!v || '동의하셔야 합니다.',
       requiredName: v => !!v || '이름을 입력해주세요.',
       requiredPhone: v => !!v || '전화번호를 입력해주세요.',
       requiredBirth: v => !!v || '생년월일을 입력해주세요.',
       requiredAddress: v => !!v || '주소를 입력해주세요.',
       requiredUniversity: v => !!v || '대학교명을 입력해주세요.',
-      requiredAges: v => v == undefined || '연령을 선택해주세요.',
-      requiredtutorRegistration: v => v == undefined || '개인과외교습자를 등록해주세요.',
+      requiredAges: v => !!v[0] || '연령을 선택해주세요.',
+      requiredSubjects: v => !!v[0] || '과목을 선택해주세요.',
+      requiredtutorRegistration: v => !!v[0] || '개인과외교습자를 등록해주세요.',
     },
-    items: Object.keys(Age),
+    totorAgesItems: Object.keys(Age),
     totorAges: [],
+    subjectsItems: [],
     subjects: [],
   }),
   methods: {
@@ -291,13 +306,21 @@ export default {
           }
         }
       );
-      // this.stepComplete = true;
     },
     validateTwo() {
+      console.log('오냐');
       this.$refs.formTwo.validate().then(
         result => {
           if (result.valid) {
-            this.stepComplete = true;
+            this.form = {
+              username: this.id,
+              password: this.password,
+              name: this.name,
+              phone: this.phone,
+              birth: this.birth,
+              address: this.address + ' ' + this.detailAddress 
+            }
+            console.log(this.form);
           }
         }
       )

@@ -197,6 +197,19 @@
 
                   <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
                     <v-col cols="2"></v-col>
+                    <h3>과목 선택</h3>
+                  </v-row>
+                  <v-row no-gutters style="position: relative;">
+                    <v-col cols="2"></v-col>
+                    <v-select v-model="subjects" :items="subjectsItems" chips multiple variant="outlined"
+                    :rules="[rules.requiredSubjects]"
+                      style="max-width: 378px;"></v-select>
+                    <v-col cols="2"></v-col>
+                  </v-row>
+
+
+                  <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
+                    <v-col cols="2"></v-col>
                     <h3>셔틀 유무</h3>
                   </v-row>
                   <v-row no-gutters style="position: relative;">
@@ -299,9 +312,16 @@
 <script>
 import BasicFooter from '@/components/main-page/BasicFooter.vue';
 import Age from '@/assets/age.js';
+import { ApiRequester } from '@/utils';
 
 export default {
   components: { BasicFooter },
+  mounted () {
+    ApiRequester.get('/api/subjects')
+    .then(res => {
+        this.subjectsItems = res.data.data.map(v => v.name)
+    })
+  },
   data: () => ({
     stepComplete: false,
     isBirthVaild: true,
@@ -337,13 +357,15 @@ export default {
       requiredBirth: v => !!v || '생년월일을 입력해주세요.',
       requiredAddress: v => !!v || '주소를 입력해주세요.',
       requiredIntroduce: v => !!v || '학원소개를 입력해주세요.',
-      requiredAges: v => v == undefined || '연령을 선택해주세요.',
+      requiredAges: v => !!v[0] || '연령을 선택해주세요.',
       requiredAcademyName: v => !!v || '학원명을 입력해주세요.',
-      requiredAcademyRegistration: v => v == undefined || '사업자 등록증을 등록해주세요.',
+      requiredAcademyRegistration: v => !!v[0] || '사업자 등록증을 등록해주세요.',
       
     },
     items: Object.keys(Age),
     academyAges: [],
+    subjectsItems: [],
+    subjects: [],
   }),
   methods: {
     validate() {
