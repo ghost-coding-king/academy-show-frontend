@@ -201,12 +201,11 @@
                   </v-row>
                   <v-row no-gutters style="position: relative;">
                     <v-col cols="2"></v-col>
-                    <v-select v-model="subjects" :items="subjectsItems" chips multiple variant="outlined"
-                    :rules="[rules.requiredSubjects]"
+                    <v-select v-model="subjects" :items="subjectItems" item-title="name" item-value="id"
+                    chips multiple variant="outlined" return-object :rules="[rules.requiredSubjects]"
                       style="max-width: 378px;"></v-select>
                     <v-col cols="2"></v-col>
                   </v-row>
-
 
                   <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
                     <v-col cols="2"></v-col>
@@ -295,13 +294,10 @@
                     가입 완료
                   </v-btn>
                 </v-card-actions>
-                <v-dialog v-model="dialog" absolute max-width="400" persistent>
-
-                </v-dialog>
+                <v-dialog v-model="dialog" absolute max-width="400" persistent></v-dialog>
               </v-card>
             </v-row>
           </v-row>
-
         </div>
       </v-main>
       <BasicFooter></BasicFooter>
@@ -319,7 +315,7 @@ export default {
   mounted () {
     ApiRequester.get('/api/subjects')
     .then(res => {
-        this.subjectsItems = res.data.data.map(v => v.name)
+        this.subjectItems = res.data.data
     })
   },
   data: () => ({
@@ -364,7 +360,7 @@ export default {
     },
     items: Object.keys(Age),
     academyAges: [],
-    subjectsItems: [],
+    subjectItems: [],
     subjects: [],
   }),
   methods: {
