@@ -219,10 +219,10 @@
                   </v-row>
                   <v-row no-gutters>
                     <v-col cols="2"></v-col>
-                    <v-file-input v-model="tutorRegistration"
+                    <v-file-input v-model="certification"
                     accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar"
                     :rules="[rules.requiredtutorRegistration]"
-                      prepend-icon="mdi-camera" label="사진을 등록하세요." style="max-width: 378px;"
+                      prepend-icon="mdi-camera" label="사진을 등록하세요." style="max-width: 378px;" @change="imageUpload"
                       ></v-file-input>
                     <v-col cols="2"></v-col>
                   </v-row>
@@ -283,11 +283,14 @@ export default {
     password: undefined,
     phone: undefined,
     passwordCheck: undefined,
-    tutorRegistration: undefined,
+    certification: undefined,
+    certificationFileUrl: undefined,
     university: undefined,
     idDuplicate: false,
     idConfirm: false,
     idDuplicateCheck: false,
+    userSignUpForm: undefined,
+    tutorRequestForm: undefined,
     rules: {
       requiredId: v => !!v || '아이디를 입력해주세요.',
       Id: v => !!(v || '').match(/^[a-zA-Z0-9]+$/) || '영어와 숫자만 입력 가능합니다.',
@@ -321,6 +324,18 @@ export default {
         }
       })
     },
+    imageUpload() {
+      const formData = new FormData();
+      formData.append("file", this.certification[0]);
+      ApiRequester.post('/api/files', formData)
+        .then(res => {
+          this.certficationFileUrl = res.data.data
+        })
+        .catch(err => {
+          console.error("error: ", err)
+        }
+      )
+    },
     validate() {
       this.isBirthVaild = this.birth != '';
       if (!this.idDuplicate && !this.idConfirm && this.id != undefined) {
@@ -346,11 +361,19 @@ export default {
               birth: this.birth,
               address: this.address + ' ' + this.detailAddress
             };
+
+            this.tutorRequestForm = {
+              scholarship: this.university,
+              subjects: this.subjects,
+              educations: this.totorAges,
+              certification: this.certficationFileUrl,
+            };
             
-            ApiRequester.post(Urls.MAIN_API.AUTH.ACADEMY, { 'userInfo': this.userSignUpForm})
-              .then(res => {
-                console.log(res);
-              });
+            ApiRequester.post(Urls.MAIN_API.AUTH.TUTOR, { 
+              'userInfo': this.userSignUpForm, 'tutorInfo': this.tutorRequestForm
+            }).then(() => {
+                this.$router.push({name: '/sign-up/complete', params: {username: this.name, role:'tutor'}})
+            });
           }
         }
       )
