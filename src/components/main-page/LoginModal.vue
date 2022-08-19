@@ -70,7 +70,7 @@ export default {
                     if (res.data.code == 200) {
                         this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, this.username)
                         AuthUtil.setAccessToken(res);
-                        this.$router.go()
+                        this.$emit('afterLogin')
                     } else {
                         this.loginFailed=true
                     }

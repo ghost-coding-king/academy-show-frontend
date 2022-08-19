@@ -9,6 +9,7 @@ const URLS = {
       USER: CONFIG.MAIN_API_ROOT + "/auth" + "/sign-up" + "/user",
       USERNAME_CHECK: CONFIG.MAIN_API_ROOT + "/auth" + "/sign-up" + "/username-check",
       ACADEMY: CONFIG.MAIN_API_ROOT + "/auth" + "/sign-up" + "/academy",
+      TUTOR: CONFIG.MAIN_API_ROOT + "/auth" + "/sign-up" + "/tutor",
     }
   }
 }
