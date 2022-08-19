@@ -25,13 +25,15 @@
                   <v-row no-gutters style="position: relative;">
                     <v-col cols="2"></v-col>
                     <v-text-field v-model="id" @input="this.idDuplicate=false; this.idConfirm=false" :rules="[rules.requiredId, ]" variant="outlined" placeholder="ID"></v-text-field>
-                    <v-btn style="margin-left: 10px" @click="idCheck">중복체크</v-btn>
+                    <v-btn style="margin-left: 10px; margin-top: 7px" @click="idCheck">중복확인</v-btn>
                     <v-col cols="2"></v-col>
                   </v-row>
 
                   <v-row style="position: relative; top:-7px"><v-col cols="2"></v-col><span v-if="idDuplicate" style="margin-left: 25px; font-size: 12px; color: #b20827">이미 사용중이거나 탈퇴한 아이디입니다.</span></v-row>
 
-                  <v-row style="position: relative; top:-15px"><v-col cols="2"></v-col><span v-if="idConfirm" style="margin-left: 25px; font-size: 12px; color: #08a600">전국학원자랑에 걸맞는 아이디네요!</span></v-row>
+                  <v-row style="position: relative; top:-17px"><v-col cols="2"></v-col><span v-if="idConfirm" style="margin-left: 25px; font-size: 12px; color: #08a600">전국학원자랑에 걸맞는 아이디네요!</span></v-row>
+
+                  <v-row style="position: relative; top:-29px"><v-col cols="2"></v-col><span v-if="idDuplicateCheck" style="margin-left: 25px; font-size: 12px; color: #b20827">아이디 중복확인 버튼을 눌러주세요.</span></v-row>
 
                   <v-row no-gutters style="margin-bottom: 3px">
                     <v-col cols="2"></v-col>
@@ -186,6 +188,7 @@ export default {
     passwordCheck: undefined,
     idDuplicate: false,
     idConfirm: false,
+    idDuplicateCheck: false,
     userSignUpForm: '',
     rules: {
       requiredId: v => !!v  || '아이디를 입력해주세요.',
@@ -204,17 +207,22 @@ export default {
       ApiRequester.post(Urls.MAIN_API.AUTH.USERNAME_CHECK, {'username': this.id})
       .then(res => {
         if(res.data.data) {
+          this.idDuplicateCheck = false;
           this.idDuplicate = true;
         } else {
+          this.idDuplicateCheck = false;
           this.idConfirm = true;
         }
       })
     },
     validate () {
       this.isBirthVaild = this.birth != '';
+      if (!this.idDuplicate && !this.idConfirm && this.id != undefined) {
+        this.idDuplicateCheck = true
+      }
       this.$refs.form.validate().then(
         result => {
-          if (result.valid && this.isBirthVaild && this.idDuplicate) {
+          if (result.valid && this.isBirthVaild && this.idConfirm) {
             this.userSignUpForm = {
               username: this.id,
               password: this.password,
