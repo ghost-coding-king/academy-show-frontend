@@ -22,11 +22,17 @@
                     <v-col cols="2"></v-col>
                     <h3>아이디</h3>
                   </v-row>
-                  <v-row no-gutters>
+                  <v-row no-gutters style="position: relative;">
                     <v-col cols="2"></v-col>
-                    <v-text-field v-model="id" :rules="[rules.requiredId, rules.Id]" variant="outlined" placeholder="ID"></v-text-field>
+                    <v-text-field v-model="id" @input="this.idDuplicate=false; this.idConfirm=false" :rules="[rules.requiredId, ]" variant="outlined" placeholder="ID"></v-text-field>
+                    <v-btn style="margin-left: 10px" @click="idCheck">중복체크</v-btn>
                     <v-col cols="2"></v-col>
                   </v-row>
+
+                  <v-row style="position: relative; top:-7px"><v-col cols="2"></v-col><span v-if="idDuplicate" style="margin-left: 25px; font-size: 12px; color: #b20827">이미 사용중이거나 탈퇴한 아이디입니다.</span></v-row>
+
+                  <v-row style="position: relative; top:-15px"><v-col cols="2"></v-col><span v-if="idConfirm" style="margin-left: 25px; font-size: 12px; color: #08a600">전국학원자랑에 걸맞는 아이디네요!</span></v-row>
+
                   <v-row no-gutters style="margin-bottom: 3px">
                     <v-col cols="2"></v-col>
                     <h3>비밀번호</h3>
@@ -178,9 +184,11 @@ export default {
     password: undefined,
     phone: undefined,
     passwordCheck: undefined,
+    idDuplicate: false,
+    idConfirm: false,
     userSignUpForm: '',
     rules: {
-      requiredId: v => !!v || '아이디를 입력해주세요.',
+      requiredId: v => !!v  || '아이디를 입력해주세요.',
       Id: v => !!(v || '').match(/^[a-zA-Z0-9]+$/) || '영어와 숫자만 입력 가능합니다.',
       password: v => !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
         '대문자/특수문자 1자를 포함한 비밀번호를 입력해주세요.',
@@ -192,11 +200,21 @@ export default {
     },
   }),
   methods: {
+    idCheck () {
+      ApiRequester.post(Urls.MAIN_API.AUTH.USERNAME_CHECK, {'username': this.id})
+      .then(res => {
+        if(res.data.data) {
+          this.idDuplicate = true;
+        } else {
+          this.idConfirm = true;
+        }
+      })
+    },
     validate () {
       this.isBirthVaild = this.birth != '';
       this.$refs.form.validate().then(
         result => {
-          if (result.valid) {
+          if (result.valid && this.isBirthVaild && this.idDuplicate) {
             this.userSignUpForm = {
               username: this.id,
               password: this.password,
@@ -205,9 +223,9 @@ export default {
               birth: this.birth,
               address: this.address + ' ' + this.detailAddress 
             }
-            ApiRequester.post(Urls.MAIN_API.AUTH.SIGNUP + '/user', this.userSignUpForm)
-            .then(res => {
-              console.log(res)
+            ApiRequester.post(Urls.MAIN_API.AUTH.USER, this.userSignUpForm)
+            .then(() => {
+              this.$router.push('/sign-up/complete')
             })
           }
         }

@@ -10,6 +10,8 @@ import SignUpUser from '@/pages/SignUpUser'
 import SignUpAcademy from '@/pages/SignUpAcademy'
 import SignUpTutor from '@/pages/SignUpTutor'
 
+import SignUpComplete from '@/pages/SignUpComplete'
+
 const routes = [
   {
     path: '/',
@@ -46,6 +48,10 @@ const routes = [
   {
     path: '/sign-up/tutor',
     component: SignUpTutor
+  },
+  {
+    path: '/sign-up/complete',
+    component: SignUpComplete
   }
 ]
 
