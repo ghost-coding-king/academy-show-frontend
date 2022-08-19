@@ -51,7 +51,9 @@ const routes = [
   },
   {
     path: '/sign-up/complete',
-    component: SignUpComplete
+    name: '/sign-up/complete',
+    component: SignUpComplete,
+    props: true
   }
 ]
 

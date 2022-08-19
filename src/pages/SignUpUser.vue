@@ -24,7 +24,7 @@
                   </v-row>
                   <v-row no-gutters style="position: relative;">
                     <v-col cols="2"></v-col>
-                    <v-text-field v-model="id" @input="this.idDuplicate=false; this.idConfirm=false" :rules="[rules.requiredId, ]" variant="outlined" placeholder="ID"></v-text-field>
+                    <v-text-field v-model="id" @input="this.idDuplicate=false; this.idConfirm=false" :rules="[rules.requiredId, rules.Id]" variant="outlined" placeholder="ID"></v-text-field>
                     <v-btn style="margin-left: 10px; margin-top: 7px" @click="idCheck">중복확인</v-btn>
                     <v-col cols="2"></v-col>
                   </v-row>
@@ -233,7 +233,7 @@ export default {
             }
             ApiRequester.post(Urls.MAIN_API.AUTH.USER, this.userSignUpForm)
             .then(() => {
-              this.$router.push('/sign-up/complete')
+              this.$router.push({name: '/sign-up/complete', params: {username: this.name}})
             })
           }
         }

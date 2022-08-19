@@ -421,8 +421,8 @@ export default {
               registrationFile: this.fileUrl,
             };
             ApiRequester.post(Urls.MAIN_API.AUTH.ACADEMY, { 'userInfo': this.userSignUpForm, 'academyInfo': this.academySignUpForm })
-              .then(res => {
-                console.log(res);
+              .then(() => {
+                this.$router.push({name: '/sign-up/complete', params: {username: this.name, role:'academy'}})
               });
           }
         }
