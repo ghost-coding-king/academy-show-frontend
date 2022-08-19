@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app height="72" style="min-width: 1000px;" class="my-app-bar"
+  <v-app-bar app height="72" style="min-width: 1350px;" class="my-app-bar"
     :class="{ 'my-app-bar-hide': myAppbarHide }">
     <v-col cols="2"></v-col>
     <v-col cols="2">
@@ -14,14 +14,21 @@
     </v-tabs>
     <v-spacer></v-spacer>
 
-    <v-btn elevation="3" style="margin-right: 10px" 
-    @click="loginModalClicked">
-      로그인
-    </v-btn>
+    <div v-if="accessToken==''">
+      <v-btn elevation="3" style="margin-right: 10px" 
+      @click="loginModalClicked">
+        로그인
+      </v-btn>
 
-    <v-btn elevation="3" style="background-color: #FF7043; color: white;" @click="this.$router.push('/sign-up')">
-      회원가입
-    </v-btn>
+      <v-btn elevation="3" style="background-color: #FF7043; color: white;" @click="this.$router.push('/sign-up')">
+        회원가입
+      </v-btn>
+    </div>
+    <div v-else>
+      {{ username }}사탄님
+      <v-btn elevation="3" style="margin-right: 10px">마이페이지</v-btn>
+      <v-btn elevation="3" style="background-color: #FF7043; color: white;" @click="logout">로그아웃</v-btn>
+    </div>
 
 
     <v-col cols="2"></v-col>
@@ -29,7 +36,13 @@
 </template>
   
 <script>
+import {mapState} from 'vuex'
+import {STORE_COMMENDS} from '@/store'
+
 export default {
+  computed: mapState([
+    'accessToken', 'username'
+  ]), 
   data: () => ({
     myAppbarHide: false,
     pageList: ['/', 'editor', 'project'],
@@ -41,6 +54,13 @@ export default {
     window.addEventListener('scroll', this.onScroll)
   },
   methods: {
+    logout() {
+      this.$store.commit(STORE_COMMENDS.MUTATIONS.ACCESS_TOKEN, '')
+      this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, '')
+    },
+    token() {
+      console.log(this.accessToken);
+    },
     onScroll() {
       // Get the current scroll position
       const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop

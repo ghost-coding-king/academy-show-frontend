@@ -44,6 +44,7 @@ import CommonModal from "../common/CommonModal"
 
 import Urls from "@/consts/urls"
 import { ApiRequester, AuthUtil } from "@/utils"
+import {STORE_COMMENDS} from '@/store'
 
 export default {
     components: {
@@ -66,11 +67,14 @@ export default {
             console.log(this.password);
             ApiRequester.post(Urls.MAIN_API.AUTH.SIGNIN, { "username": this.username, "password": this.password })
                 .then(res => {
-                    AuthUtil.setAccessToken(res);
+                    if (res.data.code == 200) {
+                        this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, this.username)
+                        AuthUtil.setAccessToken(res);
+                        this.$router.go()
+                    } else {
+                        this.loginFailed=true
+                    }
                     //this.token = res.headers.authorization
-                })
-                .catch(() => {
-                    this.loginFailed=true
                 })
         },
         test() {
