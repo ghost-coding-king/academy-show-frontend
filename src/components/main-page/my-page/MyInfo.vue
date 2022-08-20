@@ -19,7 +19,7 @@
       <tr>
         <td>아이디</td>
         <td>
-          <v-text-field variant="outlined" style="margin-top: 20px"></v-text-field>
+          <v-text-field variant="outlined" style="margin-top: 20px;"></v-text-field>
         </td>
       </tr>
       <tr>
@@ -60,7 +60,7 @@
 
 <script>
 export default {
-  
+
 }
 </script>
 

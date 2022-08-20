@@ -2,7 +2,7 @@
   <v-row style="height: 1000px;" no-gutters>
     <v-col cols="2"></v-col>
     <v-layout>
-      <v-navigation-drawer floating permanent style="padding-top: 20px">
+      <v-navigation-drawer floating permanent style="padding-top: 20px" disable-route-watcher>
         <div style="text-align: left; margin-top: 30px">
           <v-icon style="font-size: 3rem; margin-right: 20px; color: #fd9f28" icon="fa-solid fa-square-pen"></v-icon>
           <span style="font-weight: bold; font-size: 1.1rem;">{{ username }}님
@@ -25,7 +25,7 @@
             @click="this.$router.push('/my-page/my-tutoring')"></v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-main style="height: 250px">
+      <v-main>
         <router-view></router-view>
       </v-main>
     </v-layout>
