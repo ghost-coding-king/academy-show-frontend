@@ -15,7 +15,7 @@
         </div>
         <p v-if="loginFailed" style="margin-left:50px; color: #b00020; font-size: 0.8rem; font-weight: bold;">아이디 혹은 비밀번호를 확인해주세요.</p>
         <div style="display: flex; justify-content: center;">
-            <v-btn style="width: 400px; height: 50px; background-color: #FF7043; color: white; margin-top: 10px;
+            <v-btn style="width: 400px; height: 50px; background-color: #fd9f28; color: white; margin-top: 10px;
             " @click="sendLoginRequest">로그인</v-btn>
         </div>
         <br>
@@ -63,12 +63,11 @@ export default {
     }),
     methods: {
         sendLoginRequest() {
-            console.log(this.username);
-            console.log(this.password);
             ApiRequester.post(Urls.MAIN_API.AUTH.SIGNIN, { "username": this.username, "password": this.password })
                 .then(res => {
                     if (res.data.code == 200) {
-                        this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, this.username)
+                        this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, res.data.data.username)
+                        this.$store.commit(STORE_COMMENDS.MUTATIONS.ROLE, res.data.data.role)
                         AuthUtil.setAccessToken(res);
                         this.$emit('afterLogin')
                     } else {

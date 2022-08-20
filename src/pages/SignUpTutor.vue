@@ -372,7 +372,7 @@ export default {
             ApiRequester.post(Urls.MAIN_API.AUTH.TUTOR, { 
               'userInfo': this.userSignUpForm, 'tutorInfo': this.tutorRequestForm
             }).then(() => {
-                this.$router.push({name: '/sign-up/complete', params: {username: this.name, role:'tutor'}})
+                this.$router.push({name: '/sign-up/complete', params: {username: this.name, role:'ROLE_TUTOR'}})
             });
           }
         }

@@ -8,6 +8,7 @@ export default createStore({
       count: 0,
       accessToken: '',
       username: '',
+      role: '',
     }
   },
   mutations: {
@@ -19,6 +20,9 @@ export default createStore({
     },
     username (state, newUsername) {
       state.username = newUsername;
+    },
+    role (state, newRole) {
+      state.role = newRole;
     }
   },
   actions: {
@@ -36,6 +40,7 @@ const STORE_COMMENDS = {
     INCLEMENT: "increment",
     ACCESS_TOKEN: "accessToken",
     USERNAME: "username",
+    ROLE: "role",
   },
   ACTIONS: {
 

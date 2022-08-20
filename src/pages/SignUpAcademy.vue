@@ -422,7 +422,7 @@ export default {
             };
             ApiRequester.post(Urls.MAIN_API.AUTH.ACADEMY, { 'userInfo': this.userSignUpForm, 'academyInfo': this.academySignUpForm })
               .then(() => {
-                this.$router.push({name: '/sign-up/complete', params: {username: this.name, role:'academy'}})
+                this.$router.push({name: '/sign-up/complete', params: {username: this.name, role:'ROLE_ACADEMY'}})
               });
           }
         }
