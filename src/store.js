@@ -1,10 +1,14 @@
 import { createStore } from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
+  plugins: [createPersistedState()],
   state () {
     return {
       count: 0,
-      accessToken: ''
+      accessToken: '',
+      username: '',
+      role: '',
     }
   },
   mutations: {
@@ -13,6 +17,12 @@ export default createStore({
     },
     accessToken (state, newAccessToken) {
       state.accessToken = newAccessToken;
+    },
+    username (state, newUsername) {
+      state.username = newUsername;
+    },
+    role (state, newRole) {
+      state.role = newRole;
     }
   },
   actions: {
@@ -28,7 +38,9 @@ export default createStore({
 const STORE_COMMENDS = {
   MUTATIONS: {
     INCLEMENT: "increment",
-    ACCESS_TOKEN: "accessToken"
+    ACCESS_TOKEN: "accessToken",
+    USERNAME: "username",
+    ROLE: "role",
   },
   ACTIONS: {
 

@@ -49,7 +49,7 @@ export default {
             return new Promise((resolve, reject) => {
               const formData = new FormData();
               formData.append("file", file);
-              axios.post('/files', formData)
+              axios.post('/api/files', formData)
               .then(res => {
                 resolve(res.data)
               })
