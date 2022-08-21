@@ -236,8 +236,9 @@ export default {
               jibunAddress: this.jibunAddress,
               postcode: this.postcode, 
               subAddress: this.detailAddress,
-              isRoadAddress: this.isRoadAddress,
+              selectRoadAddress: this.isRoadAddress,
             }
+
             ApiRequester.post(Urls.MAIN_API.AUTH.USER, this.userSignUpForm)
             .then(() => {
               this.$router.push({name: '/sign-up/complete', params: {username: this.name}})
@@ -255,11 +256,11 @@ export default {
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
             this.address = data.roadAddress;
-            this.isRoadAddress = false;
+            this.isRoadAddress = true;
           } else {
             // 사용자가 지번 주소를 선택했을 경우(J)
             this.address = data.jibunAddress;
-            this.isRoadAddress = true;
+            this.isRoadAddress = false;
           }
           this.roadAddress = data.roadAddress;
           this.jibunAddress = data.jibunAddress;

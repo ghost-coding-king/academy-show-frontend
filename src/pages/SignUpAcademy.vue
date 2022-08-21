@@ -419,7 +419,7 @@ export default {
               jibunAddress: this.jibunAddress,
               postcode: this.postcode, 
               subAddress: this.detailAddress,
-              isRoadAddress: this.isRoadAddress,
+              selectRoadAddress: this.isRoadAddress,
             };
             this.academySignUpForm = {
               academyName: this.academyName,
@@ -427,7 +427,7 @@ export default {
               academyPostcode: this.academyPostcode,
               academyRoadAddress: this.academyRoadAddress,
               academyJibunAddress: this.academyJibunAddress,
-              academyIsRoadAddress: this.academyIsRoadAddress,
+              academySelectRoadAddress: this.academyIsRoadAddress,
               academySubAddress: this.academyDetailAddress,
               shuttle: this.shuttle,
               subjects: this.subjects,

@@ -95,7 +95,7 @@ export default {
       console.log(res.data.data);
       this.myInfo = res.data.data
       this.postcode = this.myInfo.postcode
-      this.address = this.myInfo.isRoadAddress ? this.myInfo.roadAddress : this.myInfo.jibunAddress
+      this.address = this.myInfo.selectRoadAddress ? this.myInfo.roadAddress : this.myInfo.jibunAddress
       this.detailAddress = this.myInfo.subAddress
       this.phone = this.myInfo.phone
     })

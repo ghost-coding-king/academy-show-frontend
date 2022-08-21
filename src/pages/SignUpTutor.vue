@@ -366,7 +366,7 @@ export default {
               jibunAddress: this.jibunAddress,
               postcode: this.postcode, 
               subAddress: this.detailAddress,
-              isRoadAddress: this.isRoadAddress,
+              selectRoadAddress: this.isRoadAddress,
             };
 
             this.tutorRequestForm = {
