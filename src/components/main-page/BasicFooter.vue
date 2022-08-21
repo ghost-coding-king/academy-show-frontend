@@ -1,22 +1,22 @@
 <template>
-  <v-footer class="bg-grey-lighten-4 text-white text-center d-flex flex-column">
-    <div>
-      <v-btn v-for="icon in icons" :key="icon" class="mx-4" :icon="icon" variant="text"></v-btn>
-    </div>
-
-    <div class="pt-0">
-      Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut
-      risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui.
-      Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices,
-      cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque
-      penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-    </div>
-
-    <v-divider></v-divider>
-
-    <div class="">
-      {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-    </div>
+  <v-footer class="bg-grey-lighten-4 text-white d-inline" style="min-width: 1350px;">
+    <v-row no-gutters>
+      <v-col cols="2"></v-col>
+      <div>
+        <div><img id="mainLogo" @click="this.$router.push('/')" :src="require('../../assets/images/logo.png')"
+            style="width: 100px; margin: 20px 0;" /></div>
+        <div style="font-size: 0.8rem; margin-bottom: 20px;">
+        <p>(주)전국학원자랑 | 팀원: 김동원, 김찬진, 우경진, 이현수 | 전화번호: 02-123-4567</p>
+          <p>통신판매업: 2022-전국학원-6439 | 이메일: academyshow@academyshow.com</p>
+          <p>주소: 서울특별시 강남구 역삼동 전국학원자랑 타워</p><br>
+          <p>©ACADEMY-SHOW. ALL RIGHTS RESERVED</p>
+        </div>
+      </div>
+      <v-row style="align-items: center;" no-gutters>
+        <v-col cols="5"></v-col>
+        <v-btn v-for="icon in icons" :key="icon" class="mx-4 text-black" :icon="icon" variant="text"></v-btn>
+      </v-row>
+    </v-row>
   </v-footer>
 </template>
 
@@ -34,4 +34,15 @@ export default {
 </script>
 
 <style>
+  @font-face {
+ font-family: 'NanumBarunGothic';
+ font-style: normal;
+ font-weight: 700;
+ src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot');
+ src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf') format('truetype');
+}
+  p {
+    margin-top: 2px;
+    font-family: 'NanumBarunGothic';
+  }
 </style>

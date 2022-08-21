@@ -1,5 +1,8 @@
 <template>
-  학원
+  <v-row style="margin-top: 50px" no-gutters>
+    <v-col cols="1"></v-col>
+    <h1>내 학원관리</h1>
+  </v-row>
 </template>
 
 <script>

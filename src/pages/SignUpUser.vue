@@ -178,6 +178,9 @@ export default {
     name: undefined,
     postcode: undefined,
     address: undefined,
+    roadAddress: undefined,
+    jibunAddress: undefined,
+    isRoadAddress: false,
     agreement: false,
     dialog: false,
     id: undefined,
@@ -229,7 +232,11 @@ export default {
               name: this.name,
               phone: this.phone,
               birth: this.birth,
-              address: this.address + ' ' + this.detailAddress 
+              roadAddress: this.roadAddress,
+              jibunAddress: this.jibunAddress,
+              postcode: this.postcode, 
+              subAddress: this.detailAddress,
+              isRoadAddress: this.isRoadAddress,
             }
             ApiRequester.post(Urls.MAIN_API.AUTH.USER, this.userSignUpForm)
             .then(() => {
@@ -248,10 +255,14 @@ export default {
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
             this.address = data.roadAddress;
+            this.isRoadAddress = false;
           } else {
             // 사용자가 지번 주소를 선택했을 경우(J)
             this.address = data.jibunAddress;
+            this.isRoadAddress = true;
           }
+          this.roadAddress = data.roadAddress;
+          this.jibunAddress = data.jibunAddress;
 
           // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
           if (data.userSelectedType === "R") {

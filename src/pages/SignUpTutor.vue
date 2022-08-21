@@ -164,7 +164,7 @@
             </v-row>
           </v-row>
 
-          <v-row style="width:1000px; margin:0 auto" v-if="stepComplete">
+          <v-row style="width:1000px; margin:0 auto" v-if="!stepComplete">
             <v-row justify="center" no-gutters>
               <v-card class="mx-auto" style="max-width: 500px; margin: 50px 0;" elevation="6" width="600">
                 <v-timeline direction="horizontal" line-inset="12">
@@ -274,6 +274,9 @@ export default {
     name: undefined,
     postcode: undefined,
     address: undefined,
+    roadAddress: undefined,
+    jibunAddress: undefined,
+    isRoadAddress: false,
     detailAddress: undefined,
     agreement: false,
     dialog: false,
@@ -359,7 +362,11 @@ export default {
               name: this.name,
               phone: this.phone,
               birth: this.birth,
-              address: this.address + ' ' + this.detailAddress
+              roadAddress: this.roadAddress,
+              jibunAddress: this.jibunAddress,
+              postcode: this.postcode, 
+              subAddress: this.detailAddress,
+              isRoadAddress: this.isRoadAddress,
             };
 
             this.tutorRequestForm = {
@@ -387,10 +394,14 @@ export default {
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
             this.address = data.roadAddress;
+            this.isRoadAddress = true;
           } else {
             // 사용자가 지번 주소를 선택했을 경우(J)
             this.address = data.jibunAddress;
+            this.isRoadAddress = false;
           }
+          this.roadAddress = data.roadAddress;
+          this.jibunAddress = data.jibunAddress;
 
           // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
           if (data.userSelectedType === "R") {
@@ -415,46 +426,6 @@ export default {
           }
           // 우편번호를 입력한다.
           this.postcode = data.zonecode;
-        },
-      }).open();
-    },
-    execPostcode() {
-      new window.daum.Postcode({
-        oncomplete: (data) => {
-          if (this.cademyDetailAddress !== "") {
-            this.cademyDetailAddress = "";
-          }
-          if (data.userSelectedType === "R") {
-            // 사용자가 도로명 주소를 선택했을 경우
-            this.academyAddress = data.roadAddress;
-          } else {
-            // 사용자가 지번 주소를 선택했을 경우(J)
-            this.academyAddress = data.jibunAddress;
-          }
-
-          // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-          if (data.userSelectedType === "R") {
-            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-            if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-              this.cademyDetailAddress += data.bname;
-            }
-            // 건물명이 있고, 공동주택일 경우 추가한다.
-            if (data.buildingName !== "" && data.apartment === "Y") {
-              this.cademyDetailAddress +=
-                this.cademyDetailAddress !== ""
-                  ? `, ${data.buildingName}`
-                  : data.buildingName;
-            }
-            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-            if (this.cademyDetailAddress !== "") {
-              this.cademyDetailAddress = `(${this.cademyDetailAddress})`;
-            }
-          } else {
-            this.cademyDetailAddress = "";
-          }
-          // 우편번호를 입력한다.
-          this.academyPostcode = data.zonecode;
         },
       }).open();
     },

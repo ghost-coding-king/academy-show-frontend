@@ -328,6 +328,9 @@ export default {
     name: undefined,
     postcode: undefined,
     address: undefined,
+    roadAddress: undefined,
+    jibunAddress: undefined,
+    isRoadAddress: false,
     detailAddress: undefined,
     agreement: false,
     dialog: false,
@@ -340,6 +343,9 @@ export default {
     academyName: undefined,
     academyPostcode: undefined,
     academyAddress: undefined,
+    academyRoadAddress: undefined,
+    academyJibunAddress: undefined,
+    academyIsRoadAddress: false,
     academyDetailAddress: undefined,
     academyIntroduce: undefined,
     academyAgreement: undefined,
@@ -409,12 +415,20 @@ export default {
               name: this.name,
               phone: this.phone,
               birth: this.birth,
-              address: this.address + ' ' + this.detailAddress
+              roadAddress: this.roadAddress,
+              jibunAddress: this.jibunAddress,
+              postcode: this.postcode, 
+              subAddress: this.detailAddress,
+              isRoadAddress: this.isRoadAddress,
             };
             this.academySignUpForm = {
               academyName: this.academyName,
               introduce: this.academyIntroduce,
-              academyAddress: this.academyAddress + ' ' + this.academyDetailAddress,
+              academyPostcode: this.academyPostcode,
+              academyRoadAddress: this.academyRoadAddress,
+              academyJibunAddress: this.academyJibunAddress,
+              academyIsRoadAddress: this.academyIsRoadAddress,
+              academySubAddress: this.academyDetailAddress,
               shuttle: this.shuttle,
               subjects: this.subjects,
               educations: this.academyAges,
@@ -450,10 +464,14 @@ export default {
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
             this.address = data.roadAddress;
+            this.isRoadAddress = true;
           } else {
             // 사용자가 지번 주소를 선택했을 경우(J)
             this.address = data.jibunAddress;
+            this.isRoadAddress = false;
           }
+          this.roadAddress = data.roadAddress;
+          this.jibunAddress = data.jibunAddress;
 
           // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
           if (data.userSelectedType === "R") {
@@ -490,10 +508,15 @@ export default {
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
             this.academyAddress = data.roadAddress;
+            this.academyIsRoadAddress = true;
           } else {
             // 사용자가 지번 주소를 선택했을 경우(J)
             this.academyAddress = data.jibunAddress;
+            this.academyIsRoadAddress = false;
           }
+          this.academyRoadAddress = data.roadAddress;
+          this.academyJibunAddress = data.jibunAddress;
+          console.log(this.academyJibunAddress);
 
           // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
           if (data.userSelectedType === "R") {

@@ -1,5 +1,5 @@
 <template>
-  <v-row style="height: 1000px;" no-gutters>
+  <v-row no-gutters>
     <v-col cols="2"></v-col>
     <v-layout>
       <v-navigation-drawer floating permanent style="padding-top: 20px" disable-route-watcher>

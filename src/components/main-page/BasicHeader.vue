@@ -8,8 +8,17 @@
     
     <v-tabs style="margin-top: 20px;" next-icon="mdi-arrow-right-bold-box-outline"
       prev-icon="mdi-arrow-left-bold-box-outline" show-arrows>
-      <v-tab @click="this.$router.push(pageLink)" hide-slider v-for="(pageLink, i) in pageList" :key="i">
-        Link: {{ pageLink }}
+      <v-tab @click="this.$router.push(pageLink)" hide-slider>
+        학원
+      </v-tab>
+      <v-tab @click="this.$router.push(pageLink)" hide-slider>
+        과외
+      </v-tab>
+      <v-tab @click="this.$router.push(pageLink)" hide-slider>
+        고객센터
+      </v-tab>
+      <v-tab @click="this.$router.push(pageLink)" hide-slider>
+        ★우경진 암살 의뢰★
       </v-tab>
     </v-tabs>
     <v-spacer></v-spacer>
@@ -25,6 +34,13 @@
       </v-btn>
     </div>
     <div v-else style="height: 100%; display: flex; align-items: center;">
+    <div style="align-items: center; margin-top: 6px; margin-right: 10px">
+    <span style="font-weight: bold; font-size: 1.1rem;">{{ username }}
+          <sub v-if="role=='ROLE_MEMBER'" style="font-size: 0.7rem; color: #a0a0a0">일반</sub>
+          <sub v-else-if="role=='ROLE_ACADEMY'" style="font-size: 0.7rem; color: #a0a0a0">학원</sub>
+          <sub v-else-if="role=='ROLE_TUTOR'" style="font-size: 0.7rem; color: #a0a0a0">과외</sub>
+          </span>
+    </div>
     <div class="dropdown" style="height: 100%; align-items: center;">
       <div id="profile" style="border: 1px solid #fd9f28; border-radius: 50%; width: 40px; height: 40px; justify-content: center; display: flex; align-items: center; background-color: #fd9f28; margin-top: 19px">
         <v-icon style="color: white; font-size: 1.4rem;" icon="fa-solid fa-user"></v-icon>
@@ -32,7 +48,7 @@
       <div class="dropdown-content" style="background-color: #ffffff; width: 250px; box-shadow: 1px 1px 10px 1px gray; text-align: center; padding: 20px;">
         <div style="text-align: left;">
           <v-icon style="font-size: 3rem; margin-right: 20px; color: #fd9f28" icon="fa-solid fa-square-pen"></v-icon>
-          <span style="font-weight: bold; font-size: 1.1rem;">{{ username }}님
+          <span style="font-weight: bold; font-size: 1.1rem;">{{ username }}
           <sub v-if="role=='ROLE_MEMBER'" style="font-size: 0.7rem; color: #a0a0a0">일반</sub>
           <sub v-else-if="role=='ROLE_ACADEMY'" style="font-size: 0.7rem; color: #a0a0a0">학원 원장님</sub>
           <sub v-else-if="role=='ROLE_TUTOR'" style="font-size: 0.7rem; color: #a0a0a0">과외 선생님</sub>
