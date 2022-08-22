@@ -18,7 +18,8 @@ const BaseApiRequester = (() => {
   return {
     'get': (url, config) => AxiosInstance.get(url, config),
     'post': (url, data, config) => AxiosInstance.post(url, data, config),
-    'delete': (url, config) => AxiosInstance.delete(url, config)
+    'delete': (url, config) => AxiosInstance.delete(url, config),
+    'patch': (url, data, config) => AxiosInstance.patch(url, data, config),
   }
 })();
  
@@ -38,7 +39,8 @@ const ApiRequester = (() => {
   return {
     'get': (url) => BaseApiRequester.get(url, makeConfig()),
     'post': (url, data) => BaseApiRequester.post(url, data, makeConfig()),
-    'delete': (url) => BaseApiRequester.delete(url, makeConfig())
+    'delete': (url) => BaseApiRequester.delete(url, makeConfig()),
+    'patch': (url, data) => BaseApiRequester.patch(url, data, makeConfig()),
   }
 })();
 

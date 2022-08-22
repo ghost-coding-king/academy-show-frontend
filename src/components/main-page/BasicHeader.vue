@@ -42,8 +42,10 @@
           </span>
     </div>
     <div class="dropdown" style="height: 100%; align-items: center;">
-      <div id="profile" style="border: 1px solid #fd9f28; border-radius: 50%; width: 40px; height: 40px; justify-content: center; display: flex; align-items: center; background-color: #fd9f28; margin-top: 19px">
-        <v-icon style="color: white; font-size: 1.4rem;" icon="fa-solid fa-user"></v-icon>
+      <div id="profile" style="border: 1px solid #fd9f28; border-radius: 50%; width: 40px; height: 40px; justify-content: center; display: flex; align-items: center; margin-top: 19px">
+        <v-avatar color="#fd9f28">
+      <v-icon color="white" icon="fa-solid fa-user"></v-icon>
+    </v-avatar>
       </div>
       <div class="dropdown-content" style="background-color: #ffffff; width: 250px; box-shadow: 1px 1px 10px 1px gray; text-align: center; padding: 20px;">
         <div style="text-align: left;">

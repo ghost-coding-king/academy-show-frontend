@@ -13,6 +13,7 @@ const URLS = {
     },
     USER: {
       MY_INFO: CONFIG.MAIN_API_ROOT + "/api" + "/member",
+      UPDATE_MY_INFO: CONFIG.MAIN_API_ROOT + "/api" + "/member",
     }
   }
 }

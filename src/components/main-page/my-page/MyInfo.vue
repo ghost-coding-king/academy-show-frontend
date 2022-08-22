@@ -38,7 +38,7 @@
         <td>주소</td>
         <td>
           <v-row no-gutters style="margin-top: 10px;">
-                  <v-text-field v-model="postcode" filled placeholder="우편번호" variant="outlined" readonly>
+                  <v-text-field v-model="myInfo.postcode" filled placeholder="우편번호" variant="outlined" readonly>
                     </v-text-field>
                   <v-btn style="margin-left: 5px; margin-bottom: 5px" @click="execDaumPostcode">우편번호 찾기</v-btn>
                   <v-col cols="6"></v-col>
@@ -50,7 +50,7 @@
                   </v-row>
 
                   <v-row no-gutters style="margin-bottom: 10px">
-                  <input type="text" v-model="detailAddress"
+                  <input type="text" v-model="myInfo.subAddress"
                       style="border: 1px solid #ababab; border-radius: 5px; width:200px; height: 56px; padding: 15px; margin-top:2px" placeholder="상세주소"/>
 
                   <v-col cols="6"></v-col>
@@ -61,7 +61,7 @@
       <tr>
         <td>전화번호</td>
         <td>
-          <v-text-field v-model="phone" variant="outlined" style="margin-top: 20px; width: 378px"></v-text-field>
+          <v-text-field v-model="myInfo.phone" variant="outlined" style="margin-top: 20px; width: 378px"></v-text-field>
         </td>
       </tr>
     </tbody>
@@ -70,7 +70,7 @@
   <v-col cols="1"></v-col>
     </v-row>
   <v-row no-gutters style="display: flex; justify-content: right; margin-bottom: 200px;">
-    <v-btn style="background-color: #fd9f28; color: white;">수정하기</v-btn>
+    <v-btn style="background-color: #fd9f28; color: white;" @click="sendUpdateMyInfo">수정하기</v-btn>
     <v-col cols="1"></v-col>
   </v-row>
 </template>
@@ -82,25 +82,23 @@ import Urls from '@/consts/urls';
 export default {
   data: () => ({
     myInfo: Object,
-    postcode: undefined,
     address: undefined,
-    roadAddress: undefined,
-    jibunAddress: undefined,
-    detailAddress: undefined,
-    phone: undefined,
+    myInfoUpdateForm: '',
   }),
   mounted() {
     ApiRequester.get(Urls.MAIN_API.USER.MY_INFO)
     .then(res => {
-      console.log(res.data.data);
       this.myInfo = res.data.data
-      this.postcode = this.myInfo.postcode
       this.address = this.myInfo.selectRoadAddress ? this.myInfo.roadAddress : this.myInfo.jibunAddress
-      this.detailAddress = this.myInfo.subAddress
-      this.phone = this.myInfo.phone
     })
   },
   methods: {
+    sendUpdateMyInfo() {
+        ApiRequester.patch(Urls.MAIN_API.USER.UPDATE_MY_INFO, this.myInfo)
+        .then(() => {
+          alert('수정이 완료되었습니다')
+        })
+    },  
     execDaumPostcode() {
       new window.daum.Postcode({
         oncomplete: (data) => {
@@ -110,14 +108,14 @@ export default {
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
             this.address = data.roadAddress;
-            this.isRoadAddress = true;
+            this.myInfo.selectRoadAddress = true;
           } else {
             // 사용자가 지번 주소를 선택했을 경우(J)
             this.address = data.jibunAddress;
-            this.isRoadAddress = false;
+            this.myInfo.selectRoadAddress = false;
           }
-          this.roadAddress = data.roadAddress;
-          this.jibunAddress = data.jibunAddress;
+          this.myInfo.roadAddress = data.roadAddress;
+          this.myInfo.jibunAddress = data.jibunAddress;
 
           // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
           if (data.userSelectedType === "R") {
@@ -141,7 +139,7 @@ export default {
             this.extraAddress = "";
           }
           // 우편번호를 입력한다.
-          this.postcode = data.zonecode;
+          this.myInfo.postcode = data.zonecode;
         },
       }).open();
     },
