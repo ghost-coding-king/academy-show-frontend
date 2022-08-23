@@ -1,6 +1,12 @@
 <template>
-  <v-carousel cycle hide-delimiter-background hide-delimiters show-arrows="hover" progress="black" height="315"
-    style="min-width: 1000px">
+  <v-carousel
+    cycle
+    hide-delimiter-background
+    hide-delimiters
+    show-arrows="hover"
+    progress="black"
+    style="min-width: 1000px; height: auto"
+  >
     <v-carousel-item v-for="i in (1, 3)" :key="i">
       <v-img cover :src="require('../../assets/images/banner' + i + '.png')" />
     </v-carousel-item>
@@ -13,45 +19,290 @@
       <v-btn-toggle
         v-model="text"
         tile
-        color="#fd9f28"
         group
         mandatory
         selected-class="v-btn-selected"
+        style="box-shadow: 1px 1px 5px 1px grey"
       >
-        <v-btn value="left">
-          카테고리
-        </v-btn>
+        <v-btn value="left" style="background-color: #f2f2f2"> 카테고리 </v-btn>
 
-        <v-btn value="center">
-          학원명
-        </v-btn>
-
+        <v-btn value="center" style="background-color: #f2f2f2"> 학원명 </v-btn>
       </v-btn-toggle>
     </v-row>
     <v-row no-gutters>
       <v-col cols="4"></v-col>
-      <v-text-field v-if="this.text=='center'" variant="outlined" append-inner-icon="mdi-magnify"></v-text-field>
+      <v-text-field
+        v-if="this.text == 'center'"
+        variant="outlined"
+        append-inner-icon="mdi-magnify"
+      ></v-text-field>
 
-      <v-row align="center" justify="center" style="border: 1px solid #ababab; margin-bottom: 22px; padding: 3px; border-radius: 5px;" no-gutters v-else>
-        <v-btn-toggle
-      v-model="toggle"
-      divided
-      class="mx-auto"
-    >
-      <v-btn>연령 선택</v-btn>
-      <v-btn>과목 선택</v-btn>
-      <v-btn>지역 선택</v-btn>
-    </v-btn-toggle>
+      <v-row
+        align="center"
+        justify="center"
+        style="
+          border: 1px solid #ababab;
+          margin-bottom: 22px;
+          padding: 3px;
+          border-radius: 5px;
+        "
+        no-gutters
+        v-else
+      >
+        <v-btn-toggle v-model="toggle" divided class="mx-auto">
+          <v-btn value="age" prepend-icon="fa-solid fa-user">연령 선택</v-btn>
+          <v-btn value="subject" prepend-icon="fa-solid fa-book"
+            >과목 선택</v-btn
+          >
+          <v-btn value="area" prepend-icon="fa-solid fa-location-dot"
+            >지역 선택</v-btn
+          >
+        </v-btn-toggle>
 
-      <v-btn color="#fd9f28" flat style="margin-right: 5px;"><span style="color: white;">검색</span></v-btn>
-
+        <v-btn color="#fd9f28" flat style="margin-right: 5px"
+          ><span style="color: white">검색</span></v-btn
+        >
       </v-row>
-
       <v-col cols="4"></v-col>
     </v-row>
+    <v-row no-gutters>
+      <v-col
+        v-if="toggle == 'age'"
+        cols="4"
+        class="toggle-select-box"
+        style="height: 550px"
+      >
+        <div style="display: flex; justify-content: right; padding: 15px">
+          <v-btn @click="this.ages = Array" class="mr-1" color="#f2f2f2" flat
+            >초기화</v-btn
+          >
+          <v-btn
+            @click="this.toggle = ''"
+            color="#fd9f28"
+            flat
+            style="color: white"
+            >완료</v-btn
+          >
+        </div>
+        <div style="overflow-y: scroll; height: 475px; padding: 0 20px">
+          <v-chip-group v-model="ages" column multiple>
+            <div>
+              <h3 class="mb-2">유아</h3>
+              <v-chip
+                value="유아 5세"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >5세</v-chip
+              >
+              <v-chip
+                value="유아 6세"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >6세</v-chip
+              >
+              <v-chip
+                value="유아 7세"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >7세</v-chip
+              >
+            </div>
+            <v-divider style="margin: 15px 0"></v-divider>
+            <div>
+              <h3 class="mb-2">초등학교</h3>
+              <v-chip
+                value="초등학교 1학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >1학년</v-chip
+              >
+              <v-chip
+                value="초등학교 2학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >2학년</v-chip
+              >
+              <v-chip
+                value="초등학교 3학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >3학년</v-chip
+              >
+              <v-chip
+                value="초등학교 4학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >4학년</v-chip
+              >
+              <v-chip
+                value="초등학교 5학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >5학년</v-chip
+              >
+              <v-chip
+                value="초등학교 6학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >6학년</v-chip
+              >
+            </div>
+            <v-divider style="margin: 15px 0"></v-divider>
+            <div>
+              <h3 class="mb-2">중학교</h3>
+              <v-chip
+                value="중학교 1학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >1학년</v-chip
+              >
+              <v-chip
+                value="중학교 2학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >2학년</v-chip
+              >
+              <v-chip
+                value="중학교 3학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >3학년</v-chip
+              >
+            </div>
+            <v-divider style="margin: 15px 0"></v-divider>
+            <div>
+              <h3 class="mb-2">고등학교</h3>
+              <v-chip
+                value="고등학교 1학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >1학년</v-chip
+              >
+              <v-chip
+                value="고등학교 2학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >2학년</v-chip
+              >
+              <v-chip
+                value="고등학교 3학년"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >3학년</v-chip
+              >
+            </div>
+            <v-divider style="margin: 15px 0"></v-divider>
+            <div>
+              <h3 class="mb-2">고등학교 졸업</h3>
+              <v-chip
+                value="성인"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >성인</v-chip
+              >
+            </div>
+          </v-chip-group>
+        </div>
+      </v-col>
 
+      <v-col
+        v-if="toggle == 'subject'"
+        cols="4"
+        class="toggle-select-box"
+        style="height: 300px"
+      >
+        <div style="display: flex; justify-content: right; padding: 15px">
+          <v-btn @click="this.subjects = []" class="mr-1" color="#f2f2f2" flat
+            >초기화</v-btn
+          >
+          <v-btn
+            @click="this.toggle = ''"
+            color="#fd9f28"
+            flat
+            style="color: white"
+            >완료</v-btn
+          >
+        </div>
+        <div style="overflow-y: scroll; height: 230px; padding: 0 20px">
+          <v-chip-group v-model="subjects" column multiple>
+            <div>
+              <h3 class="mb-2">과목</h3>
+              <v-chip
+                v-for="(name, i) in this.subjectsItems"
+                :key="i"
+                :value="name"
+                filter
+                variant="outlined"
+                selected-class="selected-chip"
+                >{{ name }}</v-chip
+              >
+            </div>
+          </v-chip-group>
+        </div>
+      </v-col>
+      <v-col
+        v-if="toggle == 'area'"
+        cols="4"
+        class="toggle-select-box"
+        style="height: 620px"
+      >
+        <div style="display: flex; justify-content: right; padding: 15px">
+          <v-btn @click="this.area = ''" class="mr-1" color="#f2f2f2" flat
+            >초기화</v-btn
+          >
+          <v-btn
+            @click="this.toggle = ''"
+            color="#fd9f28"
+            flat
+            style="color: white"
+            >완료</v-btn
+          >
+        </div>
+        <v-row no-gutters>
+          <v-col cols="4" style="padding: 0 10px; height: 530px">
+            <v-btn-toggle
+              v-model="selectedArea"
+              mandatory
+              style="display: block; height: 520px; overflow-y: scroll;"
+            >
+              <v-btn flat block style="height: 40px" :value="name" v-for="(name, i) in Object.keys(this.radioGroupItems)" :key="i">{{ name }}</v-btn>
+            </v-btn-toggle>
+          </v-col>
+          <v-divider vertical></v-divider>
+          <v-col cols="8" style="padding: 0 10px; height: 530px">
+            <h3 class="ml-2">행정구역</h3>
+            <v-divider style="margin: 10px 0"></v-divider>
+            <v-radio-group v-model="area">
+              <v-radio
+                :label="name"
+                :value="selectedArea + ' ' + name"
+                v-for="(name, i) in this.radioGroupItems[this.selectedArea]"
+                :key="i"
+              ></v-radio>
+            </v-radio-group>
+          </v-col>
+        </v-row>
+        <div style="overflow-y: scroll; height: 475px; padding: 0 20px"></div>
+      </v-col>
+    </v-row>
 
-    <v-row no-gutters style="justify-content: space-between;">
+    <v-row no-gutters style="justify-content: space-between">
       <v-col cols="4"></v-col>
       <v-chip elevation="3" link size="large">#국어/영어/수학</v-chip>
       <v-chip elevation="3" link size="large">#코딩교육</v-chip>
@@ -60,242 +311,284 @@
       <v-col cols="4"></v-col>
     </v-row>
     <v-row no-gutters style="margin-top: 100px">
-      <div style="flex: 0 0 12.6%; max-width: 12.6%;"></div>
-      <h1>읽을 거리📚</h1>&nbsp;<h2 style="display: flex; align-items: center;"><i class="fa-solid fa-chevron-right"></i></h2>
+      <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
+      <h1>📚 읽을 거리</h1>
+      &nbsp;
+      <h2 style="display: flex; align-items: center">
+        <i class="fa-solid fa-chevron-right"></i>
+      </h2>
     </v-row>
     <v-row no-gutters>
-      <div style="flex: 0 0 12.6%; max-width: 12.6%;"></div>
+      <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
       <p style="color: #7b7b7b">오늘의 암살 의뢰★ 읽을 거리를 둘러보세요.</p>
     </v-row>
     <v-row>
       <v-col cols="1"></v-col>
       <v-col cols="10">
         <v-sheet class="mx-auto" style="width: 100%">
-          <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
+          <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
             <v-slide-group-item v-for="n in 15" :key="n">
-              <v-card link="true" style="height: 250px; margin-right: 60px !important;" class="mx-auto my-12" max-width="350"
-                min-width="300">
-
+              <v-card
+                link
+                style="height: 250px; margin-right: 30px !important"
+                class="mx-auto my-12"
+                max-width="300"
+                min-width="250"
+              >
                 <v-card-item>
                   <v-card-title>학원 이름</v-card-title>
 
                   <v-card-subtitle>
                     <span class="mr-1">학원 주소</span>
 
-                    <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
+                    <v-icon
+                      color="error"
+                      icon="mdi-fire-circle"
+                      size="small"
+                    ></v-icon>
                   </v-card-subtitle>
                 </v-card-item>
 
                 <v-card-text>
                   <v-row align="center" class="mx-0">
-                    <v-rating :model-value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
+                    <v-rating
+                      :model-value="4.5"
+                      color="amber"
+                      dense
+                      half-increments
+                      readonly
+                      size="14"
+                    ></v-rating>
 
-                    <div class="text-grey ms-4">
-                      4.5 (413)
-                    </div>
+                    <div class="text-grey ms-4">4.5 (413)</div>
                   </v-row>
                 </v-card-text>
 
                 <v-divider class="mx-4 mb-5 my-5"></v-divider>
 
-                <div class="px-4 mb-10 txt_line" style="padding: 15px;">
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
+                <div class="px-4 mb-10 txt_line" style="padding: 15px">
+                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
+                  사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만
+                  모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다.
+                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
+                  사탄들만 모집한다. 우리는 사탄들만 모집한다.
                 </div>
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
-
         </v-sheet>
       </v-col>
       <v-col cols="1"></v-col>
     </v-row>
     <v-row no-gutters>
-      <div style="flex: 0 0 12.6%; max-width: 12.6%;"></div>
-      <h1>🔍학원 살펴보기</h1>&nbsp;<h2 style="display: flex; align-items: center;"><i class="fa-solid fa-chevron-right"></i></h2>
+      <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
+      <h1>🔍 학원 살펴보기</h1>
+      &nbsp;
+      <h2 style="display: flex; align-items: center">
+        <i class="fa-solid fa-chevron-right"></i>
+      </h2>
     </v-row>
     <v-row no-gutters>
-      <div style="flex: 0 0 12.6%; max-width: 12.6%;"></div>
+      <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
       <p style="color: #7b7b7b">요즘 잘나가는 학원을 살펴보세요.</p>
     </v-row>
     <v-row>
       <v-col cols="1"></v-col>
       <v-col cols="10">
         <v-sheet class="mx-auto" style="width: 100%">
-          <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
+          <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
             <v-slide-group-item v-for="n in 15" :key="n">
-              <v-card link="true" style="height: 250px; margin-right: 60px !important;" class="mx-auto my-12" max-width="350"
-                min-width="300">
-
+              <v-card
+                link
+                style="height: 250px; margin-right: 30px !important"
+                class="mx-auto my-12"
+                max-width="300"
+                min-width="250"
+              >
                 <v-card-item>
                   <v-card-title>학원 이름</v-card-title>
 
                   <v-card-subtitle>
                     <span class="mr-1">학원 주소</span>
 
-                    <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
+                    <v-icon
+                      color="error"
+                      icon="mdi-fire-circle"
+                      size="small"
+                    ></v-icon>
                   </v-card-subtitle>
                 </v-card-item>
 
                 <v-card-text>
                   <v-row align="center" class="mx-0">
-                    <v-rating :model-value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
+                    <v-rating
+                      :model-value="4.5"
+                      color="amber"
+                      dense
+                      half-increments
+                      readonly
+                      size="14"
+                    ></v-rating>
 
-                    <div class="text-grey ms-4">
-                      4.5 (413)
-                    </div>
+                    <div class="text-grey ms-4">4.5 (413)</div>
                   </v-row>
                 </v-card-text>
 
                 <v-divider class="mx-4 mb-5 my-5"></v-divider>
 
-                <div class="px-4 mb-10 txt_line" style="padding: 15px;">
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
+                <div class="px-4 mb-10 txt_line" style="padding: 15px">
+                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
+                  사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만
+                  모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다.
+                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
+                  사탄들만 모집한다. 우리는 사탄들만 모집한다.
                 </div>
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
-
         </v-sheet>
       </v-col>
       <v-col cols="1"></v-col>
     </v-row>
     <v-row no-gutters>
-      <div style="flex: 0 0 12.6%; max-width: 12.6%;"></div>
-      <h1>📝과외 알아보기</h1>&nbsp;<h2 style="display: flex; align-items: center;"><i class="fa-solid fa-chevron-right"></i></h2>
+      <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
+      <h1>📝 과외 알아보기</h1>
+      &nbsp;
+      <h2 style="display: flex; align-items: center">
+        <i class="fa-solid fa-chevron-right"></i>
+      </h2>
     </v-row>
     <v-row no-gutters>
-      <div style="flex: 0 0 12.6%; max-width: 12.6%;"></div>
+      <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
       <p style="color: #7b7b7b">잘생기고 예쁜 과외 선생님을 만나보세요.</p>
     </v-row>
     <v-row>
       <v-col cols="1"></v-col>
       <v-col cols="10">
         <v-sheet class="mx-auto" style="width: 100%">
-          <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
+          <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
             <v-slide-group-item v-for="n in 15" :key="n">
-              <v-card link="true" style="height: 250px; margin-right: 60px !important;" class="mx-auto my-12" max-width="350"
-                min-width="300">
-
+              <v-card
+                link
+                style="height: 250px; margin-right: 30px !important"
+                class="mx-auto my-12"
+                max-width="300"
+                min-width="250"
+              >
                 <v-card-item>
                   <v-card-title>학원 이름</v-card-title>
 
                   <v-card-subtitle>
                     <span class="mr-1">학원 주소</span>
 
-                    <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
+                    <v-icon
+                      color="error"
+                      icon="mdi-fire-circle"
+                      size="small"
+                    ></v-icon>
                   </v-card-subtitle>
                 </v-card-item>
 
                 <v-card-text>
                   <v-row align="center" class="mx-0">
-                    <v-rating :model-value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
+                    <v-rating
+                      :model-value="4.5"
+                      color="amber"
+                      dense
+                      half-increments
+                      readonly
+                      size="14"
+                    ></v-rating>
 
-                    <div class="text-grey ms-4">
-                      4.5 (413)
-                    </div>
+                    <div class="text-grey ms-4">4.5 (413)</div>
                   </v-row>
                 </v-card-text>
 
                 <v-divider class="mx-4 mb-5 my-5"></v-divider>
 
-                <div class="px-4 mb-10 txt_line" style="padding: 15px;">
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
+                <div class="px-4 mb-10 txt_line" style="padding: 15px">
+                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
+                  사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만
+                  모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다.
+                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
+                  사탄들만 모집한다.
                 </div>
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
-
         </v-sheet>
       </v-col>
       <v-col cols="1"></v-col>
     </v-row>
 
     <v-row no-gutters>
-      <div style="flex: 0 0 12.6%; max-width: 12.6%;"></div>
-      <h1>⭐최근 리뷰</h1>&nbsp;<h2 style="display: flex; align-items: center;"><i class="fa-solid fa-chevron-right"></i></h2>
+      <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
+      <h1>⭐ 최근 리뷰</h1>
+      &nbsp;
+      <h2 style="display: flex; align-items: center">
+        <i class="fa-solid fa-chevron-right"></i>
+      </h2>
     </v-row>
     <v-row no-gutters>
-      <div style="flex: 0 0 12.6%; max-width: 12.6%;"></div>
-      <p style="color: #7b7b7b">매월 추첨을 통해 정성스럽게 리뷰를 써주신 분들께 30경★을 드립니다.</p>
+      <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
+      <p style="color: #7b7b7b">
+        매월 추첨을 통해 정성스럽게 리뷰를 써주신 분들께 30경★을 드립니다.
+      </p>
     </v-row>
     <v-row>
       <v-col cols="1"></v-col>
       <v-col cols="10">
         <v-sheet class="mx-auto" style="width: 100%">
-          <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
+          <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
             <v-slide-group-item v-for="n in 15" :key="n">
-              <v-card link="true" style="height: 250px; margin-right: 60px !important;" class="mx-auto my-12" max-width="350"
-                min-width="300">
-
+              <v-card
+                link
+                style="height: 250px; margin-right: 30px !important"
+                class="mx-auto my-12"
+                max-width="300"
+                min-width="250"
+              >
                 <v-card-item>
                   <v-card-title>학원 이름</v-card-title>
 
                   <v-card-subtitle>
                     <span class="mr-1">학원 주소</span>
 
-                    <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
+                    <v-icon
+                      color="error"
+                      icon="mdi-fire-circle"
+                      size="small"
+                    ></v-icon>
                   </v-card-subtitle>
                 </v-card-item>
 
                 <v-card-text>
                   <v-row align="center" class="mx-0">
-                    <v-rating :model-value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
+                    <v-rating
+                      :model-value="4.5"
+                      color="amber"
+                      dense
+                      half-increments
+                      readonly
+                      size="14"
+                    ></v-rating>
 
-                    <div class="text-grey ms-4">
-                      4.5 (413)
-                    </div>
+                    <div class="text-grey ms-4">4.5 (413)</div>
                   </v-row>
                 </v-card-text>
 
                 <v-divider class="mx-4 mb-5 my-5"></v-divider>
 
-                <div class="px-4 mb-10 txt_line" style="padding: 15px;">
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다.
+                <div class="px-4 mb-10 txt_line" style="padding: 15px">
+                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
+                  사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만
+                  모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다.
+                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
+                  사탄들만 모집한다. 우리는 사탄들만 모집한다.
                 </div>
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
-
         </v-sheet>
       </v-col>
       <v-col cols="1"></v-col>
@@ -304,14 +597,48 @@
 </template>
 
 <script>
+import { ApiRequester } from "@/utils";
+
 export default {
   data: () => ({
-    text: 'left',
-  })
-}
+    text: "left",
+    toggle: "",
+    ages: Array,
+    subjects: [],
+    subjectsItems: [],
+    area: "",
+    selectedArea: "서울",
+    radioGroupItems: {
+      서울: ["강남", "서초", "송파"],
+      강원: ["강릉", "원주", "춘천"],
+      경북: ["안동", "경주", "포항"],
+      경남: ["창원", "진주", "거제"],
+      충북: ["청주", "충주", "제천"],
+      충남: ["천안", "아산", "논산"],
+      전북: ["전주", "익산", "군산"],
+      전남: ["여수", "순천", "목포"],
+      제주: ["서귀포", "제주"],
+      인천: ["동구", "중구", "서구"],
+      대구: ["동구", "중구", "서구"],
+      대전: ["동구", "중구", "서구"],
+      부산: ["동구", "중구", "서구"],
+      울산: ["동구", "중구", "서구"],
+      광주: ["동구", "중구", "서구"],
+    },
+  }),
+  mounted() {
+    ApiRequester.get("/api/subjects").then((res) => {
+      this.subjectsItems = res.data.data.map((v) => v.name);
+    });
+  },
+};
 </script>
 
 <style scoped>
+.selected-chip {
+  background-color: #fd9f28;
+  color: white;
+}
 .txt_line {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -327,5 +654,17 @@ export default {
 
 .v-btn-selected {
   color: white !important;
+  background-color: #fd9f28 !important;
+}
+
+.toggle-select-box {
+  background-color: white;
+  left: 33.2%;
+  position: absolute;
+  z-index: 10;
+  border: 1px solid #ababab;
+  border-radius: 10px;
+  /* overflow-y: scroll;  */
+  box-shadow: 2px 2px 12px 1px grey;
 }
 </style>
