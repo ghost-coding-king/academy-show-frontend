@@ -35,7 +35,7 @@ const ApiRequester = (() => {
     return AuthUtil.refreshAccessToken()
       .then((refreshResult) => {
         if(!refreshResult)
-          return res;
+          throw res;
         return BaseApiRequester.request(AuthUtil.setAccessTokenToConfig(res.config))
       });
   }
@@ -46,17 +46,30 @@ const ApiRequester = (() => {
    */
   const responseChecker = (responsePromise) => {
     return responsePromise
+
+      /** 
+       * 응답이 정상인 경우
+       */
       .then(res => {
         /** 인증오류가 아니면 바로 반환 */
         if(res.data.code !== STATUS_CODES.NOT_AUTHENTICATED)
           return res;
 
-        /** token refresh 시도후 다시 재요청한 Promise를 반환한다.  */
-        return reRequestAtherTokenRefresh(res)
-          .catch(err => err.response);
+        /** 
+         * token refresh 시도후 다시 재요청한 Promise를 반환한다. 
+         * 만약 실패시 처음 실패했던 response를 반환해준다.
+         */
+        return reRequestAtherTokenRefresh(res).catch(() => res);
+
+      /** 
+       * 응답이 비정상인 경우 
+       */
       }).catch(err => {
+        /** http 상태코드가 401이 아니면 에러를 다시 던진다. */
         if(err.response.status !== 401)
           throw err;
+
+        /** token을 재발행하여 다시 시도한다. */
         return reRequestAtherTokenRefresh(err.response);
       })
   }
