@@ -1,5 +1,8 @@
 <template>
-  찜 목록
+  <v-row style="margin-top: 50px" no-gutters>
+    <v-col cols="1"></v-col>
+    <h1>찜 목록</h1>
+  </v-row>
 </template>
 
 <script>

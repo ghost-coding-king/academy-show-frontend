@@ -9,6 +9,7 @@ export default createStore({
       accessToken: '',
       username: '',
       role: '',
+      profile: '',
     }
   },
   mutations: {
@@ -23,6 +24,9 @@ export default createStore({
     },
     role (state, newRole) {
       state.role = newRole;
+    },
+    profile (state, newProfile) {
+      state.profile = newProfile;
     }
   },
   actions: {
@@ -41,6 +45,7 @@ const STORE_COMMENDS = {
     ACCESS_TOKEN: "accessToken",
     USERNAME: "username",
     ROLE: "role",
+    PROFILE: "profile",
   },
   ACTIONS: {
 

@@ -19,6 +19,8 @@ import MyFavorite from '@/components/main-page/my-page/MyFavorite'
 import MyAcademy from '@/components/main-page/my-page/MyAcademy'
 import MyTuToring from '@/components/main-page/my-page/MyTutoring'
 
+import SearchResult from '@/components/main-page/SearchResult'
+
 
 const routes = [
   {
@@ -39,6 +41,12 @@ const routes = [
       path: '/project',
       component: Project,
       meta: {title: '프로젝트'}
+    },
+    {
+      path: '/search',
+      name: '/search',
+      component: SearchResult,
+      props: true
     },
     {
       path: '/my-page',

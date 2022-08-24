@@ -68,6 +68,7 @@ export default {
                     if (res.data.code == 200) {
                         this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, res.data.data.username)
                         this.$store.commit(STORE_COMMENDS.MUTATIONS.ROLE, res.data.data.role)
+                        this.$store.commit(STORE_COMMENDS.MUTATIONS.PROFILE, res.data.data.profile)
                         AuthUtil.setAccessToken(res);
                         this.$emit('afterLogin')
                     } else {
