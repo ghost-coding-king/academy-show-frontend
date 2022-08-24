@@ -28,7 +28,7 @@
     <v-col v-if="toggle == 'age'" cols="4" class="toggle-select-box" style="height: 550px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.ages = []" class="mr-1" color="#f2f2f2" flat>초기화</v-btn>
-        <v-btn @click="this.toggle = ''" color="#fd9f28" flat style="color: white">완료</v-btn>
+        <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
       </div>
       <div style="overflow-y: scroll; height: 475px; padding: 0 20px">
         <v-chip-group v-model="ages" column multiple>
@@ -152,7 +152,7 @@ export default {
   },
   methods: {
     search() {
-
+      this.$router.push('/search?searchType=category')
     }
   }
 }
