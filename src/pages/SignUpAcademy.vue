@@ -459,7 +459,9 @@ export default {
     validate() {
       this.isBirthVaild = this.birth != '';
       if (!this.idDuplicate && !this.idConfirm && this.id != undefined) {
-        this.idDuplicateCheck = true
+        if (this.id != '') {
+          this.idDuplicateCheck = true
+        }
       }
       this.$refs.form.validate().then(
         result => {
