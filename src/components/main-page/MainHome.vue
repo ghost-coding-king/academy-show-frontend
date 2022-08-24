@@ -17,290 +17,22 @@
     </v-row>
     <v-row no-gutters justify="center" class="mb-8">
       <v-btn-toggle
-        v-model="text"
+        v-model="searchType"
         tile
         group
         mandatory
         selected-class="v-btn-selected"
         style="box-shadow: 1px 1px 5px 1px grey"
       >
-        <v-btn value="left" style="background-color: #f2f2f2"> 카테고리 </v-btn>
+        <v-btn value="category" style="background-color: #f2f2f2"> 카테고리 </v-btn>
 
-        <v-btn value="center" style="background-color: #f2f2f2"> 학원명 </v-btn>
+        <v-btn value="name" style="background-color: #f2f2f2"> 학원명 </v-btn>
       </v-btn-toggle>
     </v-row>
-    <v-row no-gutters>
-      <v-col cols="4"></v-col>
-      <v-text-field
-        v-if="this.text == 'center'"
-        variant="outlined"
-        append-inner-icon="mdi-magnify"
-      ></v-text-field>
 
-      <v-row
-        align="center"
-        justify="center"
-        style="
-          border: 1px solid #ababab;
-          margin-bottom: 22px;
-          padding: 3px;
-          border-radius: 5px;
-        "
-        no-gutters
-        v-else
-      >
-        <v-btn-toggle v-model="toggle" divided class="mx-auto">
-          <v-btn value="age" prepend-icon="fa-solid fa-user">연령 선택</v-btn>
-          <v-btn value="subject" prepend-icon="fa-solid fa-book"
-            >과목 선택</v-btn
-          >
-          <v-btn value="area" prepend-icon="fa-solid fa-location-dot"
-            >지역 선택</v-btn
-          >
-        </v-btn-toggle>
-
-        <v-btn color="#fd9f28" flat style="margin-right: 5px"
-          ><span style="color: white">검색</span></v-btn
-        >
-      </v-row>
-      <v-col cols="4"></v-col>
-    </v-row>
-    <v-row no-gutters>
-      <v-col
-        v-if="toggle == 'age'"
-        cols="4"
-        class="toggle-select-box"
-        style="height: 550px"
-      >
-        <div style="display: flex; justify-content: right; padding: 15px">
-          <v-btn @click="this.ages = Array" class="mr-1" color="#f2f2f2" flat
-            >초기화</v-btn
-          >
-          <v-btn
-            @click="this.toggle = ''"
-            color="#fd9f28"
-            flat
-            style="color: white"
-            >완료</v-btn
-          >
-        </div>
-        <div style="overflow-y: scroll; height: 475px; padding: 0 20px">
-          <v-chip-group v-model="ages" column multiple>
-            <div>
-              <h3 class="mb-2">유아</h3>
-              <v-chip
-                value="유아 5세"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >5세</v-chip
-              >
-              <v-chip
-                value="유아 6세"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >6세</v-chip
-              >
-              <v-chip
-                value="유아 7세"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >7세</v-chip
-              >
-            </div>
-            <v-divider style="margin: 15px 0"></v-divider>
-            <div>
-              <h3 class="mb-2">초등학교</h3>
-              <v-chip
-                value="초등학교 1학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >1학년</v-chip
-              >
-              <v-chip
-                value="초등학교 2학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >2학년</v-chip
-              >
-              <v-chip
-                value="초등학교 3학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >3학년</v-chip
-              >
-              <v-chip
-                value="초등학교 4학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >4학년</v-chip
-              >
-              <v-chip
-                value="초등학교 5학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >5학년</v-chip
-              >
-              <v-chip
-                value="초등학교 6학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >6학년</v-chip
-              >
-            </div>
-            <v-divider style="margin: 15px 0"></v-divider>
-            <div>
-              <h3 class="mb-2">중학교</h3>
-              <v-chip
-                value="중학교 1학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >1학년</v-chip
-              >
-              <v-chip
-                value="중학교 2학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >2학년</v-chip
-              >
-              <v-chip
-                value="중학교 3학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >3학년</v-chip
-              >
-            </div>
-            <v-divider style="margin: 15px 0"></v-divider>
-            <div>
-              <h3 class="mb-2">고등학교</h3>
-              <v-chip
-                value="고등학교 1학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >1학년</v-chip
-              >
-              <v-chip
-                value="고등학교 2학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >2학년</v-chip
-              >
-              <v-chip
-                value="고등학교 3학년"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >3학년</v-chip
-              >
-            </div>
-            <v-divider style="margin: 15px 0"></v-divider>
-            <div>
-              <h3 class="mb-2">고등학교 졸업</h3>
-              <v-chip
-                value="성인"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >성인</v-chip
-              >
-            </div>
-          </v-chip-group>
-        </div>
-      </v-col>
-
-      <v-col
-        v-if="toggle == 'subject'"
-        cols="4"
-        class="toggle-select-box"
-        style="height: 300px"
-      >
-        <div style="display: flex; justify-content: right; padding: 15px">
-          <v-btn @click="this.subjects = []" class="mr-1" color="#f2f2f2" flat
-            >초기화</v-btn
-          >
-          <v-btn
-            @click="this.toggle = ''"
-            color="#fd9f28"
-            flat
-            style="color: white"
-            >완료</v-btn
-          >
-        </div>
-        <div style="overflow-y: scroll; height: 230px; padding: 0 20px">
-          <v-chip-group v-model="subjects" column multiple>
-            <div>
-              <h3 class="mb-2">과목</h3>
-              <v-chip
-                v-for="(name, i) in this.subjectsItems"
-                :key="i"
-                :value="name"
-                filter
-                variant="outlined"
-                selected-class="selected-chip"
-                >{{ name }}</v-chip
-              >
-            </div>
-          </v-chip-group>
-        </div>
-      </v-col>
-      <v-col
-        v-if="toggle == 'area'"
-        cols="4"
-        class="toggle-select-box"
-        style="height: 620px"
-      >
-        <div style="display: flex; justify-content: right; padding: 15px">
-          <v-btn @click="this.area = ''" class="mr-1" color="#f2f2f2" flat
-            >초기화</v-btn
-          >
-          <v-btn
-            @click="this.toggle = ''"
-            color="#fd9f28"
-            flat
-            style="color: white"
-            >완료</v-btn
-          >
-        </div>
-        <v-row no-gutters>
-          <v-col cols="4" style="padding: 0 10px; height: 530px">
-            <v-btn-toggle
-              v-model="selectedArea"
-              mandatory
-              style="display: block; height: 520px; overflow-y: scroll;"
-            >
-              <v-btn flat block style="height: 40px" :value="name" v-for="(name, i) in Object.keys(this.radioGroupItems)" :key="i">{{ name }}</v-btn>
-            </v-btn-toggle>
-          </v-col>
-          <v-divider vertical></v-divider>
-          <v-col cols="8" style="padding: 0 10px; height: 530px">
-            <h3 class="ml-2">행정구역</h3>
-            <v-divider style="margin: 10px 0"></v-divider>
-            <v-radio-group v-model="area">
-              <v-radio
-                :label="name"
-                :value="selectedArea + ' ' + name"
-                v-for="(name, i) in this.radioGroupItems[this.selectedArea]"
-                :key="i"
-              ></v-radio>
-            </v-radio-group>
-          </v-col>
-        </v-row>
-        <div style="overflow-y: scroll; height: 475px; padding: 0 20px"></div>
-      </v-col>
-    </v-row>
+    
+    <SearchBox :searchType="searchType" :searchPage="searchPage"></SearchBox>
+    
 
     <v-row no-gutters style="justify-content: space-between">
       <v-col cols="4"></v-col>
@@ -598,39 +330,44 @@
 
 <script>
 import { ApiRequester } from "@/utils";
+import SearchBox from "./SearchBox.vue";
 
 export default {
-  data: () => ({
-    text: "left",
-    toggle: "",
-    ages: Array,
-    subjects: [],
-    subjectsItems: [],
-    area: "",
-    selectedArea: "서울",
-    radioGroupItems: {
-      서울: ["강남", "서초", "송파"],
-      강원: ["강릉", "원주", "춘천"],
-      경북: ["안동", "경주", "포항"],
-      경남: ["창원", "진주", "거제"],
-      충북: ["청주", "충주", "제천"],
-      충남: ["천안", "아산", "논산"],
-      전북: ["전주", "익산", "군산"],
-      전남: ["여수", "순천", "목포"],
-      제주: ["서귀포", "제주"],
-      인천: ["동구", "중구", "서구"],
-      대구: ["동구", "중구", "서구"],
-      대전: ["동구", "중구", "서구"],
-      부산: ["동구", "중구", "서구"],
-      울산: ["동구", "중구", "서구"],
-      광주: ["동구", "중구", "서구"],
+    data: () => ({
+        searchType: "category",
+        toggle: "",
+        ages: [],
+        subjects: [],
+        subjectsItems: [],
+        area: "",
+        selectedArea: "서울",
+        radioGroupItems: {
+            서울: ["강남", "서초", "송파"],
+            강원: ["강릉", "원주", "춘천"],
+            경북: ["안동", "경주", "포항"],
+            경남: ["창원", "진주", "거제"],
+            충북: ["청주", "충주", "제천"],
+            충남: ["천안", "아산", "논산"],
+            전북: ["전주", "익산", "군산"],
+            전남: ["여수", "순천", "목포"],
+            제주: ["서귀포", "제주"],
+            인천: ["동구", "중구", "서구"],
+            대구: ["동구", "중구", "서구"],
+            대전: ["동구", "중구", "서구"],
+            부산: ["동구", "중구", "서구"],
+            울산: ["동구", "중구", "서구"],
+            광주: ["동구", "중구", "서구"],
+        },
+    }),
+    mounted() {
+        ApiRequester.get("/api/subjects").then((res) => {
+            this.subjectsItems = res.data.data.map((v) => v.name);
+        });
     },
-  }),
-  mounted() {
-    ApiRequester.get("/api/subjects").then((res) => {
-      this.subjectsItems = res.data.data.map((v) => v.name);
-    });
-  },
+    props: {
+      searchPage: Boolean,
+    },
+    components: { SearchBox }
 };
 </script>
 
@@ -666,5 +403,9 @@ export default {
   border-radius: 10px;
   /* overflow-y: scroll;  */
   box-shadow: 2px 2px 12px 1px grey;
+}
+
+.select-complete {
+  color: #66BB6A !important;
 }
 </style>

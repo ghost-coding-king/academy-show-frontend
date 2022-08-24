@@ -1,9 +1,9 @@
 <template>
 <v-app>
-  <BasicHeader :title="'전국학원자랑'" @loginModalClicked="loginModalClicked"></BasicHeader>
+  <BasicHeader :searchType="searchType" :searchPage="searchPage" :title="'전국학원자랑'" @loginModalClicked="loginModalClicked"></BasicHeader>
     <v-main style="min-width: 1350px">
       <LoginModal v-if="isLoginModalView" @afterLogin="this.isLoginModalView=false" @closeModal="this.isLoginModalView=false"></LoginModal>
-      <router-view></router-view>
+      <router-view :searchType="searchType" :searchPage="searchPage" @outSearchPage="outSearchPage" @onSearchPage="onSearchPage"></router-view>
     </v-main>
   <BasicFooter></BasicFooter>
 </v-app>
@@ -23,10 +23,20 @@ export default {
 },
   data: () => ({
     isLoginModalView: false,
+    searchPage: false,
+    searchType: '',
   }),
   methods: {
     loginModalClicked() {
       this.isLoginModalView=true
+    },
+    onSearchPage(searchType) {
+      this.searchPage = true
+      this.searchType = searchType
+    },
+    outSearchPage() {
+      this.searchPage = false
+      this.searchType = ''
     },
   }
 

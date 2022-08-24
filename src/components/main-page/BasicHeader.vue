@@ -5,8 +5,12 @@
     <v-col cols="2">
       <v-app-bar-title><img id="mainLogo" @click="this.$router.push('/')" :src="require('../../assets/images/logo.png')" style="width: 100px; margin-top: 10px" /></v-app-bar-title>
     </v-col>
+
+    <div v-if="searchPage" style="margin-top: 20px;">
+    <SearchBox :searchType="searchType" :searchPage="searchPage" ></SearchBox>
+    </div>
     
-    <v-tabs style="margin-top: 20px;" next-icon="mdi-arrow-right-bold-box-outline"
+    <v-tabs v-else style="margin-top: 20px;" next-icon="mdi-arrow-right-bold-box-outline"
       prev-icon="mdi-arrow-left-bold-box-outline" show-arrows>
       <v-tab @click="this.$router.push(pageLink)" hide-slider>
         학원
@@ -21,6 +25,8 @@
         ★우경진 암살 의뢰★
       </v-tab>
     </v-tabs>
+    
+    
     <v-spacer></v-spacer>
 
     <div v-if="accessToken==''">
@@ -79,56 +85,61 @@
 <script>
 import {mapState} from 'vuex'
 import {STORE_COMMENDS} from '@/store'
+import SearchBox from './SearchBox.vue'
 
 export default {
-  computed: mapState([
-    'accessToken', 'username', 'role'
-  ]), 
-  data: () => ({
-    myAppbarHide: false,
-    pageList: ['/', 'editor', 'project'],
-  }),
-  props: {
-    title: String
-  },
-  mounted() {
-    window.addEventListener('scroll', this.onScroll)
-  },
-  methods: {
-    logout() {
-      this.$store.commit(STORE_COMMENDS.MUTATIONS.ACCESS_TOKEN, '')
-      this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, '')
-      this.$store.commit(STORE_COMMENDS.MUTATIONS.ROLE, '')
-      this.$router.push('/')
+    computed: mapState([
+        "accessToken",
+        "username",
+        "role"
+    ]),
+    data: () => ({
+        myAppbarHide: false,
+        pageList: ["/", "editor", "project"],
+    }),
+    props: {
+        title: String,
+        searchPage: Boolean,
+        searchType: String,
     },
-    token() {
-      console.log(this.accessToken);
+    mounted() {
+        window.addEventListener("scroll", this.onScroll);
     },
-    onScroll() {
-      // Get the current scroll position
-      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
-      // Because of momentum scrolling on mobiles, we shouldn't continue if it is less than zero
-      if (currentScrollPosition < 0) {
-        return
-      }
-      if (currentScrollPosition > 80) {
-        this.myAppbarHide = true;
-      }
-      if (currentScrollPosition < this.lastScrollPosition) {
-        this.myAppbarHide = false;
-      }
-
-      this.lastScrollPosition = currentScrollPosition
+    methods: {
+        logout() {
+            this.$store.commit(STORE_COMMENDS.MUTATIONS.ACCESS_TOKEN, "");
+            this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, "");
+            this.$store.commit(STORE_COMMENDS.MUTATIONS.ROLE, "");
+            this.$router.push("/");
+        },
+        token() {
+            console.log(this.accessToken);
+        },
+        onScroll() {
+            // Get the current scroll position
+            const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+            // Because of momentum scrolling on mobiles, we shouldn't continue if it is less than zero
+            if (currentScrollPosition < 0) {
+                return;
+            }
+            if (currentScrollPosition > 80) {
+                this.myAppbarHide = true;
+            }
+            if (currentScrollPosition < this.lastScrollPosition) {
+                this.myAppbarHide = false;
+            }
+            this.lastScrollPosition = currentScrollPosition;
+        },
+        loginModalClicked() {
+            this.$emit("loginModalClicked", true);
+        }
     },
-    loginModalClicked() {
-      this.$emit('loginModalClicked', true)
-    }
-  },
-  name: 'BasicHeader'
+    name: "BasicHeader",
+    components: { SearchBox }
 }
 </script>
 
-<style>
+<style scoped>
 
 .my-app-bar {
   transition: all ease 0.2s 0s;
@@ -167,4 +178,5 @@ export default {
   background-color: #ffae28 !important;
   border-color: #ffae28 !important;
 }
+
 </style>
