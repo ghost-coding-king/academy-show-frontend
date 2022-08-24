@@ -6,69 +6,86 @@
   <v-row no-gutters>
     <v-col cols="1"></v-col>
     <v-col cols="10">
-    <v-table style="width: 100%;">
-    <thead>
-      <tr>
-        <th class="text-left" style="width: 200px">
-        </th>
-        <th class="text-left">
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>아이디</td>
-        <td>
-          {{ myInfo.username }}
-        </td>
-      </tr>
-      <tr>
-        <td>이름</td>
-        <td>
-          {{ myInfo.name }}
-        </td>
-      </tr>
-      <tr>
-        <td>생일</td>
-        <td>
-          {{ myInfo.birth }}
-        </td>
-      </tr>
-      <tr>
-        <td>주소</td>
-        <td>
-          <v-row no-gutters style="margin-top: 10px;">
-                  <v-text-field v-model="myInfo.postcode" filled placeholder="우편번호" variant="outlined" readonly>
-                    </v-text-field>
-                  <v-btn style="margin-left: 5px; margin-bottom: 5px" @click="execDaumPostcode">우편번호 찾기</v-btn>
-                  <v-col cols="6"></v-col>
-          </v-row>
-          <v-row no-gutters>
-                  <input type="text" v-model="address"
-                      style="border: 1px solid #ababab; border-radius: 5px; width:378px; height: 56px; padding: 15px" placeholder="주소"
-                      readonly/>
-                  </v-row>
+      <v-table style="width: 100%;">
+        <thead>
+          <tr>
+            <th class="text-left" style="width: 200px">
+            </th>
+            <th class="text-left">
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>프로필 사진</td>
+            <td style="padding: 10px">
 
-                  <v-row no-gutters style="margin-bottom: 10px">
-                  <input type="text" v-model="myInfo.subAddress"
-                      style="border: 1px solid #ababab; border-radius: 5px; width:200px; height: 56px; padding: 15px; margin-top:2px" placeholder="상세주소"/>
+              <v-avatar v-if="myInfo.profile != undefined && myInfo.profile != ''" size="200"
+                :image="this.myInfo.profile" style="border: 1px solid grey"></v-avatar>
+              <v-avatar v-else color="#fd9f28" size="200" style="background-color: #fd9f28;">
+                <v-icon color="white" icon="fa-solid fa-user" size="100"></v-icon>
+              </v-avatar>
+              <v-btn style="margin-bottom: 150px" icon flat color="#f5f5f5" @click="this.myInfo.profile=''; this.file=''">x</v-btn>
+              <v-file-input v-model="file" accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar"
+                @change="imageUpload" prepend-icon="mdi-camera" label="사진을 등록하세요."
+                style="max-width: 378px; margin-left: 20px; margin-top: 7px"></v-file-input>
+            </td>
+          </tr>
+          <tr>
+            <td>아이디</td>
+            <td>
+              {{ myInfo.username }}
+            </td>
+          </tr>
+          <tr>
+            <td>이름</td>
+            <td>
+              {{ myInfo.name }}
+            </td>
+          </tr>
+          <tr>
+            <td>생일</td>
+            <td>
+              {{ myInfo.birth }}
+            </td>
+          </tr>
+          <tr>
+            <td>주소</td>
+            <td>
+              <v-row no-gutters style="margin-top: 10px;">
+                <v-text-field v-model="myInfo.postcode" filled placeholder="우편번호" variant="outlined" readonly>
+                </v-text-field>
+                <v-btn style="margin-left: 5px; margin-bottom: 5px" @click="execDaumPostcode">우편번호 찾기</v-btn>
+                <v-col cols="6"></v-col>
+              </v-row>
+              <v-row no-gutters>
+                <input type="text" v-model="address"
+                  style="border: 1px solid #ababab; border-radius: 5px; width:378px; height: 56px; padding: 15px"
+                  placeholder="주소" readonly />
+              </v-row>
 
-                  <v-col cols="6"></v-col>
-                  </v-row>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>전화번호</td>
-        <td>
-          <v-text-field v-model="myInfo.phone" variant="outlined" style="margin-top: 20px; width: 378px"></v-text-field>
-        </td>
-      </tr>
-    </tbody>
-  </v-table>
-  </v-col>
-  <v-col cols="1"></v-col>
-    </v-row>
+              <v-row no-gutters style="margin-bottom: 10px">
+                <input type="text" v-model="myInfo.subAddress"
+                  style="border: 1px solid #ababab; border-radius: 5px; width:200px; height: 56px; padding: 15px; margin-top:2px"
+                  placeholder="상세주소" />
+
+                <v-col cols="6"></v-col>
+              </v-row>
+            </td>
+          </tr>
+
+          <tr>
+            <td>전화번호</td>
+            <td>
+              <v-text-field v-model="myInfo.phone" variant="outlined" style="margin-top: 20px; width: 378px">
+              </v-text-field>
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
+    </v-col>
+    <v-col cols="1"></v-col>
+  </v-row>
   <v-row no-gutters style="display: flex; justify-content: right; margin-bottom: 200px;">
     <v-btn style="background-color: #fd9f28; color: white;" @click="sendUpdateMyInfo">수정하기</v-btn>
     <v-col cols="1"></v-col>
@@ -78,27 +95,42 @@
 <script>
 import { ApiRequester } from '@/utils';
 import Urls from '@/consts/urls';
+import {STORE_COMMENDS} from '@/store'
 
 export default {
   data: () => ({
     myInfo: Object,
     address: undefined,
     myInfoUpdateForm: '',
+    file: '',
   }),
   mounted() {
     ApiRequester.get(Urls.MAIN_API.USER.MY_INFO)
-    .then(res => {
-      this.myInfo = res.data.data
-      this.address = this.myInfo.selectRoadAddress ? this.myInfo.roadAddress : this.myInfo.jibunAddress
-    })
+      .then(res => {
+        this.myInfo = res.data.data
+        this.address = this.myInfo.selectRoadAddress ? this.myInfo.roadAddress : this.myInfo.jibunAddress
+      })
   },
   methods: {
+    imageUpload() {
+      const formData = new FormData();
+      formData.append("file", this.file[0]);
+      ApiRequester.post('/api/files', formData)
+        .then(res => {
+          this.myInfo.profile = res.data.data
+        })
+        .catch(err => {
+          console.error("error: ", err)
+        }
+        )
+    },
     sendUpdateMyInfo() {
-        ApiRequester.patch(Urls.MAIN_API.USER.UPDATE_MY_INFO, this.myInfo)
+      ApiRequester.patch(Urls.MAIN_API.USER.UPDATE_MY_INFO, this.myInfo)
         .then(() => {
+          this.$store.commit(STORE_COMMENDS.MUTATIONS.PROFILE, this.myInfo.profile)
           alert('수정이 완료되었습니다')
         })
-    },  
+    },
     execDaumPostcode() {
       new window.daum.Postcode({
         oncomplete: (data) => {
@@ -148,5 +180,4 @@ export default {
 </script>
 
 <style>
-
 </style>

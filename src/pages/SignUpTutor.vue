@@ -136,6 +136,34 @@
                     <v-col cols="6"></v-col>
                   </v-row>
 
+                  <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
+                    <v-col cols="2"></v-col>
+                    <h3>프로필 사진</h3>
+                  </v-row>
+                  <v-row no-gutters>
+                    <v-col cols="2"></v-col>
+                    <v-avatar v-if="this.userProfileUrl != ''"
+                      :image="this.userProfileUrl"
+                      size="60"
+                      style="border: 1px solid grey"
+                    >
+                    </v-avatar>
+
+                    <v-avatar v-else
+                      size="60"
+                      color="#fd9f28"
+                    >
+                    <v-icon color="white" icon="fa-solid fa-user"></v-icon>
+                    </v-avatar>
+
+                    <v-col>
+                    <v-file-input v-model="userProfile" accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar" @change="imageUpload('userProfile')"
+                    prepend-icon="mdi-camera" label="사진을 등록하세요."
+                      style="max-width: 378px; margin-left: 20px; margin-top: 7px"></v-file-input>
+                    </v-col>
+                    <v-col cols="2"></v-col>
+                  </v-row>
+
 
 
                   <v-row no-gutters style="margin-top:10px">
@@ -164,7 +192,7 @@
             </v-row>
           </v-row>
 
-          <v-row style="width:1000px; margin:0 auto" v-if="!stepComplete">
+          <v-row style="width:1000px; margin:0 auto" v-if="stepComplete">
             <v-row justify="center" no-gutters>
               <v-card class="mx-auto" style="max-width: 500px; margin: 50px 0;" elevation="6" width="600">
                 <v-timeline direction="horizontal" line-inset="12">
@@ -222,7 +250,7 @@
                     <v-file-input v-model="certification"
                     accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar"
                     :rules="[rules.requiredtutorRegistration]"
-                      prepend-icon="mdi-camera" label="사진을 등록하세요." style="max-width: 378px;" @change="imageUpload"
+                      prepend-icon="mdi-camera" label="사진을 등록하세요." style="max-width: 378px;" @change="imageUpload('certification')"
                       ></v-file-input>
                     <v-col cols="2"></v-col>
                   </v-row>
@@ -280,7 +308,7 @@ export default {
     detailAddress: undefined,
     agreement: false,
     dialog: false,
-    id: undefined,
+    id: '',
     form: false,
     isLoading: false,
     password: undefined,
@@ -294,6 +322,8 @@ export default {
     idDuplicateCheck: false,
     userSignUpForm: undefined,
     tutorRequestForm: undefined,
+    userProfileUrl: '',
+    userProfile: undefined,
     rules: {
       requiredId: v => !!v || '아이디를 입력해주세요.',
       Id: v => !!(v || '').match(/^[a-zA-Z0-9]+$/) || '영어와 숫자만 입력 가능합니다.',
@@ -316,6 +346,10 @@ export default {
   }),
   methods: {
     idCheck () {
+      if (this.id == '') {
+        alert('아이디를 입력해주세요.')
+        return;
+      }
       ApiRequester.post(Urls.MAIN_API.AUTH.USERNAME_CHECK, {'username': this.id})
       .then(res => {
         if(res.data.data) {
@@ -327,12 +361,20 @@ export default {
         }
       })
     },
-    imageUpload() {
+    imageUpload(uploadType) {
       const formData = new FormData();
-      formData.append("file", this.certification[0]);
+      if (uploadType == 'userProfile') {
+        formData.append("file", this.userProfile[0]);
+        } else {
+          formData.append("file", this.certification[0]);
+        }
       ApiRequester.post('/api/files', formData)
         .then(res => {
-          this.certficationFileUrl = res.data.data
+          if (uploadType == 'userProfile') {
+            this.userProfileUrl = res.data.data
+          } else {
+            this.certficationFileUrl = res.data.data
+          }
         })
         .catch(err => {
           console.error("error: ", err)
@@ -367,6 +409,7 @@ export default {
               postcode: this.postcode, 
               subAddress: this.detailAddress,
               selectRoadAddress: this.isRoadAddress,
+              profile: this.userProfileUrl,
             };
 
             this.tutorRequestForm = {

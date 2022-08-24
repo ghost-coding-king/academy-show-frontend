@@ -135,6 +135,34 @@
                     <v-col cols="6"></v-col>
                   </v-row>
 
+                  <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
+                    <v-col cols="2"></v-col>
+                    <h3>프로필 사진</h3>
+                  </v-row>
+                  <v-row no-gutters>
+                    <v-col cols="2"></v-col>
+                    <v-avatar v-if="this.userProfileFileUrl != ''"
+                      :image="this.userProfileFileUrl"
+                      size="60"
+                      style="border: 1px solid grey"
+                    >
+                    </v-avatar>
+
+                    <v-avatar v-else
+                      size="60"
+                      color="#fd9f28"
+                    >
+                    <v-icon color="white" icon="fa-solid fa-user"></v-icon>
+                    </v-avatar>
+
+                    <v-col>
+                    <v-file-input v-model="userProfileFile" accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar" @change="imageUpload('userProfile')"
+                    prepend-icon="mdi-camera" label="사진을 등록하세요."
+                      style="max-width: 378px; margin-left: 20px; margin-top: 7px"></v-file-input>
+                    </v-col>
+                    <v-col cols="2"></v-col>
+                  </v-row>
+
 
 
                   <v-row no-gutters style="margin-top:10px">
@@ -263,6 +291,34 @@
                     <v-col cols="2"></v-col>
                   </v-row>
 
+                  <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
+                    <v-col cols="2"></v-col>
+                    <h3>프로필 사진</h3>
+                  </v-row>
+                  <v-row no-gutters>
+                    <v-col cols="2"></v-col>
+                    <v-avatar v-if="this.academyProfileFileUrl != ''"
+                      :image="this.academyProfileFileUrl"
+                      size="60"
+                      style="border: 1px solid grey"
+                    >
+                    </v-avatar>
+
+                    <v-avatar v-else
+                      size="60"
+                      color="#fd9f28"
+                    >
+                    <v-icon color="white" icon="fa-solid fa-user"></v-icon>
+                    </v-avatar>
+
+                    <v-col>
+                    <v-file-input v-model="academyProfileFile" accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar" @change="imageUpload('academyProfile')"
+                    prepend-icon="mdi-camera" label="사진을 등록하세요."
+                      style="max-width: 378px; margin-left: 20px; margin-top: 7px"></v-file-input>
+                    </v-col>
+                    <v-col cols="2"></v-col>
+                  </v-row>
+
 
                   <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
                     <v-col cols="2"></v-col>
@@ -270,7 +326,7 @@
                   </v-row>
                   <v-row no-gutters>
                     <v-col cols="2"></v-col>
-                    <v-file-input v-model="file" accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar" @change="imageUpload"
+                    <v-file-input v-model="academyRegistrationFile" accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar" @change="imageUpload('registration')"
                       :rules="[rules.requiredAcademyRegistration]" prepend-icon="mdi-camera" label="사진을 등록하세요."
                       style="max-width: 378px;"></v-file-input>
                     <v-col cols="2"></v-col>
@@ -334,7 +390,7 @@ export default {
     detailAddress: undefined,
     agreement: false,
     dialog: false,
-    id: undefined,
+    id: '',
     form: false,
     isLoading: false,
     password: undefined,
@@ -349,14 +405,18 @@ export default {
     academyDetailAddress: undefined,
     academyIntroduce: undefined,
     academyAgreement: undefined,
-    file: undefined,
     shuttle: undefined,
     userSignUpForm: '',
     academySignUpForm: '',
-    fileUrl: '',
     idDuplicate: false,
     idConfirm: false,
     idDuplicateCheck: false,
+    academyRegistrationFile: undefined,
+    academyRegistrationFileUrl: '',
+    academyProfileFile: undefined,
+    academyProfileFileUrl: '',
+    userProfileFile: undefined,
+    userProfileFileUrl: '',
     rules: {
       requiredId: v => !!v || '아이디를 입력해주세요.',
       Id: v => !!(v || '').match(/^[a-zA-Z0-9]+$/) || '영어와 숫자만 입력 가능합니다.',
@@ -381,6 +441,10 @@ export default {
   }),
   methods: {
     idCheck () {
+      if (this.id == '') {
+        alert('아이디를 입력해주세요.')
+        return;
+      }
       ApiRequester.post(Urls.MAIN_API.AUTH.USERNAME_CHECK, {'username': this.id})
       .then(res => {
         if(res.data.data) {
@@ -420,6 +484,7 @@ export default {
               postcode: this.postcode, 
               subAddress: this.detailAddress,
               selectRoadAddress: this.isRoadAddress,
+              profile: this.userProfileFileUrl
             };
             this.academySignUpForm = {
               academyName: this.academyName,
@@ -432,7 +497,8 @@ export default {
               shuttle: this.shuttle,
               subjects: this.subjects,
               educations: this.academyAges,
-              registrationFile: this.fileUrl,
+              registrationFile: this.academyRegistrationFileUrl,
+              profile: this.academyProfileFileUrl
             };
             ApiRequester.post(Urls.MAIN_API.AUTH.ACADEMY, { 'userInfo': this.userSignUpForm, 'academyInfo': this.academySignUpForm })
               .then(() => {
@@ -442,13 +508,25 @@ export default {
         }
       )
     },
-    imageUpload() {
+    imageUpload(uploadType) {
+      console.log(uploadType);
       const formData = new FormData();
-      formData.append("file", this.file[0]);
+      if (uploadType == 'academyProfile') {
+        formData.append("file", this.academyProfileFile[0]);
+      } else if (uploadType == 'userProfile') {
+        formData.append("file", this.userProfileFile[0]);
+      } else {
+        formData.append("file", this.academyRegistrationFile[0]);
+      }
       ApiRequester.post('/api/files', formData)
         .then(res => {
-          this.fileUrl = res.data.data
-          console.log(this.fileUrl);
+          if (uploadType == 'academyProfile') {
+            this.academyProfileFileUrl = res.data.data
+          } else if (uploadType == 'userProfile') {
+            this.userProfileFileUrl = res.data.data
+          } else {
+            this.academyRegistrationFileUrl = res.data.data
+          }
         })
         .catch(err => {
           console.error("error: ", err)

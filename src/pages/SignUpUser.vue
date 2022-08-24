@@ -128,6 +128,34 @@
                   <v-col cols="6"></v-col>
                   </v-row>
 
+                  <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
+                    <v-col cols="2"></v-col>
+                    <h3>프로필 사진</h3>
+                  </v-row>
+                  <v-row no-gutters>
+                    <v-col cols="2"></v-col>
+                    <v-avatar v-if="this.fileUrl != ''"
+                      :image="this.fileUrl"
+                      size="60"
+                      style="border: 1px solid grey"
+                    >
+                    </v-avatar>
+
+                    <v-avatar v-else
+                      size="60"
+                      color="#fd9f28"
+                    >
+                    <v-icon color="white" icon="fa-solid fa-user"></v-icon>
+                    </v-avatar>
+
+                    <v-col>
+                    <v-file-input v-model="file" accept="image/png, image/jpeg, image/bmp" placeholder="Pick an avatar" @change="imageUpload"
+                    prepend-icon="mdi-camera" label="사진을 등록하세요."
+                      style="max-width: 378px; margin-left: 20px; margin-top: 7px"></v-file-input>
+                    </v-col>
+                    <v-col cols="2"></v-col>
+                  </v-row>
+
 
 
                   <v-row no-gutters style="margin-top:10px">
@@ -183,7 +211,7 @@ export default {
     isRoadAddress: false,
     agreement: false,
     dialog: false,
-    id: undefined,
+    id: '',
     form: false,
     isLoading: false,
     password: undefined,
@@ -193,6 +221,8 @@ export default {
     idConfirm: false,
     idDuplicateCheck: false,
     userSignUpForm: '',
+    fileUrl: '',
+    file: undefined,
     rules: {
       requiredId: v => !!v  || '아이디를 입력해주세요.',
       Id: v => !!(v || '').match(/^[a-zA-Z0-9]+$/) || '영어와 숫자만 입력 가능합니다.',
@@ -206,7 +236,23 @@ export default {
     },
   }),
   methods: {
+    imageUpload() {
+      const formData = new FormData();
+      formData.append("file", this.file[0]);
+      ApiRequester.post('/api/files', formData)
+        .then(res => {
+          this.fileUrl = res.data.data
+        })
+        .catch(err => {
+          console.error("error: ", err)
+        }
+        )
+    },
     idCheck () {
+      if (this.id == '') {
+        alert('아이디를 입력해주세요.')
+        return;
+      }
       ApiRequester.post(Urls.MAIN_API.AUTH.USERNAME_CHECK, {'username': this.id})
       .then(res => {
         if(res.data.data) {
@@ -236,9 +282,9 @@ export default {
               jibunAddress: this.jibunAddress,
               postcode: this.postcode, 
               subAddress: this.detailAddress,
-              selectRoadAddress: this.isRoadAddress,
+              isRoadAddress: this.isRoadAddress,
+              profile: this.fileUrl,
             }
-
             ApiRequester.post(Urls.MAIN_API.AUTH.USER, this.userSignUpForm)
             .then(() => {
               this.$router.push({name: '/sign-up/complete', params: {username: this.name}})
