@@ -66,7 +66,7 @@ export default {
             ApiRequester.post(Urls.MAIN_API.AUTH.SIGNIN, { "username": this.username, "password": this.password })
                 .then(res => {
                     if (res.data.code == 200) {
-                        this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, res.data.data.username)
+                        this.$store.commit(STORE_COMMENDS.MUTATIONS.NAME, res.data.data.name)
                         this.$store.commit(STORE_COMMENDS.MUTATIONS.ROLE, res.data.data.role)
                         this.$store.commit(STORE_COMMENDS.MUTATIONS.PROFILE, res.data.data.profile)
                         AuthUtil.setAccessToken(res);

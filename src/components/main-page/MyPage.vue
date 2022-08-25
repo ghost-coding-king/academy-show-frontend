@@ -5,7 +5,7 @@
       <v-navigation-drawer floating permanent style="padding-top: 20px" disable-route-watcher>
         <div style="text-align: left; margin-top: 30px">
           <v-icon style="font-size: 3rem; margin-right: 20px; color: #fd9f28" icon="fa-solid fa-square-pen"></v-icon>
-          <span style="font-weight: bold; font-size: 1.1rem;">{{ username }}님
+          <span style="font-weight: bold; font-size: 1.1rem;">{{ name }}님
             <sub v-if="role == 'ROLE_MEMBER'" style="font-size: 0.7rem; color: #a0a0a0">일반</sub>
             <sub v-else-if="role == 'ROLE_ACADEMY'" style="font-size: 0.7rem; color: #a0a0a0">학원 원장님</sub>
             <sub v-else-if="role == 'ROLE_TUTOR'" style="font-size: 0.7rem; color: #a0a0a0">과외 선생님</sub>
@@ -38,7 +38,7 @@ import { mapState } from 'vuex'
 
 export default {
   computed: mapState([
-    'username', 'role'
+    'name', 'role'
   ]),
 }
 </script>
