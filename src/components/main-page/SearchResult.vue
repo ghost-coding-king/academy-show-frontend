@@ -20,19 +20,20 @@
       </v-row>
     
   <v-card link class="mx-auto mb-3" width="500" height="150"
-  v-for="n in 5" :key="n">
+  v-for="(academy, i) in academyList" :key="i">
   <v-row no-gutters>
     <v-col cols="3" style="display: flex; align-items: center; justify-content: center; margin-bottom: 41px;">
-    <v-avatar color="#fd9f28" size="70" style="border: 1px solid black">
+    <v-avatar v-if="academy.profile != '' && academy.profile != undefined" :image="academy.profile" size="70" style="border: 1px solid black"></v-avatar>
+    <v-avatar v-else color="#fd9f28" size="70" style="border: 1px solid black">
       <v-icon color="white" icon="fa-solid fa-user"></v-icon>
     </v-avatar>
     </v-col>
     <v-col cols="9">
     <v-card-item>
-      <v-card-title>바른학원</v-card-title>
+      <v-card-title>{{ academy.name }}</v-card-title>
 
       <v-card-subtitle>
-        <span class="mr-1">서울특별시 강남구</span>
+        <span class="mr-1">{{ academy.introduce }}</span>
 
         <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
       </v-card-subtitle>
@@ -50,6 +51,7 @@
 
     <div class="px-4 mb-10 txt_line" style="padding: 15px; font-size: 0.9rem; color: #9f9f9f">
       리뷰 <span style="color: black;">5</span> 찜 <span style="color: black;">4</span> 소식 <span style="color: black;">4</span> 
+
     </div>
     </v-col>
     </v-row>
@@ -68,13 +70,20 @@
 </template>
 
 <script>
+import { ApiRequester } from '@/utils'
 export default {
   data: () => ({
     type: 'academy',
     page: 1,
+    academyList: [],
   }),
   mounted() {
     this.$emit('onSearchPage', this.$route.query.searchType)
+    ApiRequester.get('/api/academies', {searchRequest: {}})
+    .then(res => {
+      this.academyList = res.data.data
+      console.log(res);
+    })
   },
   beforeUnmount() {
     this.$emit('outSearchPage')
