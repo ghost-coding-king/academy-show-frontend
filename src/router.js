@@ -51,8 +51,8 @@ const routes = [
       props: true
     },
     {
-      path: '/detail-academy',
-      name: '/detail-academy',
+      path: '/academy/:id',
+      name: '/academy',
       component: DetailAcademy,
       props: true
     },
