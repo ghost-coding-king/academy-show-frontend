@@ -63,14 +63,13 @@
       :length="this.totalPages"
       :total-visible="7"
       active-color="#fd9f28"
-      @click="pageCheck"
+      @click="search"
     ></v-pagination>
   </div>
 </template>
 
 <script>
 import { ApiRequester } from '@/utils';
-// import axios from 'axios'
 
 export default {
   data: () => ({
@@ -80,45 +79,36 @@ export default {
     totalPages: 0,
     size: 2,
   }),
+  watch: {
+    '$route' () {
+      this.search()
+    }
+  },
   mounted() {
-    
     this.$emit('onSearchPage', this.$route.query.searchType)
-    ApiRequester.get('/api/academies', 
-    {params: {
-      searchType: this.$route.query.searchType,
-      q: this.$route.query.q,
-      educations: this.$route.query.educations,
-      subjects: this.$route.query.subjects,
-      area: this.$route.query.area,
-      page: this.page - 1,
-      size: this.size
-    }})
-    .then(res => {
-      this.academyList = res.data.data.content
-      this.totalPages = res.data.data.totalPages
-      console.log(res);
-    })
+    this.search()
   },
   beforeUnmount() {
     this.$emit('outSearchPage')
   },
   methods: {
-    pageCheck() {
-      ApiRequester.get('/api/academies', 
-    {params: {
-      searchType: this.$route.query.searchType,
-      q: this.$route.query.q,
-      educations: this.$route.query.educations,
-      subjects: this.$route.query.subjects,
-      area: this.$route.query.area,
-      page: this.page - 1,
-      size: this.size
-    }})
-    .then(res => {
-      this.academyList = res.data.data.content
-      this.totalPages = res.data.data.totalPages
-      console.log(res);
-    })
+    search() {
+      ApiRequester.get('/api/academies', {
+        params: {
+          searchType: this.$route.query.searchType,
+          q: this.$route.query.q,
+          educations: this.$route.query.educations,
+          subjects: this.$route.query.subjects,
+          area: this.$route.query.area,
+          page: this.page - 1,
+          size: this.size
+        }
+      })
+      .then(res => {
+        this.academyList = res.data.data.content
+        this.totalPages = res.data.data.totalPages
+        console.log(res);
+      })
     }
   }
 }

@@ -144,9 +144,12 @@ export default {
     },
   }),
   mounted() {
-    this.ages = new Proxy(this.$route.query.educations.split(','), {})
-    this.subjects = new Proxy(this.$route.query.subjects.split(','), {})
-    this.area = this.$route.query.area
+    if (this.$route.query.educations != undefined)
+      this.ages = new Proxy(this.$route.query.educations.split(','), {})
+    if (this.$route.query.subjects != undefined)
+      this.subjects = new Proxy(this.$route.query.subjects.split(','), {})
+    if (this.$route.query.area != undefined)
+      this.area = this.$route.query.area
     ApiRequester.get("/api/subjects").then((res) => {
       this.subjectsItems = res.data.data.map((v) => v.name);
     });
@@ -162,7 +165,6 @@ export default {
         query: {searchType: searchType, q: this.q, educations: this.ages.join(','), subjects: this.subjects.join(','), area: this.area}
       })
       this.toggle = ''
-      location.reload()
     },
   }
 }
