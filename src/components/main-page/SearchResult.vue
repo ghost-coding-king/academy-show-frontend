@@ -60,33 +60,66 @@
   <div class="text-center">
     <v-pagination
       v-model="page"
-      :length="6"
+      :length="this.totalPages"
+      :total-visible="7"
       active-color="#fd9f28"
+      @click="pageCheck"
     ></v-pagination>
   </div>
-  
-
-
 </template>
 
 <script>
-import { ApiRequester } from '@/utils'
+import { ApiRequester } from '@/utils';
+// import axios from 'axios'
+
 export default {
   data: () => ({
     type: 'academy',
     page: 1,
     academyList: [],
+    totalPages: 0,
+    size: 2,
   }),
   mounted() {
+    
     this.$emit('onSearchPage', this.$route.query.searchType)
-    ApiRequester.get('/api/academies', {searchRequest: {}})
+    ApiRequester.get('/api/academies', 
+    {params: {
+      searchType: this.$route.query.searchType,
+      q: this.$route.query.q,
+      educations: this.$route.query.educations,
+      subjects: this.$route.query.subjects,
+      area: this.$route.query.area,
+      page: this.page - 1,
+      size: this.size
+    }})
     .then(res => {
-      this.academyList = res.data.data
+      this.academyList = res.data.data.content
+      this.totalPages = res.data.data.totalPages
       console.log(res);
     })
   },
   beforeUnmount() {
     this.$emit('outSearchPage')
+  },
+  methods: {
+    pageCheck() {
+      ApiRequester.get('/api/academies', 
+    {params: {
+      searchType: this.$route.query.searchType,
+      q: this.$route.query.q,
+      educations: this.$route.query.educations,
+      subjects: this.$route.query.subjects,
+      area: this.$route.query.area,
+      page: this.page - 1,
+      size: this.size
+    }})
+    .then(res => {
+      this.academyList = res.data.data.content
+      this.totalPages = res.data.data.totalPages
+      console.log(res);
+    })
+    }
   }
 }
 </script>

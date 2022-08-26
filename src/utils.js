@@ -75,7 +75,7 @@ const ApiRequester = (() => {
   }
 
   return {
-    'get': (url) => responseChecker(BaseApiRequester.get(url, makeDefaultConfig())),
+    'get': (url, data) => responseChecker(BaseApiRequester.get(url, data, makeDefaultConfig())),
 
     'post': (url, data) => responseChecker(BaseApiRequester.post(url, data, makeDefaultConfig())),
 

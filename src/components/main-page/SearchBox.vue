@@ -2,7 +2,7 @@
   <v-row no-gutters>
     <v-col cols="4"></v-col>
     <v-row v-if="this.searchType == 'name'" no-gutters>
-    <v-text-field variant="outlined" append-inner-icon="mdi-magnify" :class="{ 'box-size': this.searchPage }"></v-text-field>
+    <v-text-field v-model="q" variant="outlined" append-inner-icon="mdi-magnify" :class="{ 'box-size': this.searchPage }"></v-text-field>
     </v-row>
     <v-row align="center" justify="center" style="
           border: 1px solid #ababab;
@@ -19,7 +19,7 @@
           선택</v-btn>
       </v-btn-toggle>
 
-      <v-btn flat style="margin-right: 5px; background-color: #fd9f28;" @click="search"><span style="color: white">검색</span></v-btn>
+      <v-btn flat style="margin-right: 5px; background-color: #fd9f28;" @click="search('category')"><span style="color: white">검색</span></v-btn>
     </v-row>
     <v-col cols="4"></v-col>
   </v-row>
@@ -117,14 +117,16 @@
 import { ApiRequester } from '@/utils';
 export default {
   data: () => ({
-    toggle: "",
+    toggle: '',
+    q: '',
     ages: [],
     subjects: [],
     subjectsItems: [],
-    area: "",
+    area: '',
     selectedArea: "서울",
     radioGroupItems: {
       서울: ["강남", "서초", "송파"],
+      경기: ["성남", "수원", "용인"],
       강원: ["강릉", "원주", "춘천"],
       경북: ["안동", "경주", "포항"],
       경남: ["창원", "진주", "거제"],
@@ -142,6 +144,9 @@ export default {
     },
   }),
   mounted() {
+    this.ages = new Proxy(this.$route.query.educations.split(','), {})
+    this.subjects = new Proxy(this.$route.query.subjects.split(','), {})
+    this.area = this.$route.query.area
     ApiRequester.get("/api/subjects").then((res) => {
       this.subjectsItems = res.data.data.map((v) => v.name);
     });
@@ -151,9 +156,14 @@ export default {
     searchPage: Boolean,
   },
   methods: {
-    search() {
-      this.$router.push('/search?searchType=category')
-    }
+    search(searchType) {
+      this.$router.push({
+        name: '/search',
+        query: {searchType: searchType, q: this.q, educations: this.ages.join(','), subjects: this.subjects.join(','), area: this.area}
+      })
+      this.toggle = ''
+      location.reload()
+    },
   }
 }
 </script>

@@ -21,6 +21,8 @@ import MyTuToring from '@/components/main-page/my-page/MyTutoring'
 
 import SearchResult from '@/components/main-page/SearchResult'
 
+import DetailAcademy from '@/components/main-page/DetailAcademy'
+
 
 const routes = [
   {
@@ -46,6 +48,12 @@ const routes = [
       path: '/search',
       name: '/search',
       component: SearchResult,
+      props: true
+    },
+    {
+      path: '/detail-academy',
+      name: '/detail-academy',
+      component: DetailAcademy,
       props: true
     },
     {
