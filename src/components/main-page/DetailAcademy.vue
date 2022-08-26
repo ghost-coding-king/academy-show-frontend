@@ -183,14 +183,15 @@ export default {
     } else {
       const script = document.createElement("script");
       /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
+      window.onload = () => kakao.maps.load(this.initMap);
+      // script.onload = () => kakao.maps.load(this.initMap);
       script.src =
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0202686bf75bcc93c7133b1e58c7ac49&libraries=services";
       document.head.appendChild(script);
     }
   },
   mounted() {
-
+    
     ApiRequester.get('/api/academy/' + this.$route.params.id)
       .then(res => {
         this.academy = res.data.data
