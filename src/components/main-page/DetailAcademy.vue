@@ -17,14 +17,20 @@
     <v-row no-gutters style="justify-content: center;">
       <p style="color: #9f9f9f; font-size: 0.9rem">{{ academy.roadAddress }} {{ academy.subAddress }}</p>
     </v-row>
-    <v-row no-gutters style="justify-content: center;">
-      <p>⭐4.5</p>
+    <v-row no-gutters style="justify-content: center; align-items: center;">
+      <p style="font-size: 20px; margin-right: 20px">⭐4.5</p>
+      <div id="like" @click="this.isLike = !this.isLike"> 
+      <span v-if="isLike">
+        <v-icon color="red" icon="fa-regular fa-heart"></v-icon>
+        </span>
+        <span v-else>
+        <v-icon color="red" icon="fa-solid fa-heart"></v-icon>
+        </span>
+
+      <span style="margin-left: 5px; font-size: 20px;">1247</span>
+      </div>
     </v-row>
-    <v-row no-gutters style="justify-content: center; margin: 20px 0">
-      <v-btn color="#fd9f28" prepend-icon="fa-solid fa-pen-to-square" style="margin-right: 5px; color: white">리뷰쓰기
-      </v-btn>
-      <v-btn color="#fd9f28" prepend-icon="fa-brands fa-gratipay" style="color: white">찜하기</v-btn>
-    </v-row>
+
     <v-row no-gutters style="width: 600px; margin: 10px auto">
       <h2>학원 소개</h2>
     </v-row>
@@ -76,13 +82,55 @@
               </v-chip>
             </div>
             <br>
-            
+
             <h2><i class="fa-solid fa-location-dot"></i> 위치</h2><br>
             <div id="map" style="width:100%;height:350px; margin-bottom: 60px"></div>
 
           </v-window-item>
 
           <v-window-item value="two">
+            <div style="display: flex; margin-bottom: 15px;">
+              <div class="text-center"
+                style="display: flex; justify-content: center; align-items: center; border: 1px solid #e9ecef; border-radius: 10px; margin-right: 10px; height: 150px; width: 35%; padding: 20px;">
+                <div>
+                <span style="font-size: 30px; margin-top: 15px">4.5</span>
+                <div>
+                  <v-rating v-model="everageRating" bg-color="orange-lighten-1" color="#fd9f28" size="50"
+                    density="compact" half-increments readonly></v-rating>
+                </div>
+                <span>130개의 리뷰</span>
+                </div>
+              </div>
+              <div style="border: 1px solid #e9ecef; border-radius: 10px; height: 150px; width: 65%; padding: 20px">
+              <table>
+                <tr v-for="(k, i) in Object.keys(this.ratingDetails)" :key="i">
+                  <td>{{ k }}</td>
+                  <td><v-progress-linear :model-value="this.ratingDetails[k] / this.totalReview * 100" color="#fd9f28"
+                    style="width: 290px; margin-left: 10px"></v-progress-linear></td>
+                </tr>
+
+              </table>
+               
+              </div>
+            </div>
+
+            <div v-if="this.authUtil.isAuthenticated()" style="background-color: #f6f6f6; padding: 30px; border-radius: 10px;">
+              <div class="text-center" style="color: #4c4c4c">별점 주기</div>
+              <div class="text-center">
+                <v-rating v-model="rating" bg-color="orange-lighten-1" color="#fd9f28" size="x-large" density="compact"
+                  hover></v-rating>
+              </div>
+              <div style="height: 200px;">
+                <CommonEditor :toolbarOption="'#hide-toolbar'" @changeContent="changeContent"></CommonEditor>
+              </div>
+              <div style="display: flex; justify-content: right;">
+                <v-btn color="#fd9f28" style="color: white; margin-top: 10px" flat>리뷰작성</v-btn>
+              </div>
+            </div>
+
+            <v-divider style="margin-top: 20px"></v-divider>
+
+
             <v-card class="mx-auto" width="600" style="padding: 30px; margin: 20px 0" v-for="i in (1, 4)" :key="i">
               <v-row no-gutters style="align-items: center;">
                 <v-avatar :image="require('../../assets/images/10001.png')" style="border: 1px solid grey"></v-avatar>
@@ -109,8 +157,13 @@
             </div>
 
           </v-window-item>
-
+            <!-- v-if="myAcademyId == this.$route.params.id" -->
           <v-window-item value="three">
+            <div 
+             
+            style="display: flex; justify-content: right;">
+              <v-btn color="#fd9f28" style="color: white; margin-top: 10px" flat @click="this.$router.push('/academy/' + this.$route.params.id + '/news/edit')">글쓰기</v-btn>
+            </div>
             <v-card class="mx-auto" width="600" style="padding: 30px; margin: 20px" v-for="i in (1, 4)" :key="i">
               <h2>여름방학에 사탄들로 키워보세요1!</h2>
               <p style="display: flex; justify-content: space-between;"><span>2022-08-12</span><span>조회수: 5</span></p>
@@ -127,9 +180,14 @@
 </template>
 
 <script>
-import { ApiRequester } from '@/utils'
+import { ApiRequester, AuthUtil } from '@/utils'
+import CommonEditor from '../common/CommonEditor.vue';
+import { mapState } from 'vuex'
 
 export default {
+  computed: mapState([
+    "myAcademyId"
+  ]),
   name: "KakaoMap",
   data: () => ({
     tab: null,
@@ -138,78 +196,95 @@ export default {
     academy: Object,
     educations: [[], [], [], [], []],
     loading: true,
+    content: '',
+    rating: 0,
+    everageRating: 4.5,
+    ratingDetails: {
+      '5점': 50,
+      '4점': 40,
+      '3점': 30,
+      '2점': 20,
+      '1점': 10,
+    },
+    totalReview: 150,
+    authUtil: AuthUtil,
+    isLike: false,
   }),
   methods: {
     initMap() {
-      const container = document.getElementById("map");
+      try {
+        const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 5,
       };
-
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       var map = new kakao.maps.Map(container, options);
       // 주소-좌표 변환 객체를 생성합니다
       var geocoder = new kakao.maps.services.Geocoder();
-
       // 주소로 좌표를 검색합니다
       geocoder.addressSearch(this.academy.roadAddress, function (result, status) {
-
         // 정상적으로 검색이 완료됐으면 
         if (status === kakao.maps.services.Status.OK) {
-
           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
           // 결과값으로 받은 위치를 마커로 표시합니다
           var marker = new kakao.maps.Marker({
             map: map,
             position: coords
           });
           marker.setMap(map);
-
           // 인포윈도우로 장소에 대한 설명을 표시합니다
-
           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
           map.setCenter(coords);
-
         }
       });
+      } catch (error) {
+        location.reload()
+      }
+      
     },
+    changeContent(content) {
+      this.content = content
+    }
   },
   created() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
-    } else {
+    }
+    else {
       const script = document.createElement("script");
       /* global kakao */
       window.onload = () => kakao.maps.load(this.initMap);
-      // script.onload = () => kakao.maps.load(this.initMap);
       script.src =
         "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0202686bf75bcc93c7133b1e58c7ac49&libraries=services";
       document.head.appendChild(script);
     }
   },
   mounted() {
-    
-    ApiRequester.get('/api/academy/' + this.$route.params.id)
+    ApiRequester.get("/api/academy/" + this.$route.params.id)
       .then(res => {
-        this.academy = res.data.data
-        let arr = ['유아', '초등학교', '중학교', '고등학교', '성인']
-        let edus = res.data.data.educations
+        this.academy = res.data.data;
+        let arr = ["유아", "초등학교", "중학교", "고등학교", "성인"];
+        let edus = res.data.data.educations;
         for (let i in edus) {
           for (let j = 0; j < arr.length; j++) {
             if (edus[i].includes(arr[j])) {
-              this.educations[j].push(edus[i])
+              this.educations[j].push(edus[i]);
               break;
             }
           }
         }
         this.loading = false;
-      })
-  }
+      });
+  },
+  components: { CommonEditor }
 }
 </script>
 
 <style scoped>
+#like:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
 </style>

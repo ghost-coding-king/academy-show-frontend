@@ -25,7 +25,7 @@
   </v-row>
 
   <v-row no-gutters>
-    <v-col v-if="toggle == 'age'" cols="4" class="toggle-select-box" style="height: 550px">
+    <v-col v-if="toggle == 'age' && searchType == 'category'" cols="4" class="toggle-select-box" style="height: 550px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.ages = []" class="mr-1" style="background-color: #f2f2f2;" flat>초기화</v-btn>
         <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
@@ -71,7 +71,7 @@
       </div>
     </v-col>
 
-    <v-col v-if="toggle == 'subject'" cols="4" class="toggle-select-box" style="height: 300px">
+    <v-col v-if="toggle == 'subject' && searchType == 'category'" cols="4" class="toggle-select-box" style="height: 300px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.subjects = []" class="mr-1" style="background-color: #f2f2f2;" flat>초기화</v-btn>
         <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
@@ -86,7 +86,7 @@
         </v-chip-group>
       </div>
     </v-col>
-    <v-col v-if="toggle == 'area'" cols="4" class="toggle-select-box" style="height: 620px">
+    <v-col v-if="toggle == 'area' && searchType == 'category'" cols="4" class="toggle-select-box" style="height: 620px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.area = ''" class="mr-1" style="background-color: #f2f2f2;" flat>초기화</v-btn>
         <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
@@ -160,11 +160,19 @@ export default {
   },
   methods: {
     search(searchType) {
-      this.$router.push({
-        name: '/search',
-        query: {searchType: searchType, q: this.q, educations: this.ages.join(','), subjects: this.subjects.join(','), area: this.area}
-      })
-      this.toggle = ''
+      if (this.ages.length == 0) {
+        alert('연령을 선택하세요.')
+      } else if (this.subjects.length == 0) {
+        alert('과목을 선택하세요.')
+      } else if (this.area == '') {
+        alert('지역을 선택하세요.')
+      } else {
+        this.$router.push({
+          name: '/search',
+          query: {searchType: searchType, q: this.q, educations: this.ages.join(','), subjects: this.subjects.join(','), area: this.area}
+        })
+        this.toggle = ''
+      }
     },
   }
 }

@@ -89,6 +89,16 @@ const ApiRequester = (() => {
  * jwt token handling utils
  */
 const AuthUtil = {
+  getRole: () => {
+    return store.state.role 
+  },
+  getMyAcademyId: () => {
+    return store.state.myAcademyId
+  },
+  isAuthenticated: () => {
+    return store.state.accessToken != ''
+  },
+
   setAccessToken: (response) => {
     store.commit(STORE_COMMENDS.MUTATIONS.ACCESS_TOKEN, response.headers.authorization);
   },

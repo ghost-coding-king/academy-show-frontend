@@ -134,9 +134,6 @@ export default {
       this.$store.commit(STORE_COMMENDS.MUTATIONS.PROFILE, "");
       this.$router.push("/");
     },
-    token() {
-      console.log(this.accessToken);
-    },
     onScroll() {
       // Get the current scroll position
       const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;

@@ -10,6 +10,7 @@ export default createStore({
       name: '',
       role: '',
       profile: '',
+      myAcademyId: '',
     }
   },
   mutations: {
@@ -27,7 +28,10 @@ export default createStore({
     },
     profile (state, newProfile) {
       state.profile = newProfile;
-    }
+    },
+    myAcademyId (state, newmyAcademyId) {
+      state.myAcademyId = newmyAcademyId
+    },
   },
   actions: {
     fetchToken (context) {
@@ -46,6 +50,7 @@ const STORE_COMMENDS = {
     NAME: "name",
     ROLE: "role",
     PROFILE: "profile",
+    MYACADEMYID: "myAcademyId",
   },
   ACTIONS: {
 

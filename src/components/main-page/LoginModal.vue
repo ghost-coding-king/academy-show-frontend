@@ -69,6 +69,9 @@ export default {
                         this.$store.commit(STORE_COMMENDS.MUTATIONS.NAME, res.data.data.name)
                         this.$store.commit(STORE_COMMENDS.MUTATIONS.ROLE, res.data.data.role)
                         this.$store.commit(STORE_COMMENDS.MUTATIONS.PROFILE, res.data.data.profile)
+                        if (res.data.data.role == 'ROLE_ACADEMY') {
+                            this.$store.commit(STORE_COMMENDS.MUTATIONS.MYACADEMYID, res.data.data.myAcademyId)
+                        }
                         AuthUtil.setAccessToken(res);
                         this.$emit('afterLogin')
                     } else {
@@ -77,12 +80,6 @@ export default {
                     //this.token = res.headers.authorization
                 })
         },
-        test() {
-            ApiRequester.get("/api/test")
-                .then(res => {
-                    console.log(res.data);
-                })
-        }
 
     }
 }

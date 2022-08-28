@@ -8,7 +8,7 @@
   </v-row>
   <v-row no-gutters justify="space-between" style="width: 500px; margin: 0 auto;">
     <span style="color: #9f9f9f; font-size: 0.8rem; display: flex; align-items: center; margin-left: 1px">검색결과:
-      6개</span>
+      {{ this.totalElements }}개</span>
     <span style="color:#9f9f9f;">
       <a :class="{ 'selected-filter': this.$route.query.filter == 'review' }" href="#" @click="this.$router.push('/')">리뷰
         많은 순</a>|
@@ -76,6 +76,7 @@ export default {
     academyList: [],
     totalPages: 0,
     size: 10,
+    totalElements: 0,
   }),
   watch: {
     '$route'() {
@@ -105,6 +106,7 @@ export default {
         .then(res => {
           this.academyList = res.data.data.content
           this.totalPages = res.data.data.totalPages
+          this.totalElements = res.data.data.totalElements   
         })
     },
     detailPage(id) {
