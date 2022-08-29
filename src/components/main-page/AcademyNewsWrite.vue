@@ -45,9 +45,9 @@ export default {
           'academyId': AuthUtil.getMyAcademyId(),
         }
         ApiRequester.post(Urls.MAIN_API.ACADEMY.POSTS, this.postForm)
-        .then(() => {
+        .then(res => {
           alert('글 등록에 성공하셨습니다.')
-          
+          this.$router.push(`/academy/${this.$route.params.id}/news/${res.data.data}`)
         })
       } else {
         alert('제목과 내용을 입력해주세요.')

@@ -22,6 +22,7 @@ import SearchResult from '@/components/main-page/SearchResult'
 
 import DetailAcademy from '@/components/main-page/DetailAcademy'
 import AcademyNewsWrite from '@/components/main-page/AcademyNewsWrite'
+import AcademyNewsDetail from '@/components/main-page/AcademyNewsDetail'
 
 
 const routes = [
@@ -54,6 +55,10 @@ const routes = [
     {
       path: '/academy/:id/news/edit',
       component: AcademyNewsWrite,
+    },
+    {
+      path: '/academy/:id/news/:newsId',
+      component: AcademyNewsDetail,
     },
     {
       path: '/my-page',

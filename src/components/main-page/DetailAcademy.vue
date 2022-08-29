@@ -42,7 +42,7 @@
       </p>
     </v-row>
     <v-row no-gutters style="justify-content: center; align-items: center">
-      <p style="font-size: 20px; margin-right: 20px">⭐ 4.5</p>
+      <p style="font-size: 20px; margin-right: 20px">⭐ {{ this.everageRating }}</p>
       <div id="like" @click="this.isLike = !this.isLike">
         <span v-if="isLike">
           <v-icon color="red" icon="fa-regular fa-heart"></v-icon>
@@ -199,7 +199,7 @@
                 "
               >
                 <div>
-                  <span style="font-size: 30px; margin-top: 15px">4.5</span>
+                  <span style="font-size: 30px; margin-top: 15px">{{ this.everageRating }}</span>
                   <div>
                     <v-rating
                       v-model="everageRating"
@@ -232,7 +232,7 @@
                     <td>
                       <v-progress-linear
                         :model-value="
-                          (this.ratingDetails[k] / this.totalReview) * 100
+                          (this.ratingDetails[k] / this.totalReviewElements) * 100
                         "
                         color="#fd9f28"
                         style="width: 290px; margin-left: 10px"
@@ -349,7 +349,7 @@
               ></v-pagination>
             </div>
           </v-window-item>
-          <!-- v-if="myAcademyId == this.$route.params.id" -->
+          
           <v-window-item value="three">
             <div style="display: flex; justify-content: right">
               <v-btn
@@ -368,20 +368,31 @@
                 >글쓰기</v-btn
               >
             </div>
-            <v-card
+            <div
+              id="news"
               class="mx-auto"
-              width="600"
-              style="padding: 30px; margin: 20px"
-              v-for="i in (1, 4)"
+              style="padding: 20px; margin: 20px; width: 590px; border: 1px solid #c3c3c3; border-radius: 10px;"
+              v-for="(news, i) in this.newsItems"
               :key="i"
+              @click="this.$router.push(`/academy/${this.$route.params.id}/news/${news.id}`)"
             >
-              <h2>여름방학에 사탄들로 키워보세요1!</h2>
-              <p style="display: flex; justify-content: space-between">
-                <span>2022-08-12</span><span>조회수: 5</span>
-              </p>
-            </v-card>
+              <h2 style="margin-bottom: 10px">{{ news.title }}</h2>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                <v-avatar :image="news.profile" style="border: 1px solid grey"></v-avatar>
+                <span style="margin-left: 10px">{{ news.nickname }}</span>
+              </div>
+                <span>{{ this.parseLocalDateTime(news.createdAt) }}</span>
+              </div>
+            </div>
             <div class="text-center">
-              <v-pagination v-model="newsPage" :length="6"></v-pagination>
+              <v-pagination
+                v-model="newsPage"
+                :length="this.totalNewsPages"
+                :total-visible="5"
+                active-color="#fd9f28"
+                @click="loadNews"
+              ></v-pagination>
             </div>
           </v-window-item>
         </v-window>
@@ -412,19 +423,21 @@ export default {
     reviewItems: Object,
     newsPage: 1,
     academy: Object,
+    newsItems: Object,
+    totalNewsElements: 0,
+    totalNewsPages: 0,
     educations: [[], [], [], [], []],
     loading: true,
     content: "",
     rating: 0,
-    everageRating: 4.5,
+    everageRating: 0,
     ratingDetails: {
-      "5점": 50,
-      "4점": 40,
-      "3점": 30,
-      "2점": 20,
-      "1점": 10,
+      "5점": 0,
+      "4점": 0,
+      "3점": 0,
+      "2점": 0,
+      "1점": 0,
     },
-    totalReview: 150,
     authUtil: AuthUtil,
     isLike: false,
   }),
@@ -432,9 +445,36 @@ export default {
     parseLocalDateTime(localDateTime) {
       let date = new Date(localDateTime);
       date.setHours(date.getHours() + 9);
-      return date.toISOString().replace("T", " ").substring(0, 19);
+      return date.toISOString().replace("T", " ").substring(0, 16);
     },
-    loadReview() {
+    loadReviewCount() {
+      ApiRequester.get(`/api/academy/${this.$route.params.id}/reviews/statistics`)
+    .then((res) => {
+      this.ratingDetails["1점"] = res.data.data.count[0]
+      this.ratingDetails["2점"] = res.data.data.count[1]
+      this.ratingDetails["3점"] = res.data.data.count[2]
+      this.ratingDetails["4점"] = res.data.data.count[3]
+      this.ratingDetails["5점"] = res.data.data.count[4]
+      this.everageRating = 0
+      for (let i=0; i<5; i++) {
+        this.everageRating += res.data.data.count[i] * (i+1);
+      }
+      this.everageRating = Math.round(this.everageRating / this.totalReviewElements * 10) / 10
+    })
+    },
+    loadNews() {
+      ApiRequester.get(`/api/academy/${this.$route.params.id}/posts`, 
+      {params: {
+          page: this.newsPage - 1,
+          size: 5,
+        }})
+    .then((res) => {
+      this.newsItems = res.data.data.content;
+      this.totalNewsPages = res.data.data.totalPages;
+      this.totalNewsElements = res.data.data.totalElements;
+    })
+    },
+     loadReview() {
       ApiRequester.get(`/api/academy/${this.academy.id}/reviews`, {
         params: {
           page: this.reviewPage - 1,
@@ -468,6 +508,7 @@ export default {
         this.rating = 0;
         this.reviewAge = '연령 선택'
         this.loadReview();
+        this.loadReviewCount();
         alert("리뷰가 등록되었습니다.");
       });
     },
@@ -536,6 +577,8 @@ export default {
         }
       }
       this.loadReview();
+      this.loadNews();
+      this.loadReviewCount();
       this.loading = false;
     });
   },
@@ -547,5 +590,9 @@ export default {
 #like:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+#news:hover {
+  cursor: pointer;
+  background-color: #f6f6f6;
 }
 </style>
