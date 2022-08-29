@@ -9,7 +9,7 @@
   <div style="width: 800px; margin: 0 auto;">
     <v-text-field v-model="title" variant="outlined" placeholder="제목을 입력해 주세요."></v-text-field>
   </div>
-  <div style="width: 800px; height: 800px; margin: 0 auto">
+  <div style="width: 800px; height: 600px; margin: 0 auto">
     <CommonEditor :toolbarOption="'full'" @changeContent="changeContent"></CommonEditor>
   </div>
   <div style="height: 100px"></div>
