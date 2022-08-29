@@ -1,7 +1,7 @@
 <template>
   <div style="width: 800px; margin: 20px auto;">
     <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-      <h1>내 학원 소식 쓰기</h1>
+      <v-btn flat color="#e9ecef" @click="this.$router.go(-1)">이전</v-btn> <h1>내 학원 소식 쓰기</h1>
       <v-btn color="#ffe6b1" style="color: #fd9f28;" flat @click="addPosts">등록</v-btn>
     </div>
     <v-divider style="margin-top: 10px"></v-divider>
