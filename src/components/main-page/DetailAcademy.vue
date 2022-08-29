@@ -459,7 +459,10 @@ export default {
       for (let i=0; i<5; i++) {
         this.everageRating += res.data.data.count[i] * (i+1);
       }
-      this.everageRating = Math.round(this.everageRating / this.totalReviewElements * 10) / 10
+      if (this.totalReviewElements != 0) {
+        this.everageRating = Math.round(this.everageRating / this.totalReviewElements * 10) / 10
+      }
+      
     })
     },
     loadNews() {
