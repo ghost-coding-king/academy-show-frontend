@@ -18,7 +18,7 @@
       <p style="color: #9f9f9f; font-size: 0.9rem">{{ academy.roadAddress }} {{ academy.subAddress }}</p>
     </v-row>
     <v-row no-gutters style="justify-content: center; align-items: center;">
-      <p style="font-size: 20px; margin-right: 20px">⭐4.5</p>
+      <p style="font-size: 20px; margin-right: 20px">⭐ 4.5</p>
       <div id="like" @click="this.isLike = !this.isLike"> 
       <span v-if="isLike">
         <v-icon color="red" icon="fa-regular fa-heart"></v-icon>
@@ -39,7 +39,7 @@
         {{ academy.introduce }}
       </div>
     </v-row>
-    <v-row no-gutters style="width:600px; margin:0 auto;">
+    <v-row no-gutters style="width:600px; margin:0 auto; padding-bottom: 5px;">
       <v-chip link v-if="academy.shuttle" color="green">#셔틀 있음</v-chip>
     </v-row>
 
@@ -98,7 +98,7 @@
                   <v-rating v-model="everageRating" bg-color="orange-lighten-1" color="#fd9f28" size="50"
                     density="compact" half-increments readonly></v-rating>
                 </div>
-                <span>130개의 리뷰</span>
+                <span>{{ totalReviewElements }}개의 리뷰</span>
                 </div>
               </div>
               <div style="border: 1px solid #e9ecef; border-radius: 10px; height: 150px; width: 65%; padding: 20px">
@@ -114,46 +114,47 @@
               </div>
             </div>
 
-            <div v-if="this.authUtil.isAuthenticated()" style="background-color: #f6f6f6; padding: 30px; border-radius: 10px;">
+            <div v-if="this.authUtil.isAuthenticated()" style="background-color: #f6f6f6; padding: 20px; border-radius: 10px;">
               <div class="text-center" style="color: #4c4c4c">별점 주기</div>
               <div class="text-center">
                 <v-rating v-model="rating" bg-color="orange-lighten-1" color="#fd9f28" size="x-large" density="compact"
                   hover></v-rating>
               </div>
-              <div style="height: 200px;">
+              <div style="height: 150px;">
                 <CommonEditor :toolbarOption="'#hide-toolbar'" @changeContent="changeContent"></CommonEditor>
               </div>
               <div style="display: flex; justify-content: right;">
-                <v-btn color="#fd9f28" style="color: white; margin-top: 10px" flat>리뷰작성</v-btn>
+                <v-btn @click="saveReview" color="#fd9f28" style="color: white; margin-top: 10px" flat>리뷰작성</v-btn>
               </div>
             </div>
 
             <v-divider style="margin-top: 20px"></v-divider>
 
 
-            <v-card class="mx-auto" width="600" style="padding: 30px; margin: 20px 0" v-for="i in (1, 4)" :key="i">
+            <v-card class="mx-auto" width="600" style="padding: 30px; margin: 20px 0" v-for="(review, i) in this.reviewItems" :key="i">
               <v-row no-gutters style="align-items: center;">
-                <v-avatar :image="require('../../assets/images/10001.png')" style="border: 1px solid grey"></v-avatar>
-                <span style="margin-left: 10px">철수</span>
-                <sub style="margin-left: 10px">22.08.12</sub>
+                <v-avatar :image="review.profile" style="border: 1px solid grey"></v-avatar>
+                <span style="margin-left: 10px">{{ review.name }}</span>
+                <sub style="margin-left: 10px">{{ this.parseLocalDateTime(review.createdAt) }}</sub>
               </v-row>
 
               <v-row no-gutters>
-                수강 당시 연령:초5
+                수강 당시 연령
               </v-row>
 
               <v-row no-gutters>
-                <v-rating :model-value="1" color="amber" dense half-increments readonly size="14"></v-rating>
-                <div class="text-grey ms-4">1</div>
+                <v-rating :model-value="review.rating" color="amber" dense half-increments readonly size="14"></v-rating>
+                <div class="text-grey ms-4">{{ review.rating }}</div>
               </v-row>
 
               <v-row no-gutters style="margin-top: 20px">
-                우리 애가 나쁜 물이 들어서 공부를 안하려고 합니다
+                <div v-html="review.comment">
+                </div>
               </v-row>
 
             </v-card>
             <div class="text-center">
-              <v-pagination v-model="reviewPage" :length="6"></v-pagination>
+              <v-pagination v-model="reviewPage" :length="this.totalReviewPages" :total-visible="5" active-color="#fd9f28" @click="loadReview"></v-pagination>
             </div>
 
           </v-window-item>
@@ -162,7 +163,8 @@
             <div 
              
             style="display: flex; justify-content: right;">
-              <v-btn color="#fd9f28" style="color: white; margin-top: 10px" flat @click="this.$router.push('/academy/' + this.$route.params.id + '/news/edit')">글쓰기</v-btn>
+              <v-btn v-if="this.authUtil.getRole() == 'ROLE_ACADEMY' && this.authUtil.getMyAcademyId() == this.$route.params.id"
+              color="#fd9f28" style="color: white; margin-top: 10px" flat @click="this.$router.push('/academy/' + this.$route.params.id + '/news/edit')">글쓰기</v-btn>
             </div>
             <v-card class="mx-auto" width="600" style="padding: 30px; margin: 20px" v-for="i in (1, 4)" :key="i">
               <h2>여름방학에 사탄들로 키워보세요1!</h2>
@@ -192,6 +194,9 @@ export default {
   data: () => ({
     tab: null,
     reviewPage: 1,
+    totalReviewElements: 0,
+    totalReviewPages: 0,
+    reviewItems: Object,
     newsPage: 1,
     academy: Object,
     educations: [[], [], [], [], []],
@@ -211,6 +216,44 @@ export default {
     isLike: false,
   }),
   methods: {
+    parseLocalDateTime(localDateTime) {
+      let date = new Date(localDateTime)
+      date.setHours(date.getHours() + 9);
+      return date.toISOString().replace('T', ' ').substring(0, 19);
+    },
+    loadReview() {
+      ApiRequester.get(`/api/academy/${this.academy.id}/reviews`, {
+        params: {
+          page: this.reviewPage - 1,
+          size: 5
+        }
+      })
+        .then(res => {
+          this.reviewItems = res.data.data.content
+          this.totalReviewPages = res.data.data.totalPages
+          this.totalReviewElements = res.data.data.totalElements   
+        })
+    },
+    saveReview() {
+      if (this.rating == 0) {
+        alert('별점을 선택해주세요.')
+        return
+      }
+      if (this.content == '') {
+        alert('리뷰 내용을 입력해주세요.')
+        return
+      }
+      ApiRequester.post(`/api/academy/${this.academy.id}/reviews`, {
+        'comment': this.content,
+        'rating': this.rating
+      })
+      .then(() => {
+        this.content = ''
+        this.rating = 0
+        this.loadReview()
+        alert('리뷰가 등록되었습니다.')
+      })
+    },
     initMap() {
       try {
         const container = document.getElementById("map");
@@ -275,6 +318,7 @@ export default {
             }
           }
         }
+        this.loadReview()
         this.loading = false;
       });
   },
