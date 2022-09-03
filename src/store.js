@@ -7,9 +7,10 @@ export default createStore({
     return {
       count: 0,
       accessToken: '',
-      username: '',
+      name: '',
       role: '',
       profile: '',
+      myAcademyId: '',
     }
   },
   mutations: {
@@ -19,15 +20,18 @@ export default createStore({
     accessToken (state, newAccessToken) {
       state.accessToken = newAccessToken;
     },
-    username (state, newUsername) {
-      state.username = newUsername;
+    name (state, newName) {
+      state.name = newName;
     },
     role (state, newRole) {
       state.role = newRole;
     },
     profile (state, newProfile) {
       state.profile = newProfile;
-    }
+    },
+    myAcademyId (state, newmyAcademyId) {
+      state.myAcademyId = newmyAcademyId
+    },
   },
   actions: {
     fetchToken (context) {
@@ -43,9 +47,10 @@ const STORE_COMMENDS = {
   MUTATIONS: {
     INCLEMENT: "increment",
     ACCESS_TOKEN: "accessToken",
-    USERNAME: "username",
+    NAME: "name",
     ROLE: "role",
     PROFILE: "profile",
+    MYACADEMYID: "myAcademyId",
   },
   ACTIONS: {
 

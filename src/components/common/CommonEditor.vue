@@ -1,12 +1,7 @@
 <template>
-  <QuillEditor v-model:content="content" v-model:contentType="contentType" :modules="modules" :options="options" theme="snow" toolbar="full" />
+  <QuillEditor v-model:content="content" v-model:contentType="contentType" :modules="modules" :options="options" theme="snow" :toolbar="toolbarOption" @update:content="this.$emit('changeContent', this.content)" style="background-color: white;" />
   <p></p>
-  {{ content }}
-  <v-btn @click="submit">제출하기</v-btn>
-  <br>
-      {{ resData }}
-  <div v-html="resData"></div>
-  <v-btn @click="test">테스트버버버버튼</v-btn>
+  <div id="hide-toolbar" style="display: none;"></div>
 </template>
 
 <script>
@@ -21,18 +16,10 @@ export default {
     QuillEditor,
   },
   methods: {
-    submit: function () {
-      axios.post("/posts", {'content': this.content})
-      .then(res => {
-        this.resData = res.data
-      })
-    },
-    test: function () {
-      axios.get("/api/test")
-      .then(res => {
-        console.log(res.data);
-      })
-    }
+
+  },
+  props: {
+    toolbarOption: String,
   },
   setup: () => {
     const modules = [
@@ -51,7 +38,7 @@ export default {
               formData.append("file", file);
               axios.post('/api/files', formData)
               .then(res => {
-                resolve(res.data)
+                resolve(res.data.data)
               })
               .catch(err => {
                   reject("upload failed")
@@ -75,7 +62,7 @@ export default {
         modules: {
           toolbar: [],
         },
-        placeholder: 'Insert here.',
+        placeholder: '내용을 입력해주세요.',
         theme: 'snow',
       }
   }),

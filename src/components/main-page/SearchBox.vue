@@ -2,7 +2,7 @@
   <v-row no-gutters>
     <v-col cols="4"></v-col>
     <v-row v-if="this.searchType == 'name'" no-gutters>
-    <v-text-field variant="outlined" append-inner-icon="mdi-magnify" :class="{ 'box-size': this.searchPage }"></v-text-field>
+    <v-text-field v-model="q" variant="outlined" append-inner-icon="mdi-magnify" :class="{ 'box-size': this.searchPage }"></v-text-field>
     </v-row>
     <v-row align="center" justify="center" style="
           border: 1px solid #ababab;
@@ -19,13 +19,13 @@
           선택</v-btn>
       </v-btn-toggle>
 
-      <v-btn flat style="margin-right: 5px; background-color: #fd9f28;" @click="search"><span style="color: white">검색</span></v-btn>
+      <v-btn flat style="margin-right: 5px; background-color: #fd9f28;" @click="search('category')"><span style="color: white">검색</span></v-btn>
     </v-row>
     <v-col cols="4"></v-col>
   </v-row>
 
   <v-row no-gutters>
-    <v-col v-if="toggle == 'age'" cols="4" class="toggle-select-box" style="height: 550px">
+    <v-col v-if="toggle == 'age' && searchType == 'category'" cols="4" class="toggle-select-box" style="height: 550px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.ages = []" class="mr-1" style="background-color: #f2f2f2;" flat>초기화</v-btn>
         <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
@@ -71,7 +71,7 @@
       </div>
     </v-col>
 
-    <v-col v-if="toggle == 'subject'" cols="4" class="toggle-select-box" style="height: 300px">
+    <v-col v-if="toggle == 'subject' && searchType == 'category'" cols="4" class="toggle-select-box" style="height: 300px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.subjects = []" class="mr-1" style="background-color: #f2f2f2;" flat>초기화</v-btn>
         <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
@@ -86,7 +86,7 @@
         </v-chip-group>
       </div>
     </v-col>
-    <v-col v-if="toggle == 'area'" cols="4" class="toggle-select-box" style="height: 620px">
+    <v-col v-if="toggle == 'area' && searchType == 'category'" cols="4" class="toggle-select-box" style="height: 620px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.area = ''" class="mr-1" style="background-color: #f2f2f2;" flat>초기화</v-btn>
         <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
@@ -117,14 +117,16 @@
 import { ApiRequester } from '@/utils';
 export default {
   data: () => ({
-    toggle: "",
+    toggle: '',
+    q: '',
     ages: [],
     subjects: [],
     subjectsItems: [],
-    area: "",
+    area: '',
     selectedArea: "서울",
     radioGroupItems: {
       서울: ["강남", "서초", "송파"],
+      경기: ["성남", "수원", "용인"],
       강원: ["강릉", "원주", "춘천"],
       경북: ["안동", "경주", "포항"],
       경남: ["창원", "진주", "거제"],
@@ -142,6 +144,12 @@ export default {
     },
   }),
   mounted() {
+    if (this.$route.query.educations != undefined)
+      this.ages = new Proxy(this.$route.query.educations.split(','), {})
+    if (this.$route.query.subjects != undefined)
+      this.subjects = new Proxy(this.$route.query.subjects.split(','), {})
+    if (this.$route.query.area != undefined)
+      this.area = this.$route.query.area
     ApiRequester.get("/api/subjects").then((res) => {
       this.subjectsItems = res.data.data.map((v) => v.name);
     });
@@ -151,9 +159,21 @@ export default {
     searchPage: Boolean,
   },
   methods: {
-    search() {
-      this.$router.push('/search?searchType=category')
-    }
+    search(searchType) {
+      if (this.ages.length == 0) {
+        alert('연령을 선택하세요.')
+      } else if (this.subjects.length == 0) {
+        alert('과목을 선택하세요.')
+      } else if (this.area == '') {
+        alert('지역을 선택하세요.')
+      } else {
+        this.$router.push({
+          name: '/search',
+          query: {searchType: searchType, q: this.q, educations: this.ages.join(','), subjects: this.subjects.join(','), area: this.area}
+        })
+        this.toggle = ''
+      }
+    },
   }
 }
 </script>

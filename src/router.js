@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MainPage from '@/pages/MainPage'
 import MainHome from '@/components/main-page/MainHome'
 import Project from '@/components/main-page/Project'
-import EditorExample from '@/components/main-page/EditorExample'
 
 import SignUpEntry from '@/pages/SignUpEntry'
 import SignUpUser from '@/pages/SignUpUser'
@@ -21,6 +20,10 @@ import MyTuToring from '@/components/main-page/my-page/MyTutoring'
 
 import SearchResult from '@/components/main-page/SearchResult'
 
+import DetailAcademy from '@/components/main-page/DetailAcademy'
+import AcademyNewsWrite from '@/components/main-page/AcademyNewsWrite'
+import AcademyNewsDetail from '@/components/main-page/AcademyNewsDetail'
+
 
 const routes = [
   {
@@ -33,11 +36,6 @@ const routes = [
       meta: {title: '전국학원자랑-메인'}
     },
     {
-      path: '/editor',
-      component: EditorExample,
-      meta: {title: '에디터 샘플'}
-    },
-    {
       path: '/project',
       component: Project,
       meta: {title: '프로젝트'}
@@ -47,6 +45,20 @@ const routes = [
       name: '/search',
       component: SearchResult,
       props: true
+    },
+    {
+      path: '/academy/:id',
+      name: '/academy',
+      component: DetailAcademy,
+      props: true
+    },
+    {
+      path: '/academy/:id/news/edit',
+      component: AcademyNewsWrite,
+    },
+    {
+      path: '/academy/:id/news/:newsId',
+      component: AcademyNewsDetail,
     },
     {
       path: '/my-page',

@@ -41,7 +41,7 @@
     </div>
     <div v-else style="height: 100%; display: flex; align-items: center;">
       <div style="align-items: center; margin-top: 6px; margin-right: 10px">
-        <span style="font-weight: bold; font-size: 1.1rem;">{{ username }}
+        <span style="font-weight: bold; font-size: 1.1rem;">{{ name }}
           <sub v-if="role == 'ROLE_MEMBER'" style="font-size: 0.7rem; color: #a0a0a0">일반</sub>
           <sub v-else-if="role == 'ROLE_ACADEMY'" style="font-size: 0.7rem; color: #a0a0a0">학원</sub>
           <sub v-else-if="role == 'ROLE_TUTOR'" style="font-size: 0.7rem; color: #a0a0a0">과외</sub>
@@ -59,7 +59,7 @@
           style="background-color: #ffffff; width: 250px; box-shadow: 1px 1px 10px 1px gray; text-align: center; padding: 20px;">
           <div style="text-align: left;">
             <v-icon style="font-size: 3rem; margin-right: 20px; color: #fd9f28" icon="fa-solid fa-square-pen"></v-icon>
-            <span style="font-weight: bold; font-size: 1.1rem;">{{ username }}
+            <span style="font-weight: bold; font-size: 1.1rem;">{{ name }}
               <sub v-if="role == 'ROLE_MEMBER'" style="font-size: 0.7rem; color: #a0a0a0">일반</sub>
               <sub v-else-if="role == 'ROLE_ACADEMY'" style="font-size: 0.7rem; color: #a0a0a0">학원 원장님</sub>
               <sub v-else-if="role == 'ROLE_TUTOR'" style="font-size: 0.7rem; color: #a0a0a0">과외 선생님</sub>
@@ -110,7 +110,7 @@ import SearchBox from './SearchBox.vue'
 export default {
   computed: mapState([
     "accessToken",
-    "username",
+    "name",
     "role",
     "profile"
   ]),
@@ -129,13 +129,10 @@ export default {
   methods: {
     logout() {
       this.$store.commit(STORE_COMMENDS.MUTATIONS.ACCESS_TOKEN, "");
-      this.$store.commit(STORE_COMMENDS.MUTATIONS.USERNAME, "");
+      this.$store.commit(STORE_COMMENDS.MUTATIONS.NAME, "");
       this.$store.commit(STORE_COMMENDS.MUTATIONS.ROLE, "");
       this.$store.commit(STORE_COMMENDS.MUTATIONS.PROFILE, "");
       this.$router.push("/");
-    },
-    token() {
-      console.log(this.accessToken);
     },
     onScroll() {
       // Get the current scroll position
