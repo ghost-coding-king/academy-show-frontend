@@ -419,7 +419,7 @@ export default {
       '초등학교 4학년', '초등학교 5학년', '초등학교 6학년', '중학교 1학년', '중학교 2학년', '중학교 3학년',
       '고등학교 1학년', '고등학교 2학년', '고등학교 3학년', '성인'
     ],
-    tab: null,
+    tab: 'one',
     reviewPage: 1,
     totalReviewElements: 0,
     totalReviewPages: 0,
@@ -475,13 +475,13 @@ export default {
       this.ratingDetails["3점"] = res.data.data.count[2]
       this.ratingDetails["4점"] = res.data.data.count[3]
       this.ratingDetails["5점"] = res.data.data.count[4]
-      this.averageRating = 0
-      for (let i=0; i<5; i++) {
-        this.averageRating += res.data.data.count[i] * (i+1);
-      }
-      if (this.totalReviewElements != 0) {
-        this.averageRating = Math.round(this.averageRating / this.totalReviewElements * 10) / 10
-      }
+      this.averageRating = Math.round(res.data.data.averageStar * 10) / 10
+      // for (let i=0; i<5; i++) {
+      //   this.averageRating += res.data.data.count[i] * (i+1);
+      // }
+      // if (this.totalReviewElements != 0) {
+      //   this.averageRating = Math.round(this.averageRating / this.totalReviewElements * 10) / 10
+      // }
       
     })
     },
@@ -607,6 +607,7 @@ export default {
       this.loadReviewCount();
       this.loading = false;
     });
+
   },
   components: { CommonEditor },
 };

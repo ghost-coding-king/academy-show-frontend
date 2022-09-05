@@ -24,6 +24,11 @@ import DetailAcademy from '@/components/main-page/DetailAcademy'
 import AcademyNewsWrite from '@/components/main-page/AcademyNewsWrite'
 import AcademyNewsDetail from '@/components/main-page/AcademyNewsDetail'
 
+import MagazineContent from '@/components/main-page/MagazineContent'
+import MagazineOne from '@/components/main-page/magazine/MagazineOne'
+import MagazineTwo from '@/components/main-page/magazine/MagazineTwo'
+import MagazineThree from '@/components/main-page/magazine/MagazineThree'
+
 
 const routes = [
   {
@@ -34,6 +39,25 @@ const routes = [
       path: '/',
       component: MainHome,
       meta: {title: '전국학원자랑-메인'}
+    },
+    {
+      path: '/magazine',
+      component: MagazineContent,
+      meta: {title: '읽을거리'},
+      children: [
+        {
+          path: '/magazine',
+          component: MagazineOne,
+        },
+        {
+          path: '/magazine/2',
+          component: MagazineTwo,
+        },
+        {
+          path: '/magazine/3',
+          component: MagazineThree,
+        }
+      ]
     },
     {
       path: '/project',

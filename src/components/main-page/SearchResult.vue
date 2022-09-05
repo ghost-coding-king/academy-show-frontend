@@ -51,7 +51,7 @@
               </div>
               <div v-else style="display: flex; align-items: center;">
                 <v-icon color="red" icon="fa-regular fa-heart"></v-icon>
-                <span class="mx-1">0</span>
+                <span class="mx-1">{{ academy.upStatistics.count }}</span>
               </div>
             </div>
           </v-row>

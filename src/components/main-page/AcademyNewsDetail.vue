@@ -29,10 +29,12 @@
     <v-divider></v-divider>
 
     <div style="width: 800px; margin: 20px auto; display: flex; justify-content: space-between;">
-      <v-btn @click="this.$router.go(-1)">이전</v-btn>
+      <v-btn 
+      @click="this.$router.push(`/academy/${this.$route.params.id}`)"
+      flat color="#e9ecef">이전</v-btn>
       <div>
-        <v-btn>수정</v-btn>
-        <v-btn>삭제</v-btn>
+        <v-btn flat color="#ffe6b1" style="color: #fd9f28;">수정</v-btn>
+        <v-btn flat color="#e9ecef" style="color: #ff3b3b; margin-left: 2px">삭제</v-btn>
       </div>
     </div>
 
