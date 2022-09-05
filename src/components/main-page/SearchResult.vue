@@ -39,10 +39,21 @@
 
         <v-card-text>
           <v-row align="center" class="mx-0">
-            <v-rating :model-value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
-
-            <div class="text-grey ms-4">4.5 (413)</div>
-
+            <v-rating :model-value="academy.reviewStatistics.averageStar" color="amber" dense half-increments readonly size="14"></v-rating>
+            <div class="text-grey ms-1">
+              {{ academy.reviewStatistics.averageStar }}
+              ({{ academy.reviewStatistics.totalReviews }})
+            </div>
+            <div class="text-grey ms-2">
+              <div v-if="academy.upStatistics.status == 'YES'" style="display: flex; align-items: center;">
+                <v-icon color="red" icon="fa-solid fa-heart"></v-icon>
+                <span class="mx-1">{{ academy.upStatistics.count }}</span>
+              </div>
+              <div v-else style="display: flex; align-items: center;">
+                <v-icon color="red" icon="fa-regular fa-heart"></v-icon>
+                <span class="mx-1">0</span>
+              </div>
+            </div>
           </v-row>
           <v-row no-gutters style="margin-top: 15px">
             <span class="mr-1" style="color: #c5c5c5">{{ academy.roadAddress }} {{ academy.subAddress }}</span>
@@ -52,8 +63,8 @@
         <v-divider class="mx-1"></v-divider>
 
         <div class="px-4 mb-10" style="padding: 15px; font-size: 0.9rem; color: #9f9f9f">
-          리뷰 <span style="color: black;">5</span> 찜 <span style="color: black;">4</span> 소식 <span
-            style="color: black;">4</span>
+          리뷰 <span style="color: black;">{{ academy.reviewStatistics.totalReviews }}</span> 소식 <span
+            style="color: black;">0</span>
 
         </div>
       </v-col>
@@ -107,6 +118,7 @@ export default {
           this.academyList = res.data.data.content
           this.totalPages = res.data.data.totalPages
           this.totalElements = res.data.data.totalElements   
+          console.log(this.academyList[0]);
         })
     },
     detailPage(id) {

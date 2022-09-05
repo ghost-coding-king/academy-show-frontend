@@ -42,7 +42,10 @@
       </p>
     </v-row>
     <v-row no-gutters style="justify-content: center; align-items: center">
-      <p style="font-size: 20px; margin-right: 20px">⭐ {{ this.everageRating }}</p>
+      <p style="font-size: 20px; margin-right: 20px">⭐ 
+        <span v-if="this.totalReviewElements > 0"> {{ this.averageRating }}</span>
+        <span v-else style="color: #9f9f9f"> 리뷰 없음 </span>
+      </p>
       <div id="like" @click="clickLikes">
         <span v-if="isLike">
           <v-icon color="red" icon="fa-solid fa-heart"></v-icon>
@@ -199,10 +202,10 @@
                 "
               >
                 <div>
-                  <span style="font-size: 30px; margin-top: 15px">{{ this.everageRating }}</span>
+                  <span style="font-size: 30px; margin-top: 15px">{{ this.averageRating }}</span>
                   <div>
                     <v-rating
-                      v-model="everageRating"
+                      v-model="averageRating"
                       bg-color="orange-lighten-1"
                       color="#fd9f28"
                       size="50"
@@ -430,7 +433,7 @@ export default {
     loading: true,
     content: "",
     rating: 0,
-    everageRating: 0,
+    averageRating: 0,
     likeCount: 0,
     ratingDetails: {
       "5점": 0,
@@ -472,12 +475,12 @@ export default {
       this.ratingDetails["3점"] = res.data.data.count[2]
       this.ratingDetails["4점"] = res.data.data.count[3]
       this.ratingDetails["5점"] = res.data.data.count[4]
-      this.everageRating = 0
+      this.averageRating = 0
       for (let i=0; i<5; i++) {
-        this.everageRating += res.data.data.count[i] * (i+1);
+        this.averageRating += res.data.data.count[i] * (i+1);
       }
       if (this.totalReviewElements != 0) {
-        this.everageRating = Math.round(this.everageRating / this.totalReviewElements * 10) / 10
+        this.averageRating = Math.round(this.averageRating / this.totalReviewElements * 10) / 10
       }
       
     })
