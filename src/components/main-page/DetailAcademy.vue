@@ -43,15 +43,15 @@
     </v-row>
     <v-row no-gutters style="justify-content: center; align-items: center">
       <p style="font-size: 20px; margin-right: 20px">⭐ {{ this.everageRating }}</p>
-      <div id="like" @click="this.isLike = !this.isLike">
+      <div id="like" @click="clickLikes">
         <span v-if="isLike">
-          <v-icon color="red" icon="fa-regular fa-heart"></v-icon>
-        </span>
-        <span v-else>
           <v-icon color="red" icon="fa-solid fa-heart"></v-icon>
         </span>
+        <span v-else>
+          <v-icon color="red" icon="fa-regular fa-heart"></v-icon>
+        </span>
 
-        <span style="margin-left: 5px; font-size: 20px">1247</span>
+        <span style="margin-left: 5px; font-size: 20px"> {{ this.likeCount }}</span>
       </div>
     </v-row>
 
@@ -431,6 +431,7 @@ export default {
     content: "",
     rating: 0,
     everageRating: 0,
+    likeCount: 0,
     ratingDetails: {
       "5점": 0,
       "4점": 0,
@@ -442,6 +443,22 @@ export default {
     isLike: false,
   }),
   methods: {
+    clickLikes() {
+      if (!AuthUtil.isAuthenticated()) {
+        alert('로그인이 필요합니다.')
+        return
+      }
+      ApiRequester.post('/api/up', { 'type': 'ACADEMY', 'referenceId': this.$route.params.id })
+      .then(res => {
+        if (res.data.code == 200) {
+          ApiRequester.get('/api/up', { params: { 'type': 'ACADEMY', 'referenceId': this.$route.params.id }})
+          .then(res2 => {
+            this.likeCount =  res2.data.data.count
+            this.isLike = res2.data.data.status == 'YES'
+          })
+        }
+      })
+    },
     parseLocalDateTime(localDateTime) {
       let date = new Date(localDateTime);
       date.setHours(date.getHours() + 9);
@@ -567,8 +584,11 @@ export default {
     }
   },
   mounted() {
-    ApiRequester.get("/api/academy/" + this.$route.params.id).then((res) => {
+    ApiRequester.get("/api/academy/" + this.$route.params.id)
+    .then((res) => {
       this.academy = res.data.data;
+      this.isLike = res.data.data.upStatistics.status == 'YES'
+      this.likeCount = res.data.data.upStatistics.count
       let arr = ["유아", "초등학교", "중학교", "고등학교", "성인"];
       let edus = res.data.data.educations;
       for (let i in edus) {

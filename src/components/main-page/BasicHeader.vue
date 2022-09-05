@@ -22,9 +22,6 @@
       <v-tab @click="this.$router.push(pageLink)" hide-slider>
         고객센터
       </v-tab>
-      <v-tab @click="this.$router.push(pageLink)" hide-slider>
-        ★우경진 암살 의뢰★
-      </v-tab>
     </v-tabs>
 
 
