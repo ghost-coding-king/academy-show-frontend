@@ -5,6 +5,7 @@
       dark
       icons-and-text
       class="mt-3"
+      hide-slider
     >
       <v-tabs-slider></v-tabs-slider>
 
@@ -12,7 +13,7 @@
         메인
       </v-tab>
 
-      <v-tab @click="this.$router.push('/magazine/2')">
+      <v-tab @click="this.$router.push('/magazine/academy-news')">
         학원 소식
       </v-tab>
 

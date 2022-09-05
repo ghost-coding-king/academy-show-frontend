@@ -26,7 +26,7 @@ import AcademyNewsDetail from '@/components/main-page/AcademyNewsDetail'
 
 import MagazineContent from '@/components/main-page/MagazineContent'
 import MagazineOne from '@/components/main-page/magazine/MagazineOne'
-import MagazineTwo from '@/components/main-page/magazine/MagazineTwo'
+import MagazineAcademyNews from '@/components/main-page/magazine/MagazineAcademyNews'
 import MagazineThree from '@/components/main-page/magazine/MagazineThree'
 
 
@@ -50,8 +50,8 @@ const routes = [
           component: MagazineOne,
         },
         {
-          path: '/magazine/2',
-          component: MagazineTwo,
+          path: '/magazine/academy-news',
+          component: MagazineAcademyNews,
         },
         {
           path: '/magazine/3',

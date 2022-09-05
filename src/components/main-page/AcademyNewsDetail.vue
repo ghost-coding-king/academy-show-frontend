@@ -30,7 +30,7 @@
 
     <div style="width: 800px; margin: 20px auto; display: flex; justify-content: space-between;">
       <v-btn 
-      @click="this.$router.push(`/academy/${this.$route.params.id}`)"
+      @click="this.$router.go(-1)"
       flat color="#e9ecef">이전</v-btn>
       <div>
         <v-btn flat color="#ffe6b1" style="color: #fd9f28;">수정</v-btn>
