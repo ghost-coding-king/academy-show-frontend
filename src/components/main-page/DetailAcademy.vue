@@ -80,7 +80,7 @@
 
     <v-card flat>
       <v-tabs v-model="tab" centered>
-        <v-tab value="one" style="width: 200px">학원 정보</v-tab>
+        <v-tab value="one" style="width: 200px; font-weight: bold">학원 정보</v-tab>
         <v-tab value="two" style="width: 200px">리뷰</v-tab>
         <v-tab value="three" style="width: 200px">소식</v-tab>
       </v-tabs>

@@ -17,7 +17,7 @@
     ></v-progress-circular>
   </div>
   <div v-else
-   style="width: 800px; margin: 50px auto; min-height: 700px">
+   style="width: 800px; margin: 50px auto; min-height: 700px; word-wrap: break-word;">
     <h1>{{ this.postInfo.title }}</h1>
     <div style="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 10px; align-items: flex-end;">
       <span>
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div style="width: 800px; margin: 50px auto;" v-html="this.postInfo.content">
+    <div style="width: 800px; margin: 50px auto; word-wrap: break-word;" v-html="this.postInfo.content">
 
     </div>
   </div>
