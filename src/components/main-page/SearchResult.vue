@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters justify="center" style="margin: 50px 370px 10px 0;">
-    <v-btn-toggle v-model="type" tile group mandatory selected-class="v-btn-selected">
+    <v-btn-toggle v-model="type" tile group mandatory selected-class="v-btn-selected" @update:modelValue="search">
       <v-btn value="academy" style="background-color: #f2f2f2"> 학원 </v-btn>
 
       <v-btn value="tutor" style="background-color: #f2f2f2"> 과외 </v-btn>
@@ -90,18 +90,18 @@ export default {
   }),
   watch: {
     '$route'() {
-      this.search()
+      this.academySearch()
     }
   },
   created() {
     this.$emit('onSearchPage', this.$route.query.searchType)
-    this.search()
+    this.academySearch()
   },
   beforeUnmount() {
     this.$emit('outSearchPage')
   },
   methods: {
-    search() {
+    academySearch() {
       ApiRequester.get('/api/academies', {
         params: {
           searchType: this.$route.query.searchType,
@@ -117,8 +117,34 @@ export default {
           this.academyList = res.data.data.content
           this.totalPages = res.data.data.totalPages
           this.totalElements = res.data.data.totalElements   
-          console.log(this.academyList[0]);
         })
+    },
+    tutorSearch() {
+      ApiRequester.get('/api/tutors', {
+        params: {
+          searchType: this.$route.query.searchType,
+          q: this.$route.query.q,
+          educations: this.$route.query.educations,
+          subjects: this.$route.query.subjects,
+          area: this.$route.query.area,
+          page: this.page - 1,
+          size: this.size
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          this.academyList = res.data.data.content
+          this.totalPages = res.data.data.totalPages
+          this.totalElements = res.data.data.totalElements   
+        })
+    },
+    search() {
+      this.page = 1;
+      
+      if(this.type === "academy")
+        this.academySearch();
+      else
+        this.tutorSearch();
     },
     detailPage(id) {
       window.open('/academy/' + id);
