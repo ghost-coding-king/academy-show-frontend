@@ -41,20 +41,74 @@
         {{ academy.roadAddress }} {{ academy.subAddress }}
       </p>
     </v-row>
-    <v-row no-gutters style="justify-content: center; align-items: center">
-      <p style="font-size: 20px; margin-right: 20px">⭐ 
-        <span v-if="this.totalReviewElements > 0"> {{ this.averageRating }}</span>
-        <span v-else style="color: #9f9f9f"> 리뷰 없음 </span>
-      </p>
-      <div id="like" @click="clickLikes">
-        <span v-if="isLike">
-          <v-icon color="red" icon="fa-solid fa-heart"></v-icon>
-        </span>
-        <span v-else>
-          <v-icon color="red" icon="fa-regular fa-heart"></v-icon>
-        </span>
+    <v-row
+      no-gutters
+      style="justify-content: center; align-items: center; margin-top: 5px"
+    >
+      <div
+        style="
+          font-size: 18px;
+          margin-right: 10px;
+          background-color: #fcefcf;
+          height: 25px;
+          width: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 15%;
+        "
+      >
+        ⭐
+        <span
+          v-if="this.totalReviewElements > 0"
+          style="color: #ffb300; margin-left: 3px"
+        >
+          {{ this.averageRating }}</span
+        >
+        <span v-else style="color: #9f9f9f"> - </span>
+      </div>
 
-        <span style="margin-left: 5px; font-size: 20px"> {{ this.likeCount }}</span>
+      <div
+        v-if="isLike"
+        id="like"
+        @click="clickLikes"
+        style="
+          width: 50px;
+          height: 25px;
+          background-color: #fce6de;
+          border-radius: 15%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: red;
+          font-size: 18px;
+        "
+      >
+        <v-icon icon="fa-solid fa-heart" size="20"></v-icon>
+        <span style="color: red; margin-left: 3px; margin-bottom: 1px">{{
+          this.likeCount
+        }}</span>
+      </div>
+      <div
+        v-else
+        id="like"
+        @click="clickLikes"
+        style="
+          width: 50px;
+          height: 25px;
+          background-color: #fce6de;
+          border-radius: 15%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: red;
+          font-size: 18px;
+        "
+      >
+        <v-icon icon="fa-regular fa-heart" size="20"></v-icon>
+        <span style="color: red; margin-left: 3px; margin-bottom: 1px">{{
+          this.likeCount
+        }}</span>
       </div>
     </v-row>
 
@@ -80,7 +134,9 @@
 
     <v-card flat>
       <v-tabs v-model="tab" centered>
-        <v-tab value="one" style="width: 200px; font-weight: bold">학원 정보</v-tab>
+        <v-tab value="one" style="width: 200px; font-weight: bold"
+          >학원 정보</v-tab
+        >
         <v-tab value="two" style="width: 200px">리뷰</v-tab>
         <v-tab value="three" style="width: 200px">소식</v-tab>
       </v-tabs>
@@ -202,7 +258,9 @@
                 "
               >
                 <div>
-                  <span style="font-size: 30px; margin-top: 15px">{{ this.averageRating }}</span>
+                  <span style="font-size: 30px; margin-top: 15px">{{
+                    this.averageRating
+                  }}</span>
                   <div>
                     <v-rating
                       v-model="averageRating"
@@ -235,7 +293,8 @@
                     <td>
                       <v-progress-linear
                         :model-value="
-                          (this.ratingDetails[k] / this.totalReviewElements) * 100
+                          (this.ratingDetails[k] / this.totalReviewElements) *
+                          100
                         "
                         color="#fd9f28"
                         style="width: 290px; margin-left: 10px"
@@ -265,7 +324,9 @@
                   hover
                 ></v-rating>
               </div>
-              <span style="color: #4c4c4c; font-size: 12px;">수강 당시 연령: </span>
+              <span style="color: #4c4c4c; font-size: 12px"
+                >수강 당시 연령:
+              </span>
               <v-select
                 :items="reviewAgeList"
                 v-model="reviewAge"
@@ -320,11 +381,40 @@
 
               <v-row no-gutters style="align-items: center">
                 수강 당시 연령:
-                <v-chip v-if="review.reviewAge.includes('유아')" link color="orange" class="ml-5">{{ review.reviewAge }}</v-chip>
-                <v-chip v-else-if="review.reviewAge.includes('초등학교')" link color="green" class="ml-5">{{ review.reviewAge }}</v-chip>
-                <v-chip v-else-if="review.reviewAge.includes('중학교')" link color="#ff8e8e" class="ml-5">{{ review.reviewAge }}</v-chip>
-                <v-chip v-else-if="review.reviewAge.includes('고등학교')" link color="blue" class="ml-5">{{ review.reviewAge }}</v-chip>
-                <v-chip v-else-if="review.reviewAge.includes('성인')" link class="ml-5">{{ review.reviewAge }}</v-chip>
+                <v-chip
+                  v-if="review.reviewAge.includes('유아')"
+                  link
+                  color="orange"
+                  class="ml-5"
+                  >{{ review.reviewAge }}</v-chip
+                >
+                <v-chip
+                  v-else-if="review.reviewAge.includes('초등학교')"
+                  link
+                  color="green"
+                  class="ml-5"
+                  >{{ review.reviewAge }}</v-chip
+                >
+                <v-chip
+                  v-else-if="review.reviewAge.includes('중학교')"
+                  link
+                  color="#ff8e8e"
+                  class="ml-5"
+                  >{{ review.reviewAge }}</v-chip
+                >
+                <v-chip
+                  v-else-if="review.reviewAge.includes('고등학교')"
+                  link
+                  color="blue"
+                  class="ml-5"
+                  >{{ review.reviewAge }}</v-chip
+                >
+                <v-chip
+                  v-else-if="review.reviewAge.includes('성인')"
+                  link
+                  class="ml-5"
+                  >{{ review.reviewAge }}</v-chip
+                >
               </v-row>
               <v-row no-gutters>
                 <v-rating
@@ -352,7 +442,7 @@
               ></v-pagination>
             </div>
           </v-window-item>
-          
+
           <v-window-item value="three">
             <div style="display: flex; justify-content: right">
               <v-btn
@@ -374,17 +464,36 @@
             <div
               id="news"
               class="mx-auto"
-              style="padding: 20px; margin: 20px; width: 590px; border: 1px solid #c3c3c3; border-radius: 10px;"
+              style="
+                padding: 20px;
+                margin: 20px;
+                width: 590px;
+                border: 1px solid #c3c3c3;
+                border-radius: 10px;
+              "
               v-for="(news, i) in this.newsItems"
               :key="i"
-              @click="this.$router.push(`/academy/${this.$route.params.id}/news/${news.id}`)"
+              @click="
+                this.$router.push(
+                  `/academy/${this.$route.params.id}/news/${news.id}`
+                )
+              "
             >
               <h2 style="margin-bottom: 10px">{{ news.title }}</h2>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
                 <div>
-                <v-avatar :image="news.profile" style="border: 1px solid grey"></v-avatar>
-                <span style="margin-left: 10px">{{ news.nickname }}</span>
-              </div>
+                  <v-avatar
+                    :image="news.profile"
+                    style="border: 1px solid grey"
+                  ></v-avatar>
+                  <span style="margin-left: 10px">{{ news.nickname }}</span>
+                </div>
                 <span>{{ this.parseLocalDateTime(news.createdAt) }}</span>
               </div>
             </div>
@@ -413,13 +522,26 @@ export default {
   computed: mapState(["myAcademyId"]),
   name: "KakaoMap",
   data: () => ({
-    reviewAge: '연령 선택',
+    reviewAge: "연령 선택",
     reviewAgeList: [
-      '유아 5세', '유아 6세', '유아 7세', '초등학교 1학년', '초등학교 2학년', '초등학교 3학년',
-      '초등학교 4학년', '초등학교 5학년', '초등학교 6학년', '중학교 1학년', '중학교 2학년', '중학교 3학년',
-      '고등학교 1학년', '고등학교 2학년', '고등학교 3학년', '성인'
+      "유아 5세",
+      "유아 6세",
+      "유아 7세",
+      "초등학교 1학년",
+      "초등학교 2학년",
+      "초등학교 3학년",
+      "초등학교 4학년",
+      "초등학교 5학년",
+      "초등학교 6학년",
+      "중학교 1학년",
+      "중학교 2학년",
+      "중학교 3학년",
+      "고등학교 1학년",
+      "고등학교 2학년",
+      "고등학교 3학년",
+      "성인",
     ],
-    tab: 'one',
+    tab: "one",
     reviewPage: 1,
     totalReviewElements: 0,
     totalReviewPages: 0,
@@ -448,19 +570,22 @@ export default {
   methods: {
     clickLikes() {
       if (!AuthUtil.isAuthenticated()) {
-        alert('로그인이 필요합니다.')
-        return
+        alert("로그인이 필요합니다.");
+        return;
       }
-      ApiRequester.post('/api/up', { 'type': 'ACADEMY', 'referenceId': this.$route.params.id })
-      .then(res => {
+      ApiRequester.post("/api/up", {
+        type: "ACADEMY",
+        referenceId: this.$route.params.id,
+      }).then((res) => {
         if (res.data.code == 200) {
-          ApiRequester.get('/api/up', { params: { 'type': 'ACADEMY', 'referenceId': this.$route.params.id }})
-          .then(res2 => {
-            this.likeCount =  res2.data.data.count
-            this.isLike = res2.data.data.status == 'YES'
-          })
+          ApiRequester.get("/api/up", {
+            params: { type: "ACADEMY", referenceId: this.$route.params.id },
+          }).then((res2) => {
+            this.likeCount = res2.data.data.count;
+            this.isLike = res2.data.data.status == "YES";
+          });
         }
-      })
+      });
     },
     parseLocalDateTime(localDateTime) {
       let date = new Date(localDateTime);
@@ -468,36 +593,36 @@ export default {
       return date.toISOString().replace("T", " ").substring(0, 16);
     },
     loadReviewCount() {
-      ApiRequester.get(`/api/academy/${this.$route.params.id}/reviews/statistics`)
-    .then((res) => {
-      this.ratingDetails["1점"] = res.data.data.count[0]
-      this.ratingDetails["2점"] = res.data.data.count[1]
-      this.ratingDetails["3점"] = res.data.data.count[2]
-      this.ratingDetails["4점"] = res.data.data.count[3]
-      this.ratingDetails["5점"] = res.data.data.count[4]
-      this.averageRating = Math.round(res.data.data.averageStar * 10) / 10
-      // for (let i=0; i<5; i++) {
-      //   this.averageRating += res.data.data.count[i] * (i+1);
-      // }
-      // if (this.totalReviewElements != 0) {
-      //   this.averageRating = Math.round(this.averageRating / this.totalReviewElements * 10) / 10
-      // }
-      
-    })
+      ApiRequester.get(
+        `/api/academy/${this.$route.params.id}/reviews/statistics`
+      ).then((res) => {
+        this.ratingDetails["1점"] = res.data.data.count[0];
+        this.ratingDetails["2점"] = res.data.data.count[1];
+        this.ratingDetails["3점"] = res.data.data.count[2];
+        this.ratingDetails["4점"] = res.data.data.count[3];
+        this.ratingDetails["5점"] = res.data.data.count[4];
+        this.averageRating = Math.round(res.data.data.averageStar * 10) / 10;
+        // for (let i=0; i<5; i++) {
+        //   this.averageRating += res.data.data.count[i] * (i+1);
+        // }
+        // if (this.totalReviewElements != 0) {
+        //   this.averageRating = Math.round(this.averageRating / this.totalReviewElements * 10) / 10
+        // }
+      });
     },
     loadNews() {
-      ApiRequester.get(`/api/academy/${this.$route.params.id}/posts`, 
-      {params: {
+      ApiRequester.get(`/api/academy/${this.$route.params.id}/posts`, {
+        params: {
           page: this.newsPage - 1,
           size: 5,
-        }})
-    .then((res) => {
-      this.newsItems = res.data.data.content;
-      this.totalNewsPages = res.data.data.totalPages;
-      this.totalNewsElements = res.data.data.totalElements;
-    })
+        },
+      }).then((res) => {
+        this.newsItems = res.data.data.content;
+        this.totalNewsPages = res.data.data.totalPages;
+        this.totalNewsElements = res.data.data.totalElements;
+      });
     },
-     loadReview() {
+    loadReview() {
       ApiRequester.get(`/api/academy/${this.academy.id}/reviews`, {
         params: {
           page: this.reviewPage - 1,
@@ -518,18 +643,18 @@ export default {
         alert("리뷰 내용을 입력해주세요.");
         return;
       }
-      if (this.reviewAge == '연령 선택') {
-        alert('수강 당시 연령을 선택해주세요.')
+      if (this.reviewAge == "연령 선택") {
+        alert("수강 당시 연령을 선택해주세요.");
         return;
       }
       ApiRequester.post(`/api/academy/${this.academy.id}/reviews`, {
         comment: this.content,
         rating: this.rating,
-        reviewAge: this.reviewAge
+        reviewAge: this.reviewAge,
       }).then(() => {
         this.content = "";
         this.rating = 0;
-        this.reviewAge = '연령 선택'
+        this.reviewAge = "연령 선택";
         this.loadReview();
         this.loadReviewCount();
         alert("리뷰가 등록되었습니다.");
@@ -587,11 +712,10 @@ export default {
     }
   },
   mounted() {
-    ApiRequester.get("/api/academy/" + this.$route.params.id)
-    .then((res) => {
+    ApiRequester.get("/api/academy/" + this.$route.params.id).then((res) => {
       this.academy = res.data.data;
-      this.isLike = res.data.data.upStatistics.status == 'YES'
-      this.likeCount = res.data.data.upStatistics.count
+      this.isLike = res.data.data.upStatistics.status == "YES";
+      this.likeCount = res.data.data.upStatistics.count;
       let arr = ["유아", "초등학교", "중학교", "고등학교", "성인"];
       let edus = res.data.data.educations;
       for (let i in edus) {
@@ -607,7 +731,6 @@ export default {
       this.loadReviewCount();
       this.loading = false;
     });
-
   },
   components: { CommonEditor },
 };

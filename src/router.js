@@ -48,14 +48,17 @@ const routes = [
         {
           path: '/magazine',
           component: MagazineOne,
+          name: 'magazine-main'
         },
         {
           path: '/magazine/academy-news',
           component: MagazineAcademyNews,
+          name: 'magazine-academy-news'
         },
         {
           path: '/magazine/3',
           component: MagazineThree,
+          name: 'magazine-three'
         }
       ]
     },

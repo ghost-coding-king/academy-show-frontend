@@ -25,7 +25,6 @@
         style="box-shadow: 1px 1px 5px 1px grey"
       >
         <v-btn value="FILTER" style="background-color: #f2f2f2"> 카테고리 </v-btn>
-
         <v-btn value="NAME" style="background-color: #f2f2f2"> 학원명 </v-btn>
       </v-btn-toggle>
     </v-row>

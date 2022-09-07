@@ -1,5 +1,7 @@
 <template>
-  매거진 1
+  <div>
+    머냐탕
+  </div>
 </template>
 
 <script>

@@ -17,7 +17,7 @@
     </span>
   </v-row>
 
-  <v-card @click="detailPage(academy.id)" link class="mx-auto mb-3" width="500" height="215" v-for="(academy, i) in academyList" :key="i">
+  <v-card @click="detailPage(academy.id)" link class="mx-auto mb-3" width="500" height="210" v-for="(academy, i) in academyList" :key="i">
     <v-row no-gutters>
       <v-col cols="3" style="display: flex; align-items: center; justify-content: center; margin-bottom: 100px;">
         <v-avatar v-if="academy.profile != '' && academy.profile != undefined" :image="academy.profile" size="100"
@@ -28,8 +28,7 @@
       </v-col>
       <v-col cols="9">
         <v-card-item>
-          <v-card-title>{{ academy.name }}</v-card-title>
-
+          <v-card-title style="font-weight: bold">{{ academy.name }}</v-card-title>
           <v-card-subtitle>
             <span style="width: 100%; height: 100%">{{ academy.introduce }}</span>
             <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
@@ -43,16 +42,6 @@
               {{ academy.reviewStatistics.averageStar }}
               ({{ academy.reviewStatistics.totalReviews }})
             </div>
-            <div class="text-grey ms-2">
-              <div v-if="academy.upStatistics.status == 'YES'" style="display: flex; align-items: center;">
-                <v-icon color="red" icon="fa-solid fa-heart"></v-icon>
-                <span class="mx-1">{{ academy.upStatistics.count }}</span>
-              </div>
-              <div v-else style="display: flex; align-items: center;">
-                <v-icon color="red" icon="fa-regular fa-heart"></v-icon>
-                <span class="mx-1">{{ academy.upStatistics.count }}</span>
-              </div>
-            </div>
           </v-row>
           <v-row no-gutters style="margin-top: 15px">
             <span class="mr-1" style="color: #c5c5c5">{{ academy.roadAddress }} {{ academy.subAddress }}</span>
@@ -61,10 +50,25 @@
 
         <v-divider class="mx-1"></v-divider>
 
-        <div class="px-4 mb-10" style="padding: 15px; font-size: 0.9rem; color: #9f9f9f">
+        <div class="px-4 mb-10" style="padding: 10px; font-size: 0.9rem; color: #9f9f9f; display: flex; justify-items: center; font-size: 13px">
+          <div v-if="academy.upStatistics.status == 'YES'"
+          style="width: 40px; height: 20px; background-color: #fce6de; border-radius: 15%;
+          display: flex; align-items: center; justify-content: center; color: red; font-size: 13px;"
+          >
+            <v-icon icon="fa-solid fa-heart" size="15"></v-icon>
+            <span style="color: red; margin-left: 3px; margin-bottom: 1px;">{{ academy.upStatistics.count }}</span>
+          </div>
+          <div v-else
+          style="width: 40px; height: 20px; background-color: #fce6de; border-radius: 15%;
+          display: flex; align-items: center; justify-content: center; color: red; font-size: 13px;"
+          >
+            <v-icon icon="fa-regular fa-heart" size="15"></v-icon>
+            <span style="color: red; margin-left: 3px; margin-bottom: 1px;">{{ academy.upStatistics.count }}</span>
+          </div>
+          <div style="margin-left: 5px">
           리뷰 <span style="color: black;">{{ academy.reviewStatistics.totalReviews }}</span> 소식 <span
             style="color: black;">0</span>
-
+          </div>
         </div>
       </v-col>
     </v-row>
