@@ -97,7 +97,7 @@ export default {
       ApiRequester.get('/api/posts', {
       params: {
         page: this.newsPage - 1,
-        size: 10,
+        size: 12,
         category: 'ACADEMY_NEWS'
       }
     })

@@ -31,8 +31,7 @@
           <v-card-title>{{ academy.name }}</v-card-title>
 
           <v-card-subtitle>
-            <span class="txt_line">{{ academy.introduce }}</span>
-
+            <span style="width: 100%; height: 100%">{{ academy.introduce }}</span>
             <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
           </v-card-subtitle>
         </v-card-item>
@@ -145,12 +144,5 @@ a:hover {
 .v-btn-selected {
   color: white !important;
   background-color: #fd9f28 !important;
-}
-
-.txt_line {
-  width: 70px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 </style>
