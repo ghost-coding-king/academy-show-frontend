@@ -13,17 +13,14 @@
 
     <v-tabs v-else style="margin-top: 20px;" next-icon="mdi-arrow-right-bold-box-outline"
       prev-icon="mdi-arrow-left-bold-box-outline" show-arrows>
-      <v-tab @click="this.$router.push(pageLink)" hide-slider>
-        학원
+      <v-tab @click="this.$router.push('/')" hide-slider>
+        학원/과외 찾기
       </v-tab>
-      <v-tab @click="this.$router.push(pageLink)" hide-slider>
-        과외
+      <v-tab @click="this.$router.push('/magazine')" hide-slider>
+        읽을거리
       </v-tab>
       <v-tab @click="this.$router.push(pageLink)" hide-slider>
         고객센터
-      </v-tab>
-      <v-tab @click="this.$router.push(pageLink)" hide-slider>
-        ★우경진 암살 의뢰★
       </v-tab>
     </v-tabs>
 

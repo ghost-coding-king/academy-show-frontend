@@ -1,8 +1,8 @@
 <template>
   <v-row no-gutters>
     <v-col cols="4"></v-col>
-    <v-row v-if="this.searchType == 'name'" no-gutters>
-    <v-text-field v-model="q" variant="outlined" append-inner-icon="mdi-magnify" :class="{ 'box-size': this.searchPage }"></v-text-field>
+    <v-row v-if="this.searchType == 'NAME'" no-gutters>
+    <v-text-field @keyup.enter="search('NAME')" v-model="q" variant="outlined" append-inner-icon="mdi-magnify" :class="{ 'box-size': this.searchPage }"></v-text-field>
     </v-row>
     <v-row align="center" justify="center" style="
           border: 1px solid #ababab;
@@ -19,13 +19,13 @@
           선택</v-btn>
       </v-btn-toggle>
 
-      <v-btn flat style="margin-right: 5px; background-color: #fd9f28;" @click="search('category')"><span style="color: white">검색</span></v-btn>
+      <v-btn flat style="margin-right: 5px; background-color: #fd9f28;" @click="search('FILTER')"><span style="color: white">검색</span></v-btn>
     </v-row>
     <v-col cols="4"></v-col>
   </v-row>
 
   <v-row no-gutters>
-    <v-col v-if="toggle == 'age' && searchType == 'category'" cols="4" class="toggle-select-box" style="height: 550px">
+    <v-col v-if="toggle == 'age' && searchType == 'FILTER'" cols="4" class="toggle-select-box" style="height: 550px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.ages = []" class="mr-1" style="background-color: #f2f2f2;" flat>초기화</v-btn>
         <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
@@ -71,7 +71,7 @@
       </div>
     </v-col>
 
-    <v-col v-if="toggle == 'subject' && searchType == 'category'" cols="4" class="toggle-select-box" style="height: 300px">
+    <v-col v-if="toggle == 'subject' && searchType == 'FILTER'" cols="4" class="toggle-select-box" style="height: 300px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.subjects = []" class="mr-1" style="background-color: #f2f2f2;" flat>초기화</v-btn>
         <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
@@ -86,7 +86,7 @@
         </v-chip-group>
       </div>
     </v-col>
-    <v-col v-if="toggle == 'area' && searchType == 'category'" cols="4" class="toggle-select-box" style="height: 620px">
+    <v-col v-if="toggle == 'area' && searchType == 'FILTER'" cols="4" class="toggle-select-box" style="height: 620px">
       <div style="display: flex; justify-content: right; padding: 15px">
         <v-btn @click="this.area = ''" class="mr-1" style="background-color: #f2f2f2;" flat>초기화</v-btn>
         <v-btn @click="this.toggle = ''" flat style="color: white; background-color: #fd9f28;">완료</v-btn>
@@ -150,6 +150,8 @@ export default {
       this.subjects = new Proxy(this.$route.query.subjects.split(','), {})
     if (this.$route.query.area != undefined)
       this.area = this.$route.query.area
+    if (this.$route.query.q != undefined)
+      this.q = this.$route.query.q
     ApiRequester.get("/api/subjects").then((res) => {
       this.subjectsItems = res.data.data.map((v) => v.name);
     });
@@ -160,20 +162,33 @@ export default {
   },
   methods: {
     search(searchType) {
-      if (this.ages.length == 0) {
-        alert('연령을 선택하세요.')
-      } else if (this.subjects.length == 0) {
-        alert('과목을 선택하세요.')
-      } else if (this.area == '') {
-        alert('지역을 선택하세요.')
-      } else {
-        this.$router.push({
-          name: '/search',
-          query: {searchType: searchType, q: this.q, educations: this.ages.join(','), subjects: this.subjects.join(','), area: this.area}
-        })
-        this.toggle = ''
+      if (searchType == 'FILTER') {
+        if (this.ages.length == 0) {
+          alert('연령을 선택하세요.')
+          return
+        } else if (this.subjects.length == 0) {
+          alert('과목을 선택하세요.')
+          return
+        } else if (this.area == '') {
+          alert('지역을 선택하세요.')
+          return
+        } 
       }
+      else if(searchType == 'NAME') {
+        this.q = this.q.trim()
+        if (this.q.length < 2) {
+          alert('검색어를 두 글자 이상 입력해주세요.')
+          return
+        }
+      }
+
+      this.$router.push({
+        name: '/search',
+        query: {searchType: searchType, q: this.q, educations: this.ages.join(','), subjects: this.subjects.join(','), area: this.area}
+      })
+      this.toggle = ''
     },
+  
   }
 }
 </script>

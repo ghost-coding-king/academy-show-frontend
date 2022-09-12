@@ -24,9 +24,8 @@
         selected-class="v-btn-selected"
         style="box-shadow: 1px 1px 5px 1px grey"
       >
-        <v-btn value="category" style="background-color: #f2f2f2"> 카테고리 </v-btn>
-
-        <v-btn value="name" style="background-color: #f2f2f2"> 학원명 </v-btn>
+        <v-btn value="FILTER" style="background-color: #f2f2f2"> 카테고리 </v-btn>
+        <v-btn value="NAME" style="background-color: #f2f2f2"> 학원명 </v-btn>
       </v-btn-toggle>
     </v-row>
 
@@ -334,30 +333,10 @@ import SearchBox from "./SearchBox.vue";
 
 export default {
     data: () => ({
-        searchType: "category",
+        searchType: "FILTER",
         toggle: "",
-        ages: [],
         subjects: [],
         subjectsItems: [],
-        area: "",
-        selectedArea: "서울",
-        radioGroupItems: {
-            서울: ["강남", "서초", "송파"],
-            강원: ["강릉", "원주", "춘천"],
-            경북: ["안동", "경주", "포항"],
-            경남: ["창원", "진주", "거제"],
-            충북: ["청주", "충주", "제천"],
-            충남: ["천안", "아산", "논산"],
-            전북: ["전주", "익산", "군산"],
-            전남: ["여수", "순천", "목포"],
-            제주: ["서귀포", "제주"],
-            인천: ["동구", "중구", "서구"],
-            대구: ["동구", "중구", "서구"],
-            대전: ["동구", "중구", "서구"],
-            부산: ["동구", "중구", "서구"],
-            울산: ["동구", "중구", "서구"],
-            광주: ["동구", "중구", "서구"],
-        },
     }),
     mounted() {
         ApiRequester.get("/api/subjects").then((res) => {

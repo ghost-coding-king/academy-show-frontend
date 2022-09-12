@@ -17,7 +17,7 @@
     ></v-progress-circular>
   </div>
   <div v-else
-   style="width: 800px; margin: 50px auto; min-height: 700px">
+   style="width: 800px; margin: 50px auto; min-height: 700px; word-wrap: break-word;">
     <h1>{{ this.postInfo.title }}</h1>
     <div style="display: flex; justify-content: space-between; margin-top: 20px; margin-bottom: 10px; align-items: flex-end;">
       <span>
@@ -29,14 +29,16 @@
     <v-divider></v-divider>
 
     <div style="width: 800px; margin: 20px auto; display: flex; justify-content: space-between;">
-      <v-btn @click="this.$router.go(-1)">이전</v-btn>
+      <v-btn 
+      @click="this.$router.go(-1)"
+      flat color="#e9ecef">이전</v-btn>
       <div>
-        <v-btn>수정</v-btn>
-        <v-btn>삭제</v-btn>
+        <v-btn flat color="#ffe6b1" style="color: #fd9f28;">수정</v-btn>
+        <v-btn flat color="#e9ecef" style="color: #ff3b3b; margin-left: 2px">삭제</v-btn>
       </div>
     </div>
 
-    <div style="width: 800px; margin: 50px auto;" v-html="this.postInfo.content">
+    <div style="width: 800px; margin: 50px auto; word-wrap: break-word;" v-html="this.postInfo.content">
 
     </div>
   </div>

@@ -1,9 +1,9 @@
 <template>
-  <v-footer class="bg-grey-lighten-4 text-white d-inline" style="min-width: 1350px;">
+  <v-footer class="text-white" style="min-width: 1350px; background-color: #303740;">
     <v-row no-gutters>
       <v-col cols="2"></v-col>
       <div>
-        <div><img id="mainLogo" @click="this.$router.push('/')" :src="require('../../assets/images/logo.png')"
+        <div class="my-3" style="background-color: #eff0f3; width: 100px; height: 70px; border-radius: 10%; display: flex; align-items: center;"><img id="mainLogo" @click="this.$router.push('/')" :src="require('../../assets/images/logo.png')"
             style="width: 100px; margin: 20px 0;" /></div>
         <div style="font-size: 0.8rem; margin-bottom: 20px;">
         <p>(주)전국학원자랑 | 팀원: 김동원, 김찬진, 우경진, 이현수 | 전화번호: 02-123-4567</p>
@@ -14,7 +14,7 @@
       </div>
       <v-row style="align-items: center;" no-gutters>
         <v-col cols="5"></v-col>
-        <v-btn v-for="icon in icons" :key="icon" class="mx-4 text-black" :icon="icon" variant="text"></v-btn>
+        <v-btn v-for="icon in icons" :key="icon" class="mx-4 text-white" :icon="icon" variant="text"></v-btn>
       </v-row>
     </v-row>
   </v-footer>

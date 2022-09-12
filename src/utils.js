@@ -75,7 +75,7 @@ const ApiRequester = (() => {
   }
 
   return {
-    'get': (url, data) => responseChecker(BaseApiRequester.get(url, data, makeDefaultConfig())),
+    'get': (url, config) => responseChecker(BaseApiRequester.get(url, AuthUtil.setAccessTokenToConfig(config))),
 
     'post': (url, data) => responseChecker(BaseApiRequester.post(url, data, makeDefaultConfig())),
 
@@ -136,6 +136,7 @@ const AuthUtil = {
    * set accessToken to headers of config and return
    */
   setAccessTokenToConfig: (config) => {
+    if (!config) config = {}
     if(AuthUtil.hasAccessToken()) {
       config.headers = {
         Authorization: `${CONFIG.MAIN_API_TOKEN_PREFIX} ${AuthUtil.getAccessToken()}` 
