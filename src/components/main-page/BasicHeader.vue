@@ -129,6 +129,8 @@ export default {
       this.$store.commit(STORE_COMMENDS.MUTATIONS.NAME, "");
       this.$store.commit(STORE_COMMENDS.MUTATIONS.ROLE, "");
       this.$store.commit(STORE_COMMENDS.MUTATIONS.PROFILE, "");
+      this.$store.commit(STORE_COMMENDS.MUTATIONS.MYACADEMYID, "");
+      this.$store.commit(STORE_COMMENDS.MUTATIONS.MY_TUTOR_ID, "");
       this.$router.push("/");
     },
     onScroll() {

@@ -95,6 +95,9 @@ const AuthUtil = {
   getMyAcademyId: () => {
     return store.state.myAcademyId
   },
+  getMyTutorId: () => {
+    return store.state.myTutorId
+  },
   isAuthenticated: () => {
     return store.state.accessToken != ''
   },

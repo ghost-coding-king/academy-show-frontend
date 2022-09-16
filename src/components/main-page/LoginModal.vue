@@ -72,6 +72,9 @@ export default {
                         if (res.data.data.role == 'ROLE_ACADEMY') {
                             this.$store.commit(STORE_COMMENDS.MUTATIONS.MYACADEMYID, res.data.data.myAcademyId)
                         }
+                        if (res.data.data.role == 'ROLE_TUTOR') {
+                            this.$store.commit(STORE_COMMENDS.MUTATIONS.MY_TUTOR_ID, res.data.data.myTutorId)
+                        }
                         AuthUtil.setAccessToken(res);
                         this.$emit('afterLogin')
                     } else {

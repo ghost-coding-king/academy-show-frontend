@@ -11,6 +11,7 @@ export default createStore({
       role: '',
       profile: '',
       myAcademyId: '',
+      myTutorId: '',
     }
   },
   mutations: {
@@ -32,14 +33,11 @@ export default createStore({
     myAcademyId (state, newmyAcademyId) {
       state.myAcademyId = newmyAcademyId
     },
+    myTutorId (state, newMyTutorId) {
+      state.myTutorId = newMyTutorId
+    },
   },
   actions: {
-    fetchToken (context) {
-      fetch("https://tenders.guru/api/hu/tenders/36077")
-        .then((response) => console.log("response:", response))
-        .catch(() => context.commit('token', 'abcd2fghijk'))
-      // context.commit('increment')
-    }
   }
 });
 
@@ -51,6 +49,7 @@ const STORE_COMMENDS = {
     ROLE: "role",
     PROFILE: "profile",
     MYACADEMYID: "myAcademyId",
+    MY_TUTOR_ID: "myTutorId"
   },
   ACTIONS: {
 
