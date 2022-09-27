@@ -21,13 +21,15 @@ import MyTuToring from '@/components/main-page/my-page/MyTutoring'
 import SearchResult from '@/components/main-page/SearchResult'
 
 import DetailAcademy from '@/components/main-page/DetailAcademy'
-import AcademyNewsWrite from '@/components/main-page/AcademyNewsWrite'
+import PostWrite from '@/components/main-page/PostWrite'
 import AcademyNewsDetail from '@/components/main-page/AcademyNewsDetail'
 
 import MagazineContent from '@/components/main-page/MagazineContent'
 import MagazineOne from '@/components/main-page/magazine/MagazineOne'
 import MagazineAcademyNews from '@/components/main-page/magazine/MagazineAcademyNews'
 import MagazineThree from '@/components/main-page/magazine/MagazineThree'
+
+import DetailTutor from '@/components/main-page/DetailTutor'
 
 
 const routes = [
@@ -81,11 +83,23 @@ const routes = [
     },
     {
       path: '/academy/:id/news/edit',
-      component: AcademyNewsWrite,
+      name: 'academyNewsWrite',
+      component: PostWrite,
     },
     {
       path: '/academy/:id/news/:newsId',
       component: AcademyNewsDetail,
+    },
+    {
+      path: '/tutor/:id',
+      name: '/tutor',
+      component: DetailTutor,
+      props: true
+    },
+    {
+      path: '/tutor/:id/news/edit',
+      name: 'tutorNewsWrite',
+      component: PostWrite,
     },
     {
       path: '/my-page',

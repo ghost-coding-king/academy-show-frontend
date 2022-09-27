@@ -19,8 +19,8 @@
   <div v-else>
     <v-row no-gutters style="margin-top: 60px" justify="center">
       <v-avatar
-        v-if="academy.profile != '' && academy.profile != undefined"
-        :image="academy.profile"
+        v-if="tutor.profile != '' && tutor.profile != undefined"
+        :image="tutor.profile"
         size="200"
         style="border: 1px solid black"
       ></v-avatar>
@@ -34,11 +34,11 @@
       </v-avatar>
     </v-row>
     <v-row no-gutters style="justify-content: center; margin-top: 20px">
-      <h2>{{ academy.name }}</h2>
+      <h2>{{ tutor.name }} 선생님</h2>
     </v-row>
     <v-row no-gutters style="justify-content: center">
       <p style="color: #9f9f9f; font-size: 0.9rem">
-        {{ academy.roadAddress }} {{ academy.subAddress }}
+        {{ tutor.area }}
       </p>
     </v-row>
     <v-row
@@ -111,9 +111,11 @@
         }}</span>
       </div>
     </v-row>
-
+    <div style="width: 600px; margin: 30px auto; border-radius: 10px; padding: 10px; text-align: center; background-color: #fff9eb">
+      <h2>{{ tutor.title }}</h2>
+    </div>
     <v-row no-gutters style="width: 600px; margin: 10px auto">
-      <h2>학원 소개</h2>
+      <h2>과외 소개</h2>
     </v-row>
     <v-row no-gutters style="justify-content: center">
       <div
@@ -125,17 +127,17 @@
           border-radius: 10px;
         "
       >
-        {{ academy.introduce }}
+        {{ tutor.introduce }}
       </div>
     </v-row>
     <v-row no-gutters style="width: 600px; margin: 0 auto; padding-bottom: 5px">
-      <v-chip link v-if="academy.shuttle" color="green">#셔틀 있음</v-chip>
+      <v-chip link v-if="tutor.shuttle" color="green">#셔틀 있음</v-chip>
     </v-row>
 
     <v-card flat>
       <v-tabs v-model="tab" centered>
         <v-tab value="one" style="width: 200px; font-weight: bold"
-          >학원 정보</v-tab
+          >과외 정보</v-tab
         >
         <v-tab value="two" style="width: 200px">리뷰</v-tab>
         <v-tab value="three" style="width: 200px">소식</v-tab>
@@ -225,7 +227,7 @@
               <v-chip
                 style="margin: 5px"
                 link
-                v-for="(item, i) in academy.subjects"
+                v-for="(item, i) in tutor.subjects"
                 :key="i"
               >
                 {{ item }}
@@ -233,11 +235,9 @@
             </div>
             <br />
 
-            <h2><i class="fa-solid fa-location-dot"></i> 위치</h2>
             <br />
             <div
-              id="map"
-              style="width: 100%; height: 350px; margin-bottom: 60px"
+              style="width: 100%; margin-bottom: 60px"
             ></div>
           </v-window-item>
 
@@ -447,15 +447,15 @@
             <div style="display: flex; justify-content: right">
               <v-btn
                 v-if="
-                  this.authUtil.getRole() == 'ROLE_ACADEMY' &&
-                  this.authUtil.getMyAcademyId() == this.$route.params.id
+                  this.authUtil.getRole() == 'ROLE_tutor' &&
+                  this.authUtil.getMytutorId() == this.$route.params.id
                 "
                 color="#fd9f28"
                 style="color: white; margin-top: 10px"
                 flat
                 @click="
                   this.$router.push(
-                    '/academy/' + this.$route.params.id + '/news/edit'
+                    '/tutor/' + this.$route.params.id + '/news/edit'
                   )
                 "
                 >글쓰기</v-btn
@@ -475,7 +475,7 @@
               :key="i"
               @click="
                 this.$router.push(
-                  `/academy/${this.$route.params.id}/news/${news.id}`
+                  `/tutor/${this.$route.params.id}/news/${news.id}`
                 )
               "
             >
@@ -519,7 +519,7 @@ import CommonEditor from "../common/CommonEditor.vue";
 import { mapState } from "vuex";
 
 export default {
-  computed: mapState(["myAcademyId"]),
+  computed: mapState(["mytutorId"]),
   name: "KakaoMap",
   data: () => ({
     reviewAge: "연령 선택",
@@ -547,7 +547,7 @@ export default {
     totalReviewPages: 0,
     reviewItems: Object,
     newsPage: 1,
-    academy: Object,
+    tutor: Object,
     newsItems: Object,
     totalNewsElements: 0,
     totalNewsPages: 0,
@@ -574,12 +574,12 @@ export default {
         return;
       }
       ApiRequester.post("/api/up", {
-        type: "ACADEMY",
+        type: "TUTOR",
         referenceId: this.$route.params.id,
       }).then((res) => {
         if (res.data.code == 200) {
           ApiRequester.get("/api/up", {
-            params: { type: "ACADEMY", referenceId: this.$route.params.id },
+            params: { type: "TUTOR", referenceId: this.$route.params.id },
           }).then((res2) => {
             this.likeCount = res2.data.data.count;
             this.isLike = res2.data.data.status == "YES";
@@ -594,7 +594,7 @@ export default {
     },
     loadReviewCount() {
       ApiRequester.get(
-        `/api/academy/${this.$route.params.id}/reviews/statistics`
+        `/api/tutor/${this.$route.params.id}/reviews/statistics`
       ).then((res) => {
         this.ratingDetails["1점"] = res.data.data.count[0];
         this.ratingDetails["2점"] = res.data.data.count[1];
@@ -611,7 +611,7 @@ export default {
       });
     },
     loadNews() {
-      ApiRequester.get(`/api/academy/${this.$route.params.id}/posts`, {
+      ApiRequester.get(`/api/tutor/${this.$route.params.id}/posts`, {
         params: {
           page: this.newsPage - 1,
           size: 5,
@@ -623,7 +623,7 @@ export default {
       });
     },
     loadReview() {
-      ApiRequester.get(`/api/academy/${this.academy.id}/reviews`, {
+      ApiRequester.get(`/api/tutor/${this.tutor.id}/reviews`, {
         params: {
           page: this.reviewPage - 1,
           size: 5,
@@ -647,7 +647,7 @@ export default {
         alert("수강 당시 연령을 선택해주세요.");
         return;
       }
-      ApiRequester.post(`/api/academy/${this.academy.id}/reviews`, {
+      ApiRequester.post(`/api/tutor/${this.tutor.id}/reviews`, {
         comment: this.content,
         rating: this.rating,
         reviewAge: this.reviewAge,
@@ -660,60 +660,15 @@ export default {
         alert("리뷰가 등록되었습니다.");
       });
     },
-    initMap() {
-      try {
-        const container = document.getElementById("map");
-        const options = {
-          center: new kakao.maps.LatLng(33.450701, 126.570667),
-          level: 5,
-        };
-        //지도 객체를 등록합니다.
-        //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
-        var map = new kakao.maps.Map(container, options);
-        // 주소-좌표 변환 객체를 생성합니다
-        var geocoder = new kakao.maps.services.Geocoder();
-        // 주소로 좌표를 검색합니다
-        geocoder.addressSearch(
-          this.academy.roadAddress,
-          function (result, status) {
-            // 정상적으로 검색이 완료됐으면
-            if (status === kakao.maps.services.Status.OK) {
-              var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-              // 결과값으로 받은 위치를 마커로 표시합니다
-              var marker = new kakao.maps.Marker({
-                map: map,
-                position: coords,
-              });
-              marker.setMap(map);
-              // 인포윈도우로 장소에 대한 설명을 표시합니다
-              // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-              map.setCenter(coords);
-            }
-          }
-        );
-      } catch (error) {
-        location.reload();
-      }
-    },
     changeContent(content) {
       this.content = content;
     },
   },
   created() {
-    if (window.kakao && window.kakao.maps) {
-      this.initMap();
-    } else {
-      const script = document.createElement("script");
-      /* global kakao */
-      window.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0202686bf75bcc93c7133b1e58c7ac49&libraries=services";
-      document.head.appendChild(script);
-    }
   },
   mounted() {
-    ApiRequester.get("/api/academy/" + this.$route.params.id).then((res) => {
-      this.academy = res.data.data;
+    ApiRequester.get("/api/tutor/" + this.$route.params.id).then((res) => {
+      this.tutor = res.data.data;
       this.isLike = res.data.data.upStatistics.status == "YES";
       this.likeCount = res.data.data.upStatistics.count;
       let arr = ["유아", "초등학교", "중학교", "고등학교", "성인"];
