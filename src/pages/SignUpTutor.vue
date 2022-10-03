@@ -216,6 +216,16 @@
                     <v-col cols="2"></v-col>
                   </v-row>
 
+                  <v-row no-gutters style="margin-bottom: 3px">
+                    <v-col cols="2"></v-col>
+                    <h3>과외 연락처</h3>
+                  </v-row>
+                  <v-row no-gutters>
+                    <v-col cols="2"></v-col>
+                    <v-text-field v-model="tutorPhone" :rules="[rules.requiredTutorPhone]" variant="outlined" placeholder="과외 연락처를 입력해주세요"></v-text-field>
+                    <v-col cols="2"></v-col>
+                  </v-row>
+
                   <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
                     <v-col cols="2"></v-col>
                     <h3>연령 선택</h3>
@@ -313,6 +323,7 @@ export default {
     isLoading: false,
     password: undefined,
     phone: undefined,
+    tutorPhone: undefined,
     passwordCheck: undefined,
     certification: undefined,
     certificationFileUrl: undefined,
@@ -338,6 +349,7 @@ export default {
       requiredAges: v => !!v[0] || '연령을 선택해주세요.',
       requiredSubjects: v => !!v[0] || '과목을 선택해주세요.',
       requiredtutorRegistration: v => !!v[0] || '개인과외교습자를 등록해주세요.',
+      requiredTutorPhone: v => !!v || '괴외 연락처를 입력해주세요.'
     },
     totorAgesItems: Age.map(e => e.value),
     totorAges: [],
@@ -419,6 +431,7 @@ export default {
               subjects: this.subjects,
               educations: this.totorAges,
               certification: this.certficationFileUrl,
+              phone: this.tutorPhone
             };
             
             ApiRequester.post(Urls.MAIN_API.AUTH.TUTOR, { 

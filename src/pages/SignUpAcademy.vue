@@ -217,6 +217,17 @@
                     <v-col cols="2"></v-col>
                   </v-row>
 
+                   <v-row no-gutters style="margin-bottom: 3px">
+                    <v-col cols="2"></v-col>
+                    <h3>학원 연락처</h3>
+                  </v-row>
+                  <v-row no-gutters>
+                    <v-col cols="2"></v-col>
+                    <v-text-field v-model="academyPhone" :rules="[rules.requiredAcademyPhone]" variant="outlined"
+                      placeholder="학원 연락처를 입력해주세요"></v-text-field>
+                    <v-col cols="2"></v-col>
+                  </v-row>
+
                   <v-row no-gutters style="margin-bottom: 3px; margin-top: 20px">
                     <v-col cols="2"></v-col>
                     <h3>연령 선택</h3>
@@ -397,6 +408,7 @@ export default {
     phone: undefined,
     passwordCheck: undefined,
     academyName: undefined,
+    academyPhone: undefined,
     academyPostcode: undefined,
     academyAddress: undefined,
     academyRoadAddress: undefined,
@@ -432,7 +444,7 @@ export default {
       requiredSubjects: v => !!v[0] || '연령을 선택해주세요.',
       requiredAcademyName: v => !!v || '학원명을 입력해주세요.',
       requiredAcademyRegistration: v => !!v[0] || '사업자 등록증을 등록해주세요.',
-
+      requiredAcademyPhone: v => !!v || '학원 연락처를 입력해주세요.'
     },
     items: Age.map(e => e.value),
     academyAges: [],
@@ -500,7 +512,8 @@ export default {
               subjects: this.subjects,
               educations: this.academyAges,
               registrationFile: this.academyRegistrationFileUrl,
-              profile: this.academyProfileFileUrl
+              profile: this.academyProfileFileUrl,
+              phone: this.academyPhone
             };
             ApiRequester.post(Urls.MAIN_API.AUTH.ACADEMY, { 'userInfo': this.userSignUpForm, 'academyInfo': this.academySignUpForm })
               .then(() => {
