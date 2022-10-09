@@ -41,6 +41,11 @@
         {{ academy.roadAddress }} {{ academy.subAddress }}
       </p>
     </v-row>
+    <v-row no-gutters style="justify-content: center">
+      <p style="color: #9f9f9f; font-size: 0.9rem">
+        📞 {{ academy.phone }}
+      </p>
+    </v-row>
     <v-row
       no-gutters
       style="justify-content: center; align-items: center; margin-top: 5px"

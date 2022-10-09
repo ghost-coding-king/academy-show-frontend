@@ -48,6 +48,9 @@
             <span v-if="this.type === 'academy'" class="mr-1" style="color: #c5c5c5">{{ item.roadAddress }} {{ item.subAddress }}</span>
             <span v-else class="mr-1" style="color: #c5c5c5">{{ item.area }}</span>
           </v-row>
+          <v-row no-gutters style="margin-top: 5px">
+            <span class="mr-1" style="color: #c5c5c5">📞 {{ item.phone }}</span>
+          </v-row>
         </v-card-text>
 
         <v-divider class="mx-1"></v-divider>
