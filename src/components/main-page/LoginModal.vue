@@ -28,12 +28,12 @@
         <br>
         <div style="display: flex; justify-content: center;">
 
-            <v-btn style="width: 400px; height: 50px; background-color: #fddc3f; color: #1f1f18;">
+            <v-btn @click="oauthRedirect('kakao')" style="width: 400px; height: 50px; background-color: #fddc3f; color: #1f1f18;">
                 <img :src="require('../../assets/images/kakao.png')" style="width: 40px;" /> 카카오 로그인
             </v-btn>
         </div>
         <div style="display: flex; justify-content: center;">
-            <v-btn style="width: 400px; height: 50px; background-color: #03C75A; color: white; margin-top: 10px;
+            <v-btn @click="oauthRedirect('naver')" style="width: 400px; height: 50px; background-color: #03C75A; color: white; margin-top: 10px;
             "> <img :src="require('../../assets/images/naver.png')" style="width: 40px;" /> 네이버 로그인</v-btn>
         </div>
     </CommonModal>
@@ -83,7 +83,10 @@ export default {
                     //this.token = res.headers.authorization
                 })
         },
-
+        oauthRedirect(provider) {
+            let url = `http://localhost:8081/oauth2/authorization/${provider}?redirect_uri=http://localhost:8082/oauth/redirect`
+            location.href = url
+        }
     }
 }
 </script>

@@ -131,7 +131,7 @@ export default {
       this.$store.commit(STORE_COMMENDS.MUTATIONS.PROFILE, "");
       this.$store.commit(STORE_COMMENDS.MUTATIONS.MYACADEMYID, "");
       this.$store.commit(STORE_COMMENDS.MUTATIONS.MY_TUTOR_ID, "");
-      this.$router.push("/");
+      this.$router.replace('/')
     },
     onScroll() {
       // Get the current scroll position
