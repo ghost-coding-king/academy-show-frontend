@@ -13,7 +13,7 @@
   </v-carousel>
   <v-container fluid>
     <v-row no-gutters justify="center" class="pa-8 mt-8">
-      <h1>전국학원자랑에서 학원을 뽐내세요</h1>
+      <h1>전국학원자랑에서 학원을 뽐내보세요</h1>
     </v-row>
     <v-row no-gutters justify="center" class="mb-8">
       <v-btn-toggle
@@ -51,7 +51,7 @@
     </v-row>
     <v-row no-gutters>
       <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
-      <p style="color: #7b7b7b">오늘의 암살 의뢰★ 읽을 거리를 둘러보세요.</p>
+      <p style="color: #7b7b7b">오늘의 ★읽을 거리를 둘러보세요.</p>
     </v-row>
     <v-row>
       <v-col cols="1"></v-col>
@@ -98,11 +98,7 @@
                 <v-divider class="mx-4 mb-5 my-5"></v-divider>
 
                 <div class="px-4 mb-10 txt_line" style="padding: 15px">
-                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
-                  사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만
-                  모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
-                  사탄들만 모집한다. 우리는 사탄들만 모집한다.
+                  내용
                 </div>
               </v-card>
             </v-slide-group-item>
@@ -168,11 +164,7 @@
                 <v-divider class="mx-4 mb-5 my-5"></v-divider>
 
                 <div class="px-4 mb-10 txt_line" style="padding: 15px">
-                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
-                  사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만
-                  모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
-                  사탄들만 모집한다. 우리는 사탄들만 모집한다.
+                  내용
                 </div>
               </v-card>
             </v-slide-group-item>
@@ -191,7 +183,7 @@
     </v-row>
     <v-row no-gutters>
       <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
-      <p style="color: #7b7b7b">잘생기고 예쁜 과외 선생님을 만나보세요.</p>
+      <p style="color: #7b7b7b">잘 가르치는 과외 선생님을 만나보세요</p>
     </v-row>
     <v-row>
       <v-col cols="1"></v-col>
@@ -238,11 +230,7 @@
                 <v-divider class="mx-4 mb-5 my-5"></v-divider>
 
                 <div class="px-4 mb-10 txt_line" style="padding: 15px">
-                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
-                  사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만
-                  모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
-                  사탄들만 모집한다.
+                  내용
                 </div>
               </v-card>
             </v-slide-group-item>
@@ -263,7 +251,7 @@
     <v-row no-gutters>
       <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
       <p style="color: #7b7b7b">
-        매월 추첨을 통해 정성스럽게 리뷰를 써주신 분들께 30경★을 드립니다.
+        매월 추첨을 통해 정성스럽게 리뷰를 써주신 분들께 ★을 드립니다.
       </p>
     </v-row>
     <v-row>
@@ -311,11 +299,7 @@
                 <v-divider class="mx-4 mb-5 my-5"></v-divider>
 
                 <div class="px-4 mb-10 txt_line" style="padding: 15px">
-                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
-                  사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만
-                  모집한다. 우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다.
-                  우리는 사탄들만 모집한다. 우리는 사탄들만 모집한다. 우리는
-                  사탄들만 모집한다. 우리는 사탄들만 모집한다.
+                  내용
                 </div>
               </v-card>
             </v-slide-group-item>

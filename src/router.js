@@ -31,6 +31,8 @@ import MagazineThree from '@/components/main-page/magazine/MagazineThree'
 
 import DetailTutor from '@/components/main-page/DetailTutor'
 
+import OAuthRedirect from '@/components/main-page/OAuthRedirect'
+
 
 const routes = [
   {
@@ -155,6 +157,10 @@ const routes = [
     component: SignUpComplete,
     props: true
   },
+  {
+    path: '/oauth/redirect',
+    component: OAuthRedirect,
+  }
 ]
 
 const router = createRouter({

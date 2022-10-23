@@ -1,6 +1,6 @@
 <template>
   <div>
-    머냐탕
+    읽을거리 홈
   </div>
 </template>
 
