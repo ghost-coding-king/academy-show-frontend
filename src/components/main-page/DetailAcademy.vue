@@ -578,12 +578,13 @@ export default {
         alert("로그인이 필요합니다.");
         return;
       }
-      ApiRequester.post("/api/up", {
+
+      ApiRequester.post(this.isLike ? "/api/likes/dislike" :  "/api/likes", {
         type: "ACADEMY",
         referenceId: this.$route.params.id,
       }).then((res) => {
         if (res.data.code == 200) {
-          ApiRequester.get("/api/up", {
+          ApiRequester.get("/api/likes", {
             params: { type: "ACADEMY", referenceId: this.$route.params.id },
           }).then((res2) => {
             this.likeCount = res2.data.data.count;
