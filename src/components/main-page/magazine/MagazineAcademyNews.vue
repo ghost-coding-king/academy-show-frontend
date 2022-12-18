@@ -78,7 +78,7 @@
           "
         >
           <v-icon icon="fa-solid fa-heart" size="15"></v-icon>
-          <span style="color: red; margin-left: 3px; margin-top: 1px">0</span>
+          <span style="color: red; margin-left: 3px; margin-top: 1px">{{news.likes.count}}</span>
         </div>
         <v-card-item>
           <v-card-title style="font-weight: bold">{{
