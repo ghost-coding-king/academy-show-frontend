@@ -46,32 +46,18 @@ const ApiRequester = (() => {
    */
   const responseChecker = (responsePromise) => {
     return responsePromise
-
-      /** 
-       * 응답이 정상인 경우
-       */
-      .then(res => {
-        /** 인증오류가 아니면 바로 반환 */
-        if(res.data.code !== STATUS_CODES.NOT_AUTHENTICATED)
-          return res;
-
-        /** 
-         * token refresh 시도후 다시 재요청한 Promise를 반환한다. 
-         * 만약 실패시 처음 실패했던 response를 반환해준다.
-         */
-        return reRequestAtherTokenRefresh(res).catch(() => res);
-
       /** 
        * 응답이 비정상인 경우 
        */
-      }).catch(err => {
+      .catch(err => {
         /** http 상태코드가 401이 아니면 에러를 다시 던진다. */
-        if(err.response.status !== 401)
-          throw err;
+        if(err.response.status !== STATUS_CODES.NOT_AUTHENTICATED)
+          throw CommonErrorHandler.process(err);
 
         /** token을 재발행하여 다시 시도한다. */
-        return reRequestAtherTokenRefresh(err.response);
-      })
+        return reRequestAtherTokenRefresh(err.response)
+          .catch(err => { throw CommonErrorHandler.process(err); });
+      });
   }
 
   return {
@@ -82,6 +68,37 @@ const ApiRequester = (() => {
     'delete': (url) => responseChecker(BaseApiRequester.delete(url, makeDefaultConfig())),
 
     'patch': (url, data) => responseChecker(BaseApiRequester.patch(url, data, makeDefaultConfig())),
+  }
+})();
+
+/**
+ * 공통 에러를 핸들링하는 유틸
+ */
+const CommonErrorHandler = (() => {
+  /**
+   * error 응답객체로부터 에러코드를 추출한다.
+   */
+  const extractErrorCode = (errorResponse) => { return errorResponse.status; };
+
+  /**
+   * 세션 만료시 다시 로그인을 시도한다.
+   */
+  const notAuthenticatedProcess = () => { 
+    alert("로그인이 필요합니다!");
+    document.location.href = "/?showLoginModal=true";
+  };
+
+  return {
+    'process': (errorResponse) => {
+      const errorCode = extractErrorCode(errorResponse);
+
+      // 각 에러에 맞는 핸들러를 실행한다.
+      if(errorCode === STATUS_CODES.NOT_AUTHENTICATED)
+        notAuthenticatedProcess();
+
+      // 공통에러를 처리한후 다시 error 응답을 다시 throw 하여 컴포넌트에서 나머지 에러를 처리한다.
+      throw errorResponse;
+    },
   }
 })();
 
@@ -149,4 +166,4 @@ const AuthUtil = {
   }
 }
 
-export { BaseApiRequester, ApiRequester, AuthUtil };
+export { BaseApiRequester, ApiRequester, CommonErrorHandler, AuthUtil };
