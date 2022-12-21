@@ -84,6 +84,7 @@ const CommonErrorHandler = (() => {
    * 세션 만료시 다시 로그인을 시도한다.
    */
   const notAuthenticatedProcess = () => { 
+    store.commit(STORE_COMMENDS.MUTATIONS.LOGOUT);
     alert("로그인이 필요합니다!");
     document.location.href = "/?showLoginModal=true";
   };
