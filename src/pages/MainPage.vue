@@ -20,12 +20,14 @@ export default {
     BasicHeader,
     BasicFooter,
     LoginModal
-},
-  data: () => ({
-    isLoginModalView: false,
-    searchPage: false,
-    searchType: '',
-  }),
+  },
+  data() {
+    return {
+      isLoginModalView: this.$route.query.showLoginModal == 'true',
+      searchPage: false,
+      searchType: '',
+    };
+  },
   methods: {
     loginModalClicked() {
       this.isLoginModalView=true
@@ -39,7 +41,6 @@ export default {
       this.searchType = ''
     },
   }
-
 };
 </script>
 <style>
