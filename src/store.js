@@ -36,6 +36,14 @@ export default createStore({
     myTutorId (state, newMyTutorId) {
       state.myTutorId = newMyTutorId
     },
+    logout(state) {
+      state.accessToken = "";
+      state.name = "";
+      state.role = "";
+      state.profile = "";
+      state.myAcademyId = "";
+      state.myTutorId = "";
+    }
   },
   actions: {
   }
@@ -49,7 +57,8 @@ const STORE_COMMENDS = {
     ROLE: "role",
     PROFILE: "profile",
     MYACADEMYID: "myAcademyId",
-    MY_TUTOR_ID: "myTutorId"
+    MY_TUTOR_ID: "myTutorId",
+    LOGOUT: "logout"
   },
   ACTIONS: {
 
