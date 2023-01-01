@@ -23,6 +23,7 @@ import SearchResult from '@/components/main-page/SearchResult'
 import DetailAcademy from '@/components/main-page/DetailAcademy'
 import PostWrite from '@/components/main-page/PostWrite'
 import AcademyNewsDetail from '@/components/main-page/AcademyNewsDetail'
+import PostDetail from '@/components/main-page/PostDetail'
 
 import MagazineContent from '@/components/main-page/MagazineContent'
 import MagazineOne from '@/components/main-page/magazine/MagazineOne'
@@ -91,6 +92,10 @@ const routes = [
     {
       path: '/academy/:id/news/:newsId',
       component: AcademyNewsDetail,
+    },
+    {
+      path: '/post/:id',
+      component: PostDetail,
     },
     {
       path: '/tutor/:id',
