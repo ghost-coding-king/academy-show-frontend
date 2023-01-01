@@ -51,26 +51,46 @@
     </v-row>
     <v-row no-gutters>
       <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
-      <p style="color: #7b7b7b">오늘의 ★읽을 거리를 둘러보세요.</p>
+      <p style="color: #7b7b7b">최근 읽을 거리를 둘러보세요.</p>
     </v-row>
-    <v-row>
+    
+    <v-row no-gutters class="mb-12">
       <v-col cols="1"></v-col>
       <v-col cols="10">
-        <v-sheet class="mx-auto" style="width: 100%">
+        <v-sheet class="mx-auto" style="width: 1280px">
           <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
-            <v-slide-group-item v-for="n in 15" :key="n">
+            <v-slide-group-item v-for="(post, i) in this.posts" :key="i">
               <v-card
                 link
-                style="height: 250px; margin-right: 30px !important"
-                class="mx-auto my-12"
+                style="height: 165px; margin-right: 30px !important"
+                class="mx-auto ma-4"
                 max-width="300"
                 min-width="250"
+                @click="this.$router.push(`/post/${post.id}`)"
               >
+              <div
+                style="
+                  width: 40px;
+                  height: 20px;
+                  background-color: #fce6de;
+                  margin-top: 12px;
+                  margin-left: 15px;
+                  border-radius: 15%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: red;
+                  font-size: 13px;
+                "
+              >
+                <v-icon icon="fa-solid fa-heart" size="15"></v-icon>
+                <span style="color: red; margin-left: 3px; margin-top: 1px">{{post.likes.count}}</span>
+              </div>
                 <v-card-item>
-                  <v-card-title>학원 이름</v-card-title>
+                  <v-card-title>{{post.title}}</v-card-title>
 
                   <v-card-subtitle>
-                    <span class="mr-1">학원 주소</span>
+                    <span class="mr-1">{{post.nickname}}</span>
 
                     <v-icon
                       color="error"
@@ -80,7 +100,7 @@
                   </v-card-subtitle>
                 </v-card-item>
 
-                <v-card-text>
+                <!-- <v-card-text>
                   <v-row align="center" class="mx-0">
                     <v-rating
                       :model-value="4.5"
@@ -93,13 +113,26 @@
 
                     <div class="text-grey ms-4">4.5 (413)</div>
                   </v-row>
-                </v-card-text>
+                </v-card-text> -->
 
-                <v-divider class="mx-4 mb-5 my-5"></v-divider>
-
-                <div class="px-4 mb-10 txt_line" style="padding: 15px">
-                  내용
-                </div>
+                <v-divider></v-divider>
+                  <v-card-text style="font-size: 15px; font-weight: bold; padding: 8px">
+                    <v-avatar
+                      v-if="post.profile != '' && post.profile != undefined"
+                      :image="post.profile"
+                      size="40"
+                      style="border: 1px solid grey; margin: 0 3px"
+                    ></v-avatar>
+                    <v-avatar
+                      v-else
+                      color="#fd9f28"
+                      size="40"
+                      style="border: 1px solid grey"
+                    >
+                      <v-icon color="white" icon="fa-solid fa-user"></v-icon>
+                    </v-avatar>
+                    {{ post.nickname }}
+                  </v-card-text>
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
@@ -107,6 +140,8 @@
       </v-col>
       <v-col cols="1"></v-col>
     </v-row>
+
+    <!-- 학원 -->
     <v-row no-gutters>
       <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
       <h1>🔍 학원 살펴보기</h1>
@@ -115,57 +150,78 @@
         <i class="fa-solid fa-chevron-right"></i>
       </h2>
     </v-row>
+
     <v-row no-gutters>
       <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
       <p style="color: #7b7b7b">요즘 잘나가는 학원을 살펴보세요.</p>
     </v-row>
-    <v-row>
+
+    <v-row class="mb-12">
       <v-col cols="1"></v-col>
       <v-col cols="10">
-        <v-sheet class="mx-auto" style="width: 100%">
+        <v-sheet class="mx-auto" style="width: 1200px">
           <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
-            <v-slide-group-item v-for="n in 15" :key="n">
-              <v-card
-                link
-                style="height: 250px; margin-right: 30px !important"
-                class="mx-auto my-12"
-                max-width="300"
-                min-width="250"
-              >
-                <v-card-item>
-                  <v-card-title>학원 이름</v-card-title>
+            <v-slide-group-item v-for="(item, i) in this.academies" :key="i">
+              <v-card class="mx-auto mb-3" width="500" height="210" style="margin-right: 30px !important" @click="this.$router.push(`/academy/${item.id}`)">
+                <v-row no-gutters>
+                  <v-col cols="3" style="display: flex; align-items: center; margin-top: 10px; flex-flow: column; margin-bottom: 100px;">
+                    <v-avatar v-if="item.profile != '' && item.profile != undefined" :image="item.profile" size="100"
+                      style="border: 1px solid black"></v-avatar>
+                    <v-avatar v-else color="#fd9f28" size="100" style="border: 1px solid black">
+                      <v-icon color="white" icon="fa-solid fa-user"></v-icon>
+                    </v-avatar>
+                    <span v-if="this.type === 'tutor'" style="margin-top: 3px; color: #9f9f9f"> {{ item.name }} 선생님</span>
+                  </v-col>
 
-                  <v-card-subtitle>
-                    <span class="mr-1">학원 주소</span>
+                  <v-col cols="9">
+                    <v-card-item>
+                      <v-card-title style="font-weight: bold">{{ item.name }}</v-card-title>
+                      <v-card-subtitle>
+                        <span style="width: 100%; height: 100%">{{ item.introduce }}</span>
+                        <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
+                      </v-card-subtitle>
+                    </v-card-item>
 
-                    <v-icon
-                      color="error"
-                      icon="mdi-fire-circle"
-                      size="small"
-                    ></v-icon>
-                  </v-card-subtitle>
-                </v-card-item>
+                    <v-card-text>
+                      <!-- <v-row align="center" class="mx-0">
+                        <v-rating :model-value="item.reviewStatistics.averageStar" color="amber" dense half-increments readonly size="14"></v-rating>
+                        <div class="text-grey ms-1">
+                          {{ item.reviewStatistics.averageStar }}
+                          ({{ item.reviewStatistics.totalReviews }})
+                        </div>
+                      </v-row> -->
+                      <v-row no-gutters>
+                        <span class="mr-1" style="color: #c5c5c5">{{ item.roadAddress }} {{ item.subAddress }}</span>
+                      </v-row>
+                      <v-row no-gutters style="margin-top: 15px">
+                        <span class="mr-1" style="color: #c5c5c5"><i class="fas fa-phone"></i> {{ item.phone }}</span>
+                      </v-row>
+                    </v-card-text>
 
-                <v-card-text>
-                  <v-row align="center" class="mx-0">
-                    <v-rating
-                      :model-value="4.5"
-                      color="amber"
-                      dense
-                      half-increments
-                      readonly
-                      size="14"
-                    ></v-rating>
+                    <v-divider class="mx-1"></v-divider>
 
-                    <div class="text-grey ms-4">4.5 (413)</div>
-                  </v-row>
-                </v-card-text>
-
-                <v-divider class="mx-4 mb-5 my-5"></v-divider>
-
-                <div class="px-4 mb-10 txt_line" style="padding: 15px">
-                  내용
-                </div>
+                    <div class="px-4 mb-10" style="padding: 10px; font-size: 0.9rem; color: #9f9f9f; display: flex; justify-items: center; font-size: 13px">
+                      <div v-if="item.upStatistics.status == 'YES'"
+                        style="width: 40px; height: 20px; background-color: #fce6de; border-radius: 15%;
+                        display: flex; align-items: center; justify-content: center; color: red; font-size: 13px;"
+                      >
+                        <v-icon icon="fa-solid fa-heart" size="15"></v-icon>
+                        <span style="color: red; margin-left: 3px; margin-bottom: 1px;">{{ item.upStatistics.count }}</span>
+                      </div>
+                      <div v-else
+                        style="width: 40px; height: 20px; background-color: #fce6de; border-radius: 15%;
+                        display: flex; align-items: center; justify-content: center; color: red; font-size: 13px;"
+                      >
+                        <v-icon icon="fa-regular fa-heart" size="15"></v-icon>
+                        <span style="color: red; margin-left: 3px; margin-bottom: 1px;">{{ item.upStatistics.count }}</span>
+                      </div>
+                      <div style="margin-left: 5px">
+                      리뷰 <span style="color: black;">{{ item.reviewStatistics.totalReviews }}</span> 소식 <span
+                        style="color: black;">0</span>
+                      </div>
+                    </div>
+                  </v-col>
+                </v-row>
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
@@ -173,65 +229,88 @@
       </v-col>
       <v-col cols="1"></v-col>
     </v-row>
+    
+    <!-- 과외 -->
     <v-row no-gutters>
       <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
-      <h1>📝 과외 알아보기</h1>
+      <h1>🔍 과외 살펴보기</h1>
       &nbsp;
       <h2 style="display: flex; align-items: center">
         <i class="fa-solid fa-chevron-right"></i>
       </h2>
     </v-row>
+
     <v-row no-gutters>
       <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
-      <p style="color: #7b7b7b">잘 가르치는 과외 선생님을 만나보세요</p>
+      <p style="color: #7b7b7b">요즘 잘나가는 과외 선생님들을 살펴보세요.</p>
     </v-row>
+
     <v-row>
       <v-col cols="1"></v-col>
       <v-col cols="10">
-        <v-sheet class="mx-auto" style="width: 100%">
+        <v-sheet class="mx-auto" style="width: 1200px">
           <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
-            <v-slide-group-item v-for="n in 15" :key="n">
-              <v-card
-                link
-                style="height: 250px; margin-right: 30px !important"
-                class="mx-auto my-12"
-                max-width="300"
-                min-width="250"
-              >
-                <v-card-item>
-                  <v-card-title>학원 이름</v-card-title>
+            <v-slide-group-item v-for="(item, i) in this.tutors" :key="i">
+              <v-card class="mx-auto mb-3" width="500" height="210" style="margin-right: 30px !important" @click="this.$router.push(`/tutor/${item.id}`)">
+                <v-row no-gutters>
+                  <v-col cols="3" style="display: flex; align-items: center; margin-top: 10px; flex-flow: column; margin-bottom: 100px;">
+                    <v-avatar v-if="item.profile != '' && item.profile != undefined" :image="item.profile" size="100"
+                      style="border: 1px solid black"></v-avatar>
+                    <v-avatar v-else color="#fd9f28" size="100" style="border: 1px solid black">
+                      <v-icon color="white" icon="fa-solid fa-user"></v-icon>
+                    </v-avatar>
+                    <span v-if="this.type === 'tutor'" style="margin-top: 3px; color: #9f9f9f"> {{ item.name }} 선생님</span>
+                  </v-col>
 
-                  <v-card-subtitle>
-                    <span class="mr-1">학원 주소</span>
+                  <v-col cols="9">
+                    <v-card-item>
+                      <v-card-title style="font-weight: bold">{{ item.title }}</v-card-title>
+                      <v-card-subtitle>
+                        <span style="width: 100%; height: 100%">{{ item.introduce }}</span>
+                        <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
+                      </v-card-subtitle>
+                    </v-card-item>
 
-                    <v-icon
-                      color="error"
-                      icon="mdi-fire-circle"
-                      size="small"
-                    ></v-icon>
-                  </v-card-subtitle>
-                </v-card-item>
+                    <v-card-text>
+                      <!-- <v-row align="center" class="mx-0">
+                        <v-rating :model-value="item.reviewStatistics.averageStar" color="amber" dense half-increments readonly size="14"></v-rating>
+                        <div class="text-grey ms-1">
+                          {{ item.reviewStatistics.averageStar }}
+                          ({{ item.reviewStatistics.totalReviews }})
+                        </div>
+                      </v-row> -->
+                      <v-row no-gutters>
+                        <span class="mr-1" style="color: #c5c5c5">{{ item.area }}</span>
+                      </v-row>
+                      <v-row no-gutters style="margin-top: 15px">
+                        <span class="mr-1" style="color: #c5c5c5"><i class="fas fa-phone"></i> {{ item.phone }}</span>
+                      </v-row>
+                    </v-card-text>
 
-                <v-card-text>
-                  <v-row align="center" class="mx-0">
-                    <v-rating
-                      :model-value="4.5"
-                      color="amber"
-                      dense
-                      half-increments
-                      readonly
-                      size="14"
-                    ></v-rating>
+                    <v-divider class="mx-1"></v-divider>
 
-                    <div class="text-grey ms-4">4.5 (413)</div>
-                  </v-row>
-                </v-card-text>
-
-                <v-divider class="mx-4 mb-5 my-5"></v-divider>
-
-                <div class="px-4 mb-10 txt_line" style="padding: 15px">
-                  내용
-                </div>
+                    <div class="px-4 mb-10" style="padding: 10px; font-size: 0.9rem; color: #9f9f9f; display: flex; justify-items: center; font-size: 13px">
+                      <div v-if="item.upStatistics.status == 'YES'"
+                        style="width: 40px; height: 20px; background-color: #fce6de; border-radius: 15%;
+                        display: flex; align-items: center; justify-content: center; color: red; font-size: 13px;"
+                      >
+                        <v-icon icon="fa-solid fa-heart" size="15"></v-icon>
+                        <span style="color: red; margin-left: 3px; margin-bottom: 1px;">{{ item.upStatistics.count }}</span>
+                      </div>
+                      <div v-else
+                        style="width: 40px; height: 20px; background-color: #fce6de; border-radius: 15%;
+                        display: flex; align-items: center; justify-content: center; color: red; font-size: 13px;"
+                      >
+                        <v-icon icon="fa-regular fa-heart" size="15"></v-icon>
+                        <span style="color: red; margin-left: 3px; margin-bottom: 1px;">{{ item.upStatistics.count }}</span>
+                      </div>
+                      <div style="margin-left: 5px">
+                      리뷰 <span style="color: black;">{{ item.reviewStatistics.totalReviews }}</span> 소식 <span
+                        style="color: black;">0</span>
+                      </div>
+                    </div>
+                  </v-col>
+                </v-row>
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
@@ -319,6 +398,9 @@ export default {
     data: () => ({
         searchType: "FILTER",
         toggle: "",
+        posts: Array,
+        academies: Array,
+        tutors: Array,
         subjects: [],
         subjectsItems: [],
     }),
@@ -326,6 +408,21 @@ export default {
         ApiRequester.get("/api/subjects").then((res) => {
             this.subjectsItems = res.data.data.map((v) => v.name);
         });
+
+        ApiRequester.get("/api/posts?sort=createdAt,desc")
+          .then((res) => {
+            this.posts = res.data.data.content;
+          });
+        
+        ApiRequester.get('/api/academies?searchType=NAME&q&sort=batchLikes.count,desc')
+          .then(res => {
+            this.academies = res.data.data.content
+          })
+        
+        ApiRequester.get('/api/tutors?searchType=NAME&q&sort=batchLikes.count,desc')
+          .then(res => {
+            this.tutors = res.data.data.content
+          })
     },
     props: {
       searchPage: Boolean,
