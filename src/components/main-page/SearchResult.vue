@@ -6,6 +6,7 @@
     </v-btn-toggle>
   </v-row>
   <v-row no-gutters justify="space-between" style="width: 500px; margin: 0 auto;">
+    <!-- 정렬기능 나중에 구현 
     <span style="color: #9f9f9f; font-size: 0.8rem; display: flex; align-items: center; margin-left: 1px">검색결과:
       {{ this.totalElements }}개</span>
     <span style="color:#9f9f9f;">
@@ -13,7 +14,7 @@
         많은 순</a>|
       <a :class="{ 'selected-filter': this.$route.query.filter == 'star' }" href="#">별점 높은 순</a>|
       <a :class="{ 'selected-filter': this.$route.query.filter == 'like' }" href="#">좋아요 많은 순</a>
-    </span>
+    </span> -->
   </v-row>
 
   <v-card @click="detailPage(item.id)" link class="mx-auto mb-3" width="500" height="210" v-for="(item, i) in searchResultList" :key="i">
