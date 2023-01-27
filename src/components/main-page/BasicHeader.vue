@@ -19,9 +19,6 @@
       <v-tab @click="this.$router.push('/magazine')" hide-slider>
         읽을거리
       </v-tab>
-      <v-tab @click="this.$router.push(pageLink)" hide-slider>
-        고객센터
-      </v-tab>
     </v-tabs>
 
 
