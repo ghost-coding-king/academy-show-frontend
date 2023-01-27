@@ -245,7 +245,7 @@
       <p style="color: #7b7b7b">요즘 잘나가는 과외 선생님들을 살펴보세요.</p>
     </v-row>
 
-    <v-row>
+    <v-row class="mb-12">
       <v-col cols="1"></v-col>
       <v-col cols="10">
         <v-sheet class="mx-auto" style="width: 1200px">
@@ -330,56 +330,45 @@
     <v-row no-gutters>
       <div style="flex: 0 0 12.6%; max-width: 12.6%"></div>
       <p style="color: #7b7b7b">
-        매월 추첨을 통해 정성스럽게 리뷰를 써주신 분들께 ★을 드립니다.
+        최근 리뷰가 달린 학원, 과외를 찾아보세요!
       </p>
     </v-row>
+    
     <v-row>
       <v-col cols="1"></v-col>
       <v-col cols="10">
-        <v-sheet class="mx-auto" style="width: 100%">
+        <v-sheet class="mx-auto" style="width: 1200px">
           <v-slide-group class="pa-4" selected-class="bg-success" show-arrows>
-            <v-slide-group-item v-for="n in 15" :key="n">
-              <v-card
-                link
-                style="height: 250px; margin-right: 30px !important"
-                class="mx-auto my-12"
-                max-width="300"
-                min-width="250"
-              >
-                <v-card-item>
-                  <v-card-title>학원 이름</v-card-title>
+            <v-slide-group-item v-for="(item, i) in this.reviews" :key="i">
+              <v-card class="mx-auto mb-3" width="500" height="150" style="margin-right: 30px !important" @click="this.reviewRouting(item.type, item.reviewedId)">
+                <v-row no-gutters>
+                  <v-col cols="3" style="display: flex; align-items: center; margin-top: 10px; flex-flow: column; margin-bottom: 100px;">
+                    <v-avatar v-if="item.profile != '' && item.profile != undefined" :image="item.profile" size="100"
+                      style="border: 1px solid black"></v-avatar>
+                    <v-avatar v-else color="#fd9f28" size="100" style="border: 1px solid black">
+                      <v-icon color="white" icon="fa-solid fa-user"></v-icon>
+                    </v-avatar>
+                  </v-col>
 
-                  <v-card-subtitle>
-                    <span class="mr-1">학원 주소</span>
+                  <v-col cols="9">
+                    <v-card-item>
+                      <v-card-title style="font-weight: bold">{{ item.comment }}</v-card-title>
+                      <v-card-subtitle>
+                        <span style="width: 100%; height: 100%">{{ item.name }}</span>
+                        <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
+                      </v-card-subtitle>
+                    </v-card-item>
 
-                    <v-icon
-                      color="error"
-                      icon="mdi-fire-circle"
-                      size="small"
-                    ></v-icon>
-                  </v-card-subtitle>
-                </v-card-item>
-
-                <v-card-text>
-                  <v-row align="center" class="mx-0">
-                    <v-rating
-                      :model-value="4.5"
-                      color="amber"
-                      dense
-                      half-increments
-                      readonly
-                      size="14"
-                    ></v-rating>
-
-                    <div class="text-grey ms-4">4.5 (413)</div>
-                  </v-row>
-                </v-card-text>
-
-                <v-divider class="mx-4 mb-5 my-5"></v-divider>
-
-                <div class="px-4 mb-10 txt_line" style="padding: 15px">
-                  내용
-                </div>
+                    <v-card-text>
+                      <v-row align="center" class="mx-0">
+                        <v-rating :model-value="item.rating" color="amber" dense half-increments readonly size="14"></v-rating>
+                        <div class="text-grey ms-1">
+                          {{ item.rating }}
+                        </div>
+                      </v-row>
+                    </v-card-text>
+                  </v-col>
+                </v-row>
               </v-card>
             </v-slide-group-item>
           </v-slide-group>
@@ -403,6 +392,7 @@ export default {
         tutors: Array,
         subjects: [],
         subjectsItems: [],
+        reviews: Array
     }),
     mounted() {
         ApiRequester.get("/api/subjects").then((res) => {
@@ -423,11 +413,24 @@ export default {
           .then(res => {
             this.tutors = res.data.data.content
           })
+        
+        ApiRequester.get('/api/reviews')
+          .then(res => {
+            this.reviews = res.data.data.content
+          })
     },
     props: {
       searchPage: Boolean,
     },
-    components: { SearchBox }
+    components: { SearchBox },
+    methods: {
+      reviewRouting(type, id) {
+        if (type === "ACADEMY")
+          this.$router.push(`/academy/${id}`);
+        else
+          this.$router.push(`/tutor/${id}`);
+      }
+    }
 };
 </script>
 
